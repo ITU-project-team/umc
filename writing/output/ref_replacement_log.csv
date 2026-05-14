@@ -1,0 +1,35 @@
+op,ref,before,after
+global_scrub,all_paragraphs,stray .text cleared,
+caption_fig,24,Figure 1. 프로젝트 개괄Figure Figure 11.. 프로젝트 개괄 프로젝트 개괄,그림 1. 프로젝트 개괄
+caption_tbl,71,<Table 1> UMC Dimension Indicators<Table 1> UMC Dimension Indicators<Table 1> UM,표 1. UMC 차원별 측정 지표
+caption_fig,88,Figure 4. UMC Dimension ScoresFigure 4. UMC Dimension ScoresFigure 4. UMC Dimens,그림 4. UMC 차원별 점수
+caption_fig,92,Figure 5. Spatial autocorrelation by UMC level across Seoul’s 25 autonomous dist,그림 5. UMC 수준의 공간적 자기상관 (서울 25개 자치구)
+caption_tbl,106,<Table 4> 변수 설명<<Table Table 4> 4> 변수 설명변수 설명,표 2. 분석 변수 설명
+caption_tbl,115,<Table 5> Descriptive Statistic<Table <Table 55> Descriptive Statistic> Descript,표 3. 주요 변수의 기술통계량
+caption_tbl,117,<Table 4> HLM Estimation Results <Table 4> HLM Estimation Results<Table 4> HLM E,표 4. HLM 추정 결과
+caption_tbl,132,<Table 5> HLM Estimation Results  <Table  <Table 55> HLM Estimation Results> HLM,표 5. 텍스트 분석 표본 추출 및 판정 절차
+caption_fig,136,Figure 6. 분류와 추론의 역할 구분Figure Figure 66. 분류와 추론의 역할 구분. 분류와 추론의 역할 구분,그림 6. 분류와 추론의 역할 구분
+caption_tbl,146,<Table 6>. 3.3절의 분석 단위와 해석 단위<Table <Table 66>>. 3.3절의 분석 단위와 해석 단위. 3.3절의 분석 단위,표 6. 3.3절의 분석 단위와 해석 단위
+caption_fig,153,Figure 7. LLM 기반 텍스트 분석 파이프라인Figure Figure 77. LLM 기반 텍스트 분석 파이프라인. LLM 기반 텍스트 분,그림 7. LLM 기반 텍스트 분석 파이프라인
+caption_tbl,165,<Table 7>. 게시글 판정 결과<Table <Table 77>>. 게시글 . 게시글 판정판정 결과 결과,표 7. 자치구별 게시글 판정 결과
+caption_fig,172,Figure 9. 지역별 사전-사후 분포 차이Figure Figure 99. . 지역별 지역별 사전-사후 사전-사후 분포 차이분포 차이,그림 8. 지역별 사전-사후 분포 차이
+caption_tbl,176,<Table 8> 가설 생성 결과: 결여 유형별 분포<Table <Table 88> 가설 생성 결과: 결여 유형별 분포> 가설 생성 결과: 결여,표 8. 결여 유형별 가설 생성 결과 분포
+caption_intable,t#2 r1 c0,Figure 2. UMC Composite Scores by DistrictFigure 2. UMC Composite Scores by Dist,그림 2. 자치구별 UMC 종합점수
+caption_intable,t#2 r1 c1,Figure 3. Heatmap of UMC Dimension ScoresFigure 3. Heatmap of UMC Dimension Scor,그림 3. UMC 차원별 점수 히트맵
+deleted_paragraph,170,Figure 8. LLM 기반 텍스트 분석 파이프라인Figure Figure 88. LLM 기반 텍스트 분석 파이프라인. LLM 기반 텍스트 분,
+xref,p#21,"  정리하면, 본 프로젝트의 구조 안에서 2장은 3장의 결과를 읽기 위한 해석적 맥락을 제공하고, 3.3절은 3.1절과 3.2절의 결과를 생활세계의 경험과 다시 연결하는 매개 단계로 기능한다. 세 분석은 각기 다른 ",applied
+xref,p#60,"본 프로젝트에서 구성한 측정 지표는 UMC의 6개 차원에 대한 개념적 정의를 바탕으로 한다. 각 차원은 Connectivity, Available for Use, Affordability, Devices, Skill",applied
+xref,p#79,"종합지수의 공간적 분포를 살펴보면(Figure 1), UMC 지수가 높게 나온 자치구는 두 구역에 집중되어 있었다. 이는 각각 서초-영등포-마포로 이어지는 한강과 도심권 지역과, 용산-종로-중구 중심의 전통적 도심부",applied
+xref,p#80,"차원별 분석에서 한편으로, 어떤 자치구도 6개 차원 모두에서 균일하게 우수하지는 않다는 점이 발견되었다(Figure 3). 예컨대 서울 북부에 위치한 은평구의 경우, Connectivity 차원에서 0.781로 상위",applied
+xref,p#81,"결론적으로, Figure 4에 제시된 바와 같이 공간적으로 밀집한 종합지수 하위 4개 자치구(중랑구, 도봉구, 강북구, 노원구)를 본 프로젝트에서는 잠정적으로 디지털 사막(Digital Desert)으로 분류한다. ",applied
+xref,p#82,"또한, UMC의 일부 차원에서 지리적으로 인접한 지역이 서로 유사한 패턴을 보였다. <Figure 4>은 차원별 지역의 공간적 자기상관성을 나타낸 것이다.  공간적으로 군집해 있는 자치구가 서로 유사한 패턴을 보이는",applied
+xref,p#83,"결론적으로, Figure 4에 제시된 바와 같이 종합지수 하위 5개 자치구(중랑구, 도봉구, 강북구, 구로구, 노원구)를 본 프로젝트에서는 잠정적으로 디지털 사막(Digital Desert)으로 분류한다. 이들 자치",applied
+xref,p#98,"본 분석의 독립변수는 개인 특성의 변수와 지역 특성의 변수로 구분된다(Table 2). 개인 특성의 변수는 개인의 디지털 활용에 영향을 미칠 수 있는 변수인 성별, 연령, 직업, 학력, 소득수준, 장애여부로 구성된다",applied
+xref,p#102,"분석에 활용된 표본은 서울서베이 2023~2024년 응답자 총 10,000명이며, 25개 자치구에서 평균적으로 400명이 표집되었다. 주요 변수에 대한 기술통계량을 나타낸 것은 <Table 3>과 같다. 개인의 디지",applied
+xref,p#103,"<Table 4>는 순차적으로 다층 모형의 추정 결과를 나타낸 것이다. 무조건 모형의 급내상관계수는 0.49%로 자치구 간 분산 비율 자체는 크지 않았으나, 자치구당 평균 표본 크기 400명을 감안한 설계효과가 2.",applied
+xref,p#129,"<Table 5>는 분석 구조와 표본 추출 과정을 요약한 것이다.원시 데이터 1,287,761건 중 약 51.5%는 게시자 탈퇴나 차단으로 본문을 볼 수 없어 분석에서 제외되었다. 중복·광고성 게시글 제거 후에는 약",applied
+xref,p#130,"차원 분류 판정에서 LLM에게 각 차원에서 대표적인 사례를 담은 3~4개의 예시를 프롬프트로 제공했다. 이러한 few‑shot 프롬프트는 모델이 사람의 판단 기준을 학습하는 데 도움이 되며, 복잡한 작업에서 zero",applied
+xref,p#145,"모든 분류와 추론 작업은 세 명의 독립된 분석 에이전트가 서로 다른 추론 방식 프롬프트와 컨텍스트를 사용해 수행하고, 네 번째 분석자가 세 결과를 비교·검증하는 방식으로 이루어졌다. 이는 질적 연구에서 여러 자료원과",applied
+xref,p#155,텍스트 분류 결과는 Table 6과 같다. 연결 품질(Connection Quality) 차원은 6개 차원 가운데 전이의 폭이 가장 작다(-0.006 ~ +0.005). 실측과 텍스트 증거가 대체로 수렴하는 차원으로,applied
+xref,p#213,"차원별 분해(Figure 5)에서 각 자치구의 취약 차원이 상이한 것으로 확인되었으므로, 일률적 지원보다는 차원별 맞춤 개입이 보다 효과적일 수 있다. 예컨대, Devices 차원이 극단적으로 낮은 중랑구에는 기기 ",applied
+xref,p#221,"UMC 종합지수의 공간적 분포(Figure 1)와 LISA 클러스터 분석(Figure 5)은 디지털 사막 자치구들이 서울 북부에 통계적으로 유의하게 군집해 있음을 보여준다. Low-Low 클러스터에 해당하는 도봉구,",applied

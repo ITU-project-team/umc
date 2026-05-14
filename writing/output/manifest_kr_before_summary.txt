@@ -1,0 +1,34 @@
+# inspect summary: Writing/manuscript/UMC_report_kr_20260502.docx
+paragraphs=281, tables=11
+
+## Figure captions / images / Table objects (in body order)
+  seq   1 TABLE t#0 rows=1 drawings=0 preview='Bridging Seoul's Digital DivideBridging Seoul's Digital DivideBridging Seoul's Digital DivideA Multilevel Analysis of Universal Meaningful C'
+  seq  24 p# 23 IMG drawings=1 text=''
+  seq  25 p# 24 [None] CAPTION FIG old#1 | Figure 1. 프로젝트 개괄Figure Figure 11.. 프로젝트 개괄 프로젝트 개괄
+  seq  45 p# 44 IMG drawings=1 text='1029969123825'
+  seq  49 p# 48 IMG drawings=1 text='639603144780'
+  seq  73 TABLE t#1 rows=7 drawings=0 preview='DimensionDimensionDimensionIndicatorsIndicatorsIndicatorsData SourceData SourceData SourceNoteNoteNoteConnectivityConnectivityConnectivityst'
+  seq  77 p# 75 IMG drawings=1 text=''
+  seq  87 TABLE t#2 rows=2 drawings=2 preview='Figure 2. UMC Composite Scores by DistrictFigure 2. UMC Composite Scores by DistrictFigure 2. UMC Composite Scores by DistrictFigure 3. Heat'
+  seq  90 p# 87 IMG drawings=1 text=''
+  seq  91 p# 88 [None] CAPTION FIG old#4 | Figure 4. UMC Dimension ScoresFigure 4. UMC Dimension ScoresFigure 4. UMC Dimension Scores
+  seq  94 TABLE t#3 rows=6 drawings=6 preview='ConnectivityConnectivityConnectivityAvailable for UseAvailable for UseAvailable for UseAffordabilityAffordabilityAffordabilityDevicesDevices'
+  seq  96 p# 92 [None] CAPTION FIG old#5 | Figure 5. Spatial autocorrelation by UMC level across Seoul’s 25 autonomous districtsFigure Figure 55. Spatial autocorrelation by UMC level across Seoul’s 25 au
+  seq 111 TABLE t#4 rows=15 drawings=0 preview='VariableVariableVariableDescriptionDescriptionDescriptionLevelLevelLevelScaleScaleScaleSourceSourceSourcedigital_use_scoredigital_use_scored'
+  seq 121 TABLE t#5 rows=14 drawings=0 preview='변수(Variable)변수(Variable)변수(Variable)NNN평균(Mean)평균(Mean)평균(Mean)표준편차(SD)표준편차(SD)표준편차(SD)최소(Min)최소(Min)최소(Min)최대(Max)최대(Max)최대(Max)디지털 활용 점수(D'
+  seq 124 TABLE t#6 rows=31 drawings=0 preview='변수변수변수Model 1Model 1Model 1Model 2Model 2Model 2Model 3Model 3Model 3Level 1: 개인 특성Level 1: 개인 특성Level 1: 개인 특성연령(중심화)연령(중심화)연령(중심화)−0.347**'
+  seq 140 TABLE t#7 rows=6 drawings=0 preview='단계단계단계설명설명설명남은 게시글 수남은 게시글 수남은 게시글 수원시 데이터원시 데이터원시 데이터2024년 5월~2026년 3월에 작성된 동네생활 게시글 전수2024년 5월~2026년 3월에 작성된 동네생활 게시글 전수2024년 5월~2026년 3월에'
+  seq 143 p#135 IMG drawings=2 text='INCLUDEPICTURE "https://chatgpt.com/backend-api/estuary/content?id=file_00000000d7f072079fda3bd5aa8cda13&ts=493807&p=fs&cid=1&sig=f44a081509ddab9cbc98fcd804e10c'
+  seq 144 p#136 [None] CAPTION FIG old#6 | Figure 6. 분류와 추론의 역할 구분Figure Figure 66. 분류와 추론의 역할 구분. 분류와 추론의 역할 구분
+  seq 155 TABLE t#8 rows=5 drawings=0 preview='구분구분구분단위단위단위	무엇을 보여주는가	무엇을 보여주는가무엇을 보여주는가해석상 주의점해석상 주의점해석상 주의점관찰 단위관찰 단위관찰 단위개별 게시글개별 게시글개별 게시글디지털 연결성 경험의 단서디지털 연결성 경험의 단서디지털 연결성 경험의 단서단일 '
+  seq 161 p#152 IMG drawings=1 text=''
+  seq 162 p#153 [None] CAPTION FIG old#7 | Figure 7. LLM 기반 텍스트 분석 파이프라인Figure Figure 77. LLM 기반 텍스트 분석 파이프라인. LLM 기반 텍스트 분석 파이프라인
+  seq 175 TABLE t#9 rows=26 drawings=0 preview='자치구자치구자치구총 게시글(n)총 게시글(n)총 게시글(n)Y 판정Y 판정Y 판정? 판정? 판정? 판정N 판정N 판정N 판정Y 비율(%)Y 비율(%)Y 비율(%)중랑구중랑구중랑구5,4765,4765,4767947947942828284,6544,6544'
+  seq 180 p#170 [None] CAPTION FIG old#8 | Figure 8. LLM 기반 텍스트 분석 파이프라인Figure Figure 88. LLM 기반 텍스트 분석 파이프라인. LLM 기반 텍스트 분석 파이프라인
+  seq 181 p#171 IMG drawings=1 text=''
+  seq 182 p#172 [None] CAPTION FIG old#9 | Figure 9. 지역별 사전-사후 분포 차이Figure Figure 99. . 지역별 지역별 사전-사후 사전-사후 분포 차이분포 차이
+  seq 187 TABLE t#10 rows=10 drawings=0 preview='결여 유형결여 유형결여 유형관련 UMC 차원관련 UMC 차원관련 UMC 차원관련 게시글 수 (n=100)관련 게시글 수 (n=100)관련 게시글 수 (n=100)비율 (%)비율 (%)비율 (%)정보부재정보부재정보부재Digital SkillsDigita'
+
+## First body refs (number -> seq)
+  Figure refs: 1@22, 11@22, 3@82, 4@83, 5@85, 55@96, 6@137, 66@144, 7@153, 77@162, 8@180, 88@180, 9@182, 99@182
+  Table refs: 1@61, 2@102, 3@106, 4@107, 5@120, 55@120, 6@153, 66@154, 7@174, 77@174, 8@186, 88@186

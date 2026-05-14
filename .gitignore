@@ -1,0 +1,52 @@
+# OS / Editor
+.DS_Store
+*~
+.vscode/
+.idea/
+.Codex/
+
+# Python / R 환경
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.Rhistory
+.Rapp.history
+.Rproj.user/
+.Rdata
+.RData
+.Renviron
+.Rprofile.user
+
+# Claude 로컬 컨텍스트
+.claude/
+
+# 분석 영역 전체 제외 (별도 nested git 레포 + 대용량 데이터)
+# part 1, part 2는 ITU-project-team/part1, /part2 로 분리됨
+analysis/
+
+# dashboard.html (단발성 산출물)
+dashboard.html
+
+# 진단 보고서 백업 (산출물, 본 레포 범위 아님)
+진단_및_개선계획.md
+
+# 비밀
+.env
+.env.*
+*.secret
+secrets/
+
+# 임시
+*.tmp
+*.log
+.cache/
+
+# 작업 아카이브 (writing 하위)
+writing/_archive_EN_submission/
+writing/_archive_shared_assets/

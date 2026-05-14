@@ -1,0 +1,43 @@
+# inspect summary: Writing/manuscript/output/UMC_report_kr_20260510_v1_renum.docx
+paragraphs=280, tables=11
+
+## Figure captions / images / Table objects (in body order)
+  seq   1 TABLE t#0 rows=1 drawings=0 preview='Bridging Seoul's Digital DivideA Multilevel Analysis of Universal Meaningful Connectivityacross Seoul's 25 Districts'
+  seq  24 p# 23 IMG drawings=1 text=''
+  seq  25 p# 24 [Caption] CAPTION FIG old#1 | 그림 1. 프로젝트 개괄
+  seq  45 p# 44 IMG drawings=1 text=''
+  seq  49 p# 48 IMG drawings=1 text=''
+  seq  72 p# 71 [Caption] CAPTION TBL old#1 | 표 1. UMC 차원별 측정 지표
+  seq  73 TABLE t#1 rows=7 drawings=0 preview='DimensionIndicatorsData SourceNoteConnectivitystation_density_4g, station_density_5g, download_speedSpectrum Resource Mgmt System; NIA Commu'
+  seq  77 p# 75 IMG drawings=1 text=''
+  seq  87 TABLE t#2 rows=2 drawings=2 preview='그림 2. 자치구별 UMC 종합점수그림 3. UMC 차원별 점수 히트맵'
+  seq  90 p# 87 IMG drawings=1 text=''
+  seq  91 p# 88 [Caption] CAPTION FIG old#4 | 그림 4. UMC 차원별 점수
+  seq  94 TABLE t#3 rows=6 drawings=6 preview='ConnectivityAvailable for UseAffordabilityDevicesSkillsSafety'
+  seq  96 p# 92 [Caption] CAPTION FIG old#5 | 그림 5. UMC 수준의 공간적 자기상관 (서울 25개 자치구)
+  seq 107 p#103 [None] CAPTION TBL old#4 | 표 4는 순차적으로 다층 모형의 추정 결과를 나타낸 것이다. 무조건 모형의 급내상관계수는 0.49%로 자치구 간 분산 비율 자체는 크지 않았으나, 자치구당 평균 표본 크기 400명을 감안한 설계효과가 2.94로 임계값 2.0을 초과하여 다수준 모형의 사용에 대한 타당성을 확인하였다(Ho
+  seq 110 p#106 [Caption] CAPTION TBL old#2 | 표 2. 분석 변수 설명
+  seq 111 TABLE t#4 rows=15 drawings=0 preview='VariableDescriptionLevelScaleSourcedigital_use_scoreDigital service utilization score (8 items summed)L10–80 (continuous)Seoul Survey 2023–2'
+  seq 120 p#115 [Caption] CAPTION TBL old#3 | 표 3. 주요 변수의 기술통계량
+  seq 121 TABLE t#5 rows=14 drawings=0 preview='변수(Variable)N평균(Mean)표준편차(SD)최소(Min)최대(Max)디지털 활용 점수(Digital use score)10,00060.8816.84080연령(Age)10,00049.3216.231599여성 비율(Female, proportio'
+  seq 123 p#117 [Caption] CAPTION TBL old#4 | 표 4. HLM 추정 결과
+  seq 124 TABLE t#6 rows=31 drawings=0 preview='변수Model 1Model 2Model 3Level 1: 개인 특성연령(중심화)−0.347*** (0.012)−0.347*** (0.012)−0.278*** (0.014)여성2.636*** (0.305)2.634*** (0.305)2.601*** (0'
+  seq 136 p#129 [None] CAPTION TBL old#5 | 표 5는 분석 구조와 표본 추출 과정을 요약한 것이다.원시 데이터 1,287,761건 중 약 51.5%는 게시자 탈퇴나 차단으로 본문을 볼 수 없어 분석에서 제외되었다. 중복·광고성 게시글 제거 후에는 약 48만 건이 남았으며, 여섯 차원별 키워드 사전을 적용한 결과 26,742건이 U
+  seq 139 p#132 [Caption] CAPTION TBL old#5 | 표 5. 텍스트 분석 표본 추출 및 판정 절차
+  seq 140 TABLE t#7 rows=6 drawings=0 preview='단계설명남은 게시글 수원시 데이터2024년 5월~2026년 3월에 작성된 동네생활 게시글 전수1,287,761접근가능 게시글탈퇴·차단으로 본문 확인이 불가능한 게시글 제거624,564중복·광고 제거중복된 내용, 광고·홍보 게시글 제거480,972UMC'
+  seq 143 p#135 IMG drawings=2 text=''
+  seq 144 p#136 [Caption] CAPTION FIG old#6 | 그림 6. 분류와 추론의 역할 구분
+  seq 154 p#146 [Caption] CAPTION TBL old#6 | 표 6. 3.3절의 분석 단위와 해석 단위
+  seq 155 TABLE t#8 rows=5 drawings=0 preview='구분단위무엇을 보여주는가해석상 주의점관찰 단위개별 게시글디지털 연결성 경험의 단서단일 게시글만으로 지역 구조를 주장할 수 없음패턴 단위행정동 게시글차원별 표출 비율과 분포집계 기준과 표본 편향을 함께 검토해야 함구조 단위UMC 지역 지표지역 수준의 연'
+  seq 161 p#152 IMG drawings=1 text=''
+  seq 162 p#153 [Caption] CAPTION FIG old#7 | 그림 7. LLM 기반 텍스트 분석 파이프라인
+  seq 174 p#165 [Caption] CAPTION TBL old#7 | 표 7. 자치구별 게시글 판정 결과
+  seq 175 TABLE t#9 rows=26 drawings=0 preview='자치구총 게시글(n)Y 판정? 판정N 판정Y 비율(%)중랑구5,476794284,65414.5송파구9,367860998,4089.18서초구6,1704342165,5207.03은평구6,140429505,6616.99도봉구3,49123353,2536.67'
+  seq 180 p#170 IMG drawings=1 text=''
+  seq 181 p#171 [None] CAPTION FIG old#8 | 그림 8. 지역별 사전-사후 분포 차이
+  seq 185 p#175 [None] CAPTION TBL old#8 | 표 8. 결여 유형별 가설 생성 결과 분포
+  seq 186 TABLE t#10 rows=10 drawings=0 preview='결여 유형관련 UMC 차원관련 게시글 수 (n=100)비율 (%)정보부재Digital Skills6363.0제도적 경로 결여Available for Use6161.0기기 접근 결여Devices5050.0디지털 역량 부재Digital Skills4545'
+
+## First body refs (number -> seq)
+  Figure refs: 1@22, 3@82, 4@83, 5@85, 6@137, 7@153, 8@181
+  Table refs: 1@61, 2@102, 3@106, 4@107, 5@136, 6@153, 7@174, 8@185
