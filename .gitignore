@@ -1,6 +1,9 @@
 # OS / Editor
 .DS_Store
 *~
+~$*.docx
+~$*.pptx
+~$*.xlsx
 .vscode/
 .idea/
 .Codex/
@@ -46,6 +49,11 @@ secrets/
 *.tmp
 *.log
 .cache/
+
+# 문서 작업 백업/변환 산출물
+docs/_archive/backups/
+writing/manuscript/latex_output/
+writing/manuscript/latex_output_en/
 
 # 작업 아카이브 (writing 하위)
 writing/_archive_EN_submission/
