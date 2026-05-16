@@ -49,6 +49,7 @@ secrets/
 *.tmp
 *.log
 .cache/
+tmp/
 
 # 문서 작업 백업/변환 산출물
 docs/_archive/backups/
