@@ -6,7 +6,14 @@
 ~$*.xlsx
 .vscode/
 .idea/
-.Codex/
+
+# Project-local Codex components are kept in `.codex/`.
+# Keep runtime/local-only artifacts out of Git while allowing skills and
+# AGENTS.md to be tracked.
+.codex/logs/
+.codex/tmp/
+.codex/cache/
+.codex/hookify.*.local.md
 
 # Python / R 환경
 __pycache__/
@@ -26,8 +33,12 @@ env/
 .Renviron
 .Rprofile.user
 
-# Claude 로컬 컨텍스트
-.claude/
+# Claude project components are tracked selectively.
+.claude/settings.local.json
+.claude/**/settings.local.json
+.claude/plan/
+.claude/worktrees/
+.claude/hookify.*.local.md
 
 # 분석 영역 전체 제외 (별도 nested git 레포 + 대용량 데이터)
 # part 1, part 2는 ITU-project-team/part1, /part2 로 분리됨
