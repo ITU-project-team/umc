@@ -10,8 +10,9 @@ Use for Chapter 2 theoretical background and literature integration.
 
 ## Active Inputs
 
-- Active draft: `docs/draft_20260518.docx`
+- Active draft: `docs/ITU UMC Data Hackathon 2026.docx`
 - Literature folder: `paper/`
+- Report evidence-framing term dictionary: `docs/style/umc_report_evidence_terms.json`
 - Current theory targets:
   - `2.1 Universal Meaningful Connectivity`
   - `2.2.4 Bayesian Framework` or equivalent Bayesian-updating subsection
@@ -38,4 +39,3 @@ When reporting without editing, return:
 - proposed thesis;
 - evidence or citation candidate;
 - exact wording risks such as inconsistent dimension names or misspelled headings.
-

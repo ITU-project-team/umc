@@ -24,6 +24,7 @@ Use for analysis scripts, outputs, interpretation checks, and report handoff.
 - If analysis and report files both change, keep commits separated by owning repository.
 - For Part 3 public/private boundary, include code, configs, aggregate tables, aggregate figures, and district-level summaries; exclude raw data and post-level text outputs.
 - For report figures, use a restrained academic style: clean lines, muted colors, concise labels, and no sentence-style explanatory footer inside or directly below the figure. Put interpretation in the body text and keep the figure caption formal.
+- For report prose, combine this skill with `umc-report-evidence-framing` when interpreting HLM, LLM platform text analysis, Bayesian updating, Digital Desert, or policy recommendations.
 
 ## Part 3 Report Appendix Defaults
 

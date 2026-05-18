@@ -1,0 +1,153 @@
+{
+  "version": "2026-05-18",
+  "purpose": "Project-local term and replacement dictionary for cautious evidence framing in the UMC report.",
+  "definitions": {
+    "HLM": {
+      "term": "hierarchical linear model",
+      "first_use": "hierarchical linear model (HLM), a model that separates individual-level and district-level factors in nested data",
+      "report_use": "Use for multilevel association analysis and explanatory decomposition, not causal identification."
+    },
+    "LLM": {
+      "term": "large language model",
+      "first_use": "large language model (LLM), used here as a structured coding assistant for classifying platform text against predefined criteria",
+      "report_use": "Use for exploratory text classification support; do not treat as an autonomous evidence producer."
+    },
+    "Bayesian updating": {
+      "term": "Bayesian updating",
+      "first_use": "Bayesian updating, a method for revising prior information with new evidence",
+      "report_use": "Frame as exploratory evidence integration between administrative indicators and platform-visible signals."
+    },
+    "multilevel association analysis": {
+      "term": "multilevel association analysis",
+      "report_use": "Preferred replacement for causal identification when describing HLM."
+    },
+    "explanatory decomposition": {
+      "term": "explanatory decomposition",
+      "report_use": "Use when describing how HLM separates individual-level and district-level contributions."
+    },
+    "contextual association": {
+      "term": "contextual association",
+      "report_use": "Preferred replacement for causal effect at the district level."
+    },
+    "district-level contextual conditions": {
+      "term": "district-level contextual conditions",
+      "report_use": "Preferred replacement for district-level causes."
+    },
+    "place-sensitive targeting": {
+      "term": "place-sensitive targeting",
+      "report_use": "Policy framing that uses district indicators to locate and reach vulnerable individuals more efficiently without treating districts as causes."
+    },
+    "place-sensitive intervention": {
+      "term": "place-sensitive intervention",
+      "report_use": "Use when an intervention adapts people-centered support to local context."
+    },
+    "platform-visible lived-experience signals": {
+      "term": "platform-visible lived-experience signals",
+      "report_use": "Use for Danggeun posts; these are visible experiences among users who chose to post, not representative prevalence estimates."
+    },
+    "structured coding assistant": {
+      "term": "structured coding assistant",
+      "report_use": "Use for the LLM role under fixed prompt criteria."
+    },
+    "codebook": {
+      "term": "codebook",
+      "report_use": "Use as an analogy for prompts that define categories and coding rules; state that it does not replace validation."
+    },
+    "precision": {
+      "term": "precision",
+      "definition": "Among cases the LLM classified as relevant, the share that is actually relevant.",
+      "report_use": "Mention only as a future validation metric unless measured."
+    },
+    "recall": {
+      "term": "recall",
+      "definition": "Among actually relevant cases, the share that the LLM identified.",
+      "report_use": "Mention only as a future validation metric unless measured."
+    },
+    "F1-score": {
+      "term": "F1-score",
+      "definition": "A performance measure that combines precision and recall.",
+      "report_use": "Mention only as a future validation metric unless measured."
+    },
+    "Cohen's kappa": {
+      "term": "Cohen's kappa",
+      "definition": "An agreement statistic for comparing two coders or a human coder and an LLM beyond chance agreement.",
+      "report_use": "Mention only as a future validation metric unless measured."
+    },
+    "Krippendorff's alpha": {
+      "term": "Krippendorff's alpha",
+      "definition": "An agreement statistic that can handle multiple coders and different measurement levels.",
+      "report_use": "Mention only as a future validation metric unless measured."
+    },
+    "Digital Desert": {
+      "term": "Digital Desert",
+      "report_use": "Use as a provisional targeting and diagnostic label, not as a fixed district identity or causal classification."
+    }
+  },
+  "replacement_map": [
+    {
+      "avoid": "causal identification",
+      "use": ["multilevel association analysis", "explanatory decomposition"],
+      "note": "Use especially for HLM and observational results."
+    },
+    {
+      "avoid": "causal effect",
+      "use": ["association", "contextual association"],
+      "note": "Avoid causal interpretation unless a design identifies it."
+    },
+    {
+      "avoid": "district-level causes",
+      "use": ["district-level contextual conditions"],
+      "note": "Districts should be framed as contexts and targeting aids."
+    },
+    {
+      "avoid": "place-based intervention",
+      "use": ["place-sensitive targeting", "place-sensitive intervention"],
+      "note": "Use except when discussing the literature's people-based/place-based distinction."
+    },
+    {
+      "avoid": "LLM results prove the HLM findings",
+      "use": ["LLM results contextualize the HLM findings"],
+      "note": "LLM analysis supplements rather than verifies the multilevel model."
+    },
+    {
+      "avoid": "The text analysis identifies the actual prevalence of digital deprivation",
+      "use": ["The text analysis identifies platform-visible signals of digital deprivation"],
+      "note": "Danggeun posts are not representative population samples."
+    },
+    {
+      "avoid": "LLM classification provides objective evidence",
+      "use": ["LLM-assisted classification provides structured but exploratory evidence"],
+      "note": "Prompt structure improves consistency but does not replace validation."
+    },
+    {
+      "avoid": "Bayesian updating confirms district-level deprivation",
+      "use": ["Bayesian updating provides an exploratory integration of administrative indicators and platform-visible signals"],
+      "note": "Do not overstate posterior shifts as confirmation."
+    },
+    {
+      "avoid": "Danggeun posts reveal citizens' experiences in Seoul",
+      "use": ["Danggeun posts reveal platform-visible experiences among users who chose to post"],
+      "note": "Preserve platform-representativeness limits."
+    }
+  ],
+  "policy_structure": {
+    "A_individual_vulnerability_centered_support": [
+      "low-education older adults",
+      "older single-person households",
+      "groups with low digital service-use experience",
+      "residents with low offline access"
+    ],
+    "B_place_sensitive_targeting": [
+      "use the UMC composite index and dimension scores to identify priority districts",
+      "do not infer district causation from low scores alone",
+      "use district indicators as aids for reaching vulnerable individuals more efficiently"
+    ],
+    "C_capability_safety_affordability": [
+      "device access",
+      "digital service-use training",
+      "security and fraud-prevention capacity",
+      "telecom affordability",
+      "support for complex public apps"
+    ]
+  }
+}

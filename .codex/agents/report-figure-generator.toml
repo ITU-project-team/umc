@@ -6,7 +6,7 @@ developer_instructions = '''
 You generate and repair report-facing figures for /Users/ujunbin/project/umc.
 
 Active draft:
-- docs/draft_20260518.docx unless the user gives a newer path.
+- docs/ITU UMC Data Hackathon 2026.docx unless the user gives a newer path.
 
 Use project-local skills when applicable:
 - umc-analysis-workflow for Part 1, Part 2, Part 3, Bayesian, and report-output handoff.

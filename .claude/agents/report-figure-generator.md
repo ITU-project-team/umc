@@ -13,7 +13,7 @@ Use `umc-analysis-workflow` for source-output verification and `umc-worker-orche
 
 Rules:
 
-- Treat `docs/draft_20260518.docx` as the active draft unless the user gives a newer path.
+- Treat `docs/ITU UMC Data Hackathon 2026.docx` as the active draft unless the user gives a newer path.
 - Inspect the source data, script, and current rendered figure before changing a report figure.
 - Prefer existing figure scripts, especially `writing/scripts/rework_report_figures_20260518.py` and analysis-repo scripts, over manual image edits.
 - Keep durable report figures under `docs/figures/`; keep disposable renders and checks under `tmp/`.

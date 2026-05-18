@@ -6,6 +6,7 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 
 - `umc-worker-orchestration`: worker assignment, cmux context, result review, and artifact hygiene.
 - `umc-analysis-workflow`: Part 1, Part 2, Part 3, text preprocessing, Bayesian aggregation, inference, and report handoff.
+- `umc-report-evidence-framing`: cautious HLM/LLM/Bayesian wording, exploratory-evidence limits, policy-framing alignment, and term dictionary use.
 - `umc-report-theory`: Chapter 2 theory/background writing using `paper/` and the active DOCX.
 - `umc-academic-table-formatting`: academic DOCX table creation/review, compact row rules, captions, appendix prompt/keyword tables, and PDF layout checks.
 
@@ -26,6 +27,7 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 
 ## Active Paths
 
-- Active draft: `docs/draft_20260518.docx`
+- Active draft: `docs/ITU UMC Data Hackathon 2026.docx`
 - Literature folder: `paper/`
 - Part 3 repo: `analysis/part 3`
+- Report evidence-framing term dictionary: `docs/style/umc_report_evidence_terms.json`

@@ -7,6 +7,7 @@ This file is the project-local operating contract for `/Users/ujunbin/project/um
 - Use project-local Codex skills before global fallbacks:
   - `$umc-cmux-worker-supervision`
   - `$umc-analysis-workflow`
+  - `$umc-report-evidence-framing`
 - Claude-facing project components live under `.claude/`.
 - Codex-facing project components live under `.codex/`.
 - UMC-specific skills, agents, and routing notes should stay project-local unless they are genuinely reusable across `/Users/ujunbin/project`, `/Users/ujunbin/knowledge`, `/Users/ujunbin/research`, and `/Users/ujunbin/resource`.
@@ -43,7 +44,7 @@ This file is the project-local operating contract for `/Users/ujunbin/project/um
 
 ## Current Report Context
 
-- Active draft: `docs/draft_20260518.docx`
+- Active draft: `docs/ITU UMC Data Hackathon 2026.docx`
 - Literature folder: `paper/`
 - Part 3 consolidated repo: `analysis/part 3`
-
+- Report evidence-framing term dictionary: `docs/style/umc_report_evidence_terms.json`

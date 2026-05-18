@@ -6,6 +6,7 @@ This folder is the project-local Codex component layer for UMC.
 
 - `skills/umc-cmux-worker-supervision/SKILL.md`: cmux worker ownership, worker briefs, context hygiene, artifact placement, and repository boundaries.
 - `skills/umc-analysis-workflow/SKILL.md`: Part 1, Part 2, Part 3, text preprocessing, inference, report handoff, and verification workflow.
+- `skills/umc-report-evidence-framing/SKILL.md`: cautious HLM/LLM/Bayesian wording, exploratory-evidence limits, policy-framing alignment, and term dictionary use.
 - `skills/umc-academic-table-formatting/SKILL.md`: academic DOCX table creation/review, compact row rules, captions, appendix prompt/keyword tables, and PDF layout checks.
 
 ## Agents

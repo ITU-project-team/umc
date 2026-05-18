@@ -42,6 +42,7 @@ Always run `git status --short --branch` inside the repository that owns the fil
 - When using cmux workers, combine this skill with `$umc-cmux-worker-supervision`.
 - Use worker-facing Korean instructions when communicating through visible panes, but keep code, paths, variable names, and report wording in their original language.
 - For report figures, use a restrained academic style: clean lines, muted colors, concise labels, and no sentence-style explanatory footer inside or directly below the figure. Put interpretation in the body text and keep the figure caption formal.
+- For report prose, combine this skill with `$umc-report-evidence-framing` when interpreting HLM, LLM platform text analysis, Bayesian updating, Digital Desert, or policy recommendations.
 
 ## Part 1: UMC Index and Spatial Figures
 
