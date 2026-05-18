@@ -41,6 +41,7 @@ Always run `git status --short --branch` inside the repository that owns the fil
 - If analysis outputs feed the report, update and commit the analysis repo separately from the root report repo.
 - When using cmux workers, combine this skill with `$umc-cmux-worker-supervision`.
 - Use worker-facing Korean instructions when communicating through visible panes, but keep code, paths, variable names, and report wording in their original language.
+- For report figures, use a restrained academic style: clean lines, muted colors, concise labels, and no sentence-style explanatory footer inside or directly below the figure. Put interpretation in the body text and keep the figure caption formal.
 
 ## Part 1: UMC Index and Spatial Figures
 
@@ -176,6 +177,7 @@ Use this for preprocessing posts and preparing UMC classification batches.
 Typical repository:
 
 - `analysis/text-preprocessing`
+- `analysis/part 3/01_text_preprocessing`
 
 Common flow:
 
@@ -184,6 +186,26 @@ Common flow:
 3. Parse classifier responses.
 4. Merge final CSV outputs.
 5. Verify row counts, encoding, and failed-response cases.
+
+When the report asks for Section 3.3 methods, agent operation, prompt details, or
+reader-facing explanation of the Part 3 pipeline, automatically check the
+preprocessing layer as well as the inference layer. Do not wait for the user to
+name every appendix item. Public-safe appendix candidates are:
+
+- Keyword dictionary summary: dimension, keyword count, representative terms, and
+  the full dictionary file path.
+- UMC relevance and dimension-classification prompt: role, core UMC test,
+  six-dimension rules, over-classification filters, few-shot boundary examples,
+  and output format.
+- Inference prompts: abductive, forward, sequential, and judgment-synthesizer
+  prompts, cleaned into role/input/rule/output sections by default.
+- If the user asks for prompt text "as-is", "verbatim", or "그대로", use the
+  exact source prompt files instead of summaries, preserve line breaks, and
+  include source paths in the appendix.
+
+Do not paste raw posts, post-level identifiers, local raw-data paths, or full
+post-level LLM dumps into the report. If the complete 1,000+ term keyword list is
+needed, suggest a separate appendix artifact instead of crowding the main DOCX.
 
 Useful checks:
 
@@ -204,6 +226,7 @@ PY
 
 Use these paths for structured post-level inference:
 
+- `analysis/part 3/03_inference`
 - `analysis/03. Test-for-inference`
 - `analysis/Part 2-2`
 - `analysis/Part 2-4`

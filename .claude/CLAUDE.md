@@ -7,10 +7,12 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 - `umc-worker-orchestration`: worker assignment, cmux context, result review, and artifact hygiene.
 - `umc-analysis-workflow`: Part 1, Part 2, Part 3, text preprocessing, Bayesian aggregation, inference, and report handoff.
 - `umc-report-theory`: Chapter 2 theory/background writing using `paper/` and the active DOCX.
+- `umc-academic-table-formatting`: academic DOCX table creation/review, compact row rules, captions, appendix prompt/keyword tables, and PDF layout checks.
 
 ## Local Agents
 
 - `report-docx-manager`: report DOCX structure, section edits, figure/table placement, and layout risk.
+- `report-figure-generator`: report figure generation/repair, source-data checks, academic styling, and DOCX layout verification.
 - `part3-analysis-manager`: consolidated Part 3 text/Bayesian/inference workflow and data-boundary review.
 - `project-verifier`: read-only verification of claims, paths, Git state, and protected-artifact boundaries.
 
@@ -27,4 +29,3 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 - Active draft: `docs/draft_20260518.docx`
 - Literature folder: `paper/`
 - Part 3 repo: `analysis/part 3`
-

@@ -46,6 +46,7 @@ Preferred visible pane labels:
 - `보고서 DOCX 담당`
 - `Part 1 분석 총괄`
 - `Part 2 분석 총괄`
+- `Part 3 분석 총괄`
 - `Text preprocessing 담당`
 - `Git/배포 담당`
 - `검증 담당`
@@ -102,6 +103,14 @@ The leader owns the workflow until the task is closed.
 6. Send the next bounded instruction or put the worker on standby.
 
 Do not treat delegation as completion. Report to the user only after the worker result has been reviewed and any important claims have been checked.
+
+For report/DOCX tasks, the leader acts as orchestrator and verifier:
+
+- Use the relevant analysis worker to verify source truth, result tables, prompt files, and pipeline steps.
+- Use `보고서 DOCX 담당` or `검증 담당` to inspect rendered pages, captions, tables, figures, and appendix placement.
+- Integrate worker findings only after checking the key paths or rendered output directly.
+- When the user asks to put a prompt "as-is" or "verbatim" into an appendix, do not replace it with a role/input/rule/output summary. Insert the exact source prompt text and preserve line breaks, while still excluding raw posts, private text, and post-level dumps.
+- For report figures, do not add sentence-style explanatory footers inside the image or as one-line notes directly below it. Put interpretation in the body text, caption, or formal table note.
 
 ## Repository Boundaries
 

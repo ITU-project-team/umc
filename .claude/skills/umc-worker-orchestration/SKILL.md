@@ -21,9 +21,16 @@ Use for UMC work split across visible worker panels.
 4. Read the worker result, judge sufficiency, verify important claims directly when feasible, and send the next bounded instruction.
 5. Keep temporary renders, checks, and backups under `tmp/`.
 
+For report/DOCX work, treat the lead session as the orchestrator and verifier:
+
+- Ask the relevant analysis worker to verify source files, result claims, prompt locations, and pipeline stages.
+- Ask `보고서 DOCX 담당` or `검증 담당` to check rendered pages, figure placement, captions, appendix tables, and pagination.
+- Do not treat a worker answer as completion until the important file paths or rendered pages have been checked directly.
+- If the user asks for a prompt to be inserted "as-is" or "verbatim", preserve the exact source prompt text in the appendix instead of replacing it with a summary table.
+- Do not add sentence-style explanatory footers inside report figures or as one-line notes directly below figures.
+
 ## Boundaries
 
 - Do not delete or move existing user files without approval.
 - Do not commit raw data, private platform text, `.env`, or local settings.
 - Commit from the repository that owns the changed files.
-
