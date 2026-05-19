@@ -13,7 +13,17 @@
 .codex/logs/
 .codex/tmp/
 .codex/cache/
+.codex/worktrees/
 .codex/hookify.*.local.md
+
+# cmux runtime workspaces are local-only. Do not track copied worker
+# instruction files such as AGENTS.md or CLAUDE.md from those environments.
+.cmux/
+cmux/
+.cmux/**/AGENTS.md
+.cmux/**/CLAUDE.md
+cmux/**/AGENTS.md
+cmux/**/CLAUDE.md
 
 # Python / R 환경
 __pycache__/
