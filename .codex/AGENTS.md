@@ -14,6 +14,10 @@ This folder is the project-local Codex component layer for UMC.
 - `agents/report-docx-manager.toml`: report DOCX editing, section structure, figures, academic tables, captions, and layout-risk verification.
 - `agents/report-figure-generator.toml`: report figure generation and repair, source-data checks, consistent academic styling, and DOCX figure layout verification.
 
+Default worker mapping:
+
+- `보고서 DOCX 담당` -> `agents/report-docx-manager.toml`
+
 ## Scope Rule
 
 Keep UMC-specific Codex components here. Do not place UMC-only skills or agents in `/Users/ujunbin/.codex` unless the user explicitly asks for a global capability.

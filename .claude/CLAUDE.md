@@ -17,6 +17,10 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 - `part3-analysis-manager`: consolidated Part 3 text/Bayesian/inference workflow and data-boundary review.
 - `project-verifier`: read-only verification of claims, paths, Git state, and protected-artifact boundaries.
 
+Default worker mapping:
+
+- `보고서 DOCX 담당` -> `report-docx-manager`
+
 ## Project Rules
 
 - Keep UMC-specific Claude skills and agents in this project root.

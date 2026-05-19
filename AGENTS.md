@@ -20,6 +20,7 @@ This file is the project-local operating contract for `/Users/ujunbin/project/um
   - `Part 2 분석 총괄`
   - `Part 3 분석 총괄`
   - `검증 담당`
+- Assign `보고서 DOCX 담당` to the project-local `report-docx-manager` role by default for report DOCX work. Use `.codex/agents/report-docx-manager.toml` for Codex-side delegation and `.claude/agents/report-docx-manager.md` for Claude/cmux worker panes unless the user explicitly asks for another role.
 - Give compact briefs with exact paths, scope boundary, evidence source, and expected output.
 - Continue the leader loop after delegation: read worker results, judge sufficiency, verify important claims, and issue the next bounded instruction.
 
