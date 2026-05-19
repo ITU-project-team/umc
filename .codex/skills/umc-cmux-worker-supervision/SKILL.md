@@ -63,6 +63,58 @@ After renaming, verify with:
 cmux tree --workspace workspace:1
 ```
 
+## Default Worker Assignments
+
+Before sending work to a pane, map the visible worker label to an explicit
+agent name and owning path. Re-check `cmux tree --workspace workspace:1` first;
+surface IDs can drift, so the role label and agent name are authoritative.
+
+Current `workspace:1` default assignment:
+
+| Visible worker label | Current surface | Assigned agent | Primary owning path | Primary skills/rules |
+| --- | --- | --- | --- | --- |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:1` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `doc` |
+| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:3` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`; protect raw data and Part 1 nested repo boundary |
+| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:4` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`, `umc-report-evidence-framing`; HLM as association analysis |
+| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:5` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
+| `검증 담당 · project-verifier` | `surface:8` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first; no edits |
+
+When renaming panes, include both the worker label and assigned agent:
+
+```bash
+cmux rename-tab --workspace workspace:1 --surface surface:<n> '<worker label> · <agent-name>'
+```
+
+When briefing a worker, the first line should restate the assignment:
+
+```text
+[역할 지정] 이 패널의 담당 agent는 `<agent-name>`입니다.
+```
+
+Do not assign report DOCX edits to an analysis agent. Do not assign raw-data,
+private-text, or post-level inspection to a report or verification worker.
+
+## Parallel Subagents
+
+Bounded parallel subagents are allowed by default for independent side checks
+inside the assigned worker boundary unless the user or leader says otherwise.
+Use them to split clearly separable verification, file inspection, or
+implementation subtasks.
+
+Rules:
+
+- The worker remains responsible for integrating and judging subagent results.
+- Parallel subtasks must have disjoint files, sections, scripts, outputs, or
+  read-only evidence targets.
+- Do not send raw data, private platform text, post IDs, secrets, `.env` files,
+  or local settings into subagent prompts.
+- For write tasks, state the owned file path or module for each subagent and
+  forbid reverting or overwriting other workers' edits.
+- For verification tasks, keep subagents read-only and require findings-first
+  output with exact files, commands, or rendered pages checked.
+- Report which subagents were used, what each checked or changed, and what the
+  worker verified directly before returning to the leader.
+
 ## Worker Briefs
 
 Send bounded briefs. Do not paste long transcript history into a worker.
@@ -74,7 +126,8 @@ Every worker instruction should include:
 - Scope boundary: read-only, edit allowed, or report-only.
 - Evidence source: files, tables, rendered pages, logs, or command output.
 - Expected return format: concise findings plus exact files/sections checked.
-- Whether bounded parallel subagents are allowed for independent side checks.
+- Explicit permission that bounded parallel subagents are allowed for
+  independent side checks, unless this specific task forbids it.
 
 When a worker is likely holding stale context or nearing context pressure, instruct it to save a short status note or clear context before the new task.
 

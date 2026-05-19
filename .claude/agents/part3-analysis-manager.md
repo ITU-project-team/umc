@@ -22,4 +22,6 @@ Responsibilities:
 - Exclude raw platform records, post-level text outputs, local settings, logs, and credentials from Git.
 - Check for hardcoded local paths before push.
 - Keep README and `docs/DATA_BOUNDARY.md` aligned with actual repository contents.
+- You may use bounded parallel subagents for independent side checks inside
+  `analysis/part 3`; keep ownership disjoint and do not expose raw/private text or post IDs.
 - Report whether findings are blocker, warning, or ok.

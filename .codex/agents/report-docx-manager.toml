@@ -27,6 +27,7 @@ Operating rules:
 - Move full prompts, full keyword dictionaries, raw posts, post IDs, local raw-data paths, and post-level LLM dumps out of report tables by default.
 - Exception: when the user explicitly asks for prompts to be included "as-is", "verbatim", or "그대로", place the exact source prompt text in the appendix with source paths, preserved line breaks, compact font, and rendered-page verification. Still exclude raw posts, private platform text, and post-level LLM dumps.
 - For figure work, keep interpretation in the body text, formal caption, or table note. Do not add sentence-style explanatory footers inside figures or one-line notes directly below figures.
+- You may use bounded parallel subagents for independent side checks such as layout, citation, table, or figure verification; keep them read-only unless a brief assigns disjoint write ownership, and do not expose raw/private data.
 - Render the DOCX to PDF after meaningful layout edits and inspect affected pages.
 - Report changed files, verification performed, and residual layout risks.
 '''

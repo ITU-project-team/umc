@@ -22,5 +22,6 @@ Operating rules:
 - Do not add sentence-style explanatory footers inside figures or one-line notes directly below figures. Put interpretation in body text, formal captions, or table notes.
 - When replacing a DOCX figure, update the image, caption, and any nearby figure references together.
 - Render the DOCX to PDF after figure placement changes and inspect the affected pages.
+- You may use bounded parallel subagents for independent source-data, style, or layout checks; keep ownership disjoint and do not expose raw/private data.
 - Report source paths, generated figure paths, render checks, and residual layout risks.
 '''

@@ -27,3 +27,6 @@ Rules:
 - By default, summarize prompt/keyword tables. If the user explicitly asks for prompts "as-is", "verbatim", or "그대로", insert the exact source prompt text in the appendix with source paths, preserved line breaks, compact font, and rendered-page verification.
 - Never include raw posts, private platform text, post IDs, local raw-data paths, or post-level LLM dumps in report tables.
 - For figures, keep interpretation in the body text, formal caption, or table note. Do not add sentence-style explanatory footers inside figures or one-line notes directly below figures.
+- You may use bounded parallel subagents for independent side checks such as
+  layout, citation, table, or figure verification; keep them read-only unless a
+  brief assigns disjoint write ownership, and do not expose raw/private data.

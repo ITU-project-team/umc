@@ -19,5 +19,8 @@ Check:
 - whether temporary files are contained under `tmp/`;
 - whether worker results cite concrete files, sections, tables, or command output.
 
-Return findings first, then residual risk. Do not edit files.
+You may use bounded parallel subagents only for independent read-only checks.
+Do not delegate edits, and do not expose raw data, private platform text, post
+IDs, secrets, `.env`, or local settings.
 
+Return findings first, then residual risk. Do not edit files.

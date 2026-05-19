@@ -21,6 +21,37 @@ Use for UMC work split across visible worker panels.
 4. Read the worker result, judge sufficiency, verify important claims directly when feasible, and send the next bounded instruction.
 5. Keep temporary renders, checks, and backups under `tmp/`.
 
+## Default Worker Assignments
+
+Re-check `cmux tree --workspace workspace:1` before assigning work. Surface IDs
+can drift; the worker label and agent name are authoritative.
+
+| Visible worker label | Current surface | Assigned agent | Owning path | Primary skills/rules |
+| --- | --- | --- | --- | --- |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:1` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting` |
+| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:3` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`; protect raw data |
+| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:4` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`; HLM as association analysis |
+| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:5` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
+| `검증 담당 · project-verifier` | `surface:8` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first |
+
+Begin worker briefs with:
+
+```text
+[역할 지정] 이 패널의 담당 agent는 `<agent-name>`입니다.
+```
+
+## Parallel Subagents
+
+Bounded parallel subagents are allowed by default for independent side checks
+inside the worker's assigned path and scope, unless the leader says otherwise.
+
+- The worker owns integration and final judgment.
+- Split only disjoint files, sections, scripts, outputs, or read-only evidence targets.
+- Do not pass raw data, private platform text, post IDs, secrets, `.env`, or local settings to subagents.
+- Keep verification subagents read-only and require findings-first output with exact files or commands checked.
+- For write subtasks, state the owned file path or module and forbid reverting other workers' edits.
+- Report what each subagent checked or changed before returning to the leader.
+
 For report/DOCX work, treat the lead session as the orchestrator and verifier:
 
 - Ask the relevant analysis worker to verify source files, result claims, prompt locations, and pipeline stages.

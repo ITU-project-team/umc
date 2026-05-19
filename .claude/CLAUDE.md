@@ -14,12 +14,23 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 
 - `report-docx-manager`: report DOCX structure, section edits, figure/table placement, and layout risk.
 - `report-figure-generator`: report figure generation/repair, source-data checks, academic styling, and DOCX layout verification.
+- `part1-analysis-manager`: Part 1 UMC index construction, district scores, report-ready figures/tables, and Section 3.1 handoff.
+- `part2-analysis-manager`: Part 2 HLM/multilevel analysis, model outputs, validity checks, and Section 3.2 handoff.
 - `part3-analysis-manager`: consolidated Part 3 text/Bayesian/inference workflow and data-boundary review.
 - `project-verifier`: read-only verification of claims, paths, Git state, and protected-artifact boundaries.
 
 Default worker mapping:
 
-- `보고서 DOCX 담당` -> `report-docx-manager`
+- `보고서 DOCX 담당 · report-docx-manager` -> `report-docx-manager`
+- `Part 1 분석 총괄 · part1-analysis-manager` -> `part1-analysis-manager`
+- `Part 2 분석 총괄 · part2-analysis-manager` -> `part2-analysis-manager`
+- `Part 3 분석 총괄 · part3-analysis-manager` -> `part3-analysis-manager`
+- `검증 담당 · project-verifier` -> `project-verifier`
+
+Bounded parallel subagents are allowed for independent side checks inside each
+worker's assigned boundary. Worker prompts must keep ownership explicit and
+must not expose raw data, private platform text, post IDs, secrets, `.env`, or
+local settings to subagents.
 
 ## Project Rules
 

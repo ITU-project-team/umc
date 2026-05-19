@@ -22,3 +22,5 @@ Rules:
 - When replacing a DOCX figure, update the image, caption, and nearby figure references together.
 - Render the DOCX to PDF after figure placement changes and inspect affected pages.
 - Never expose raw platform text, post-level LLM outputs, `.env`, or local settings.
+- You may use bounded parallel subagents for independent source-data, style,
+  or layout checks; keep ownership disjoint and do not expose raw/private data.
