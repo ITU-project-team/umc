@@ -1,0 +1,320 @@
+% preamble.tex
+% UMC 디지털 연결성 분석 보고서 - 학술 보고서 스타일 LaTeX preamble
+% 엔진: XeLaTeX (kotex)
+% 컴파일: xelatex -> bibtex -> xelatex -> xelatex
+
+\documentclass[10pt,a4paper,twocolumn]{article}
+
+% ─────────────────────────────────────────────
+% 한글 / 다국어
+% ─────────────────────────────────────────────
+\usepackage[hangul]{kotex}
+\usepackage{fontspec}
+
+% 영문 본문 (serif) / 제목·캡션 (sans-serif)
+% TeX Gyre 계열은 TeX Live 표준 배포에 포함되어 안전한 fallback.
+% TeX Live의 TeX Gyre 폰트를 파일명으로 직접 지정 (fontconfig 등록 불필요)
+\setmainfont{texgyretermes-regular.otf}[
+  BoldFont = texgyretermes-bold.otf,
+  ItalicFont = texgyretermes-italic.otf,
+  BoldItalicFont = texgyretermes-bolditalic.otf,
+  Ligatures=TeX
+]
+\setsansfont{texgyreheros-regular.otf}[
+  BoldFont = texgyreheros-bold.otf,
+  ItalicFont = texgyreheros-italic.otf,
+  BoldItalicFont = texgyreheros-bolditalic.otf,
+  Scale=0.95
+]
+\setmonofont{texgyrecursor-regular.otf}[
+  BoldFont = texgyrecursor-bold.otf,
+  ItalicFont = texgyrecursor-italic.otf,
+  Scale=0.9
+]
+
+% 한글 폰트 설정
+% 1순위: macOS 시스템 폰트 (Apple SD Gothic Neo / Nanum Myeongjo)
+% 폰트 부재 시 아래 fallback 주석 참고
+% Pretendard Variable (사용자 폰트 디렉토리에 설치됨) + AppleSDGothicNeo fallback
+\setmainhangulfont{Pretendard Variable}[
+  BoldFont       = Pretendard Variable,
+  BoldFeatures   = {RawFeature={+wght=700}},
+  AutoFakeSlant  = 0.2,
+  Script         = Hangul
+]
+\setsanshangulfont{Pretendard Variable}[
+  BoldFont       = Pretendard Variable,
+  BoldFeatures   = {RawFeature={+wght=700}},
+  Scale          = 0.95,
+  Script         = Hangul
+]
+\setmonohangulfont{Pretendard Variable}[
+  BoldFont       = Pretendard Variable,
+  BoldFeatures   = {RawFeature={+wght=700}},
+  Scale          = 0.9,
+  Script         = Hangul
+]
+% Fallback 1 (Pretendard 설치 시):
+%   \setmainhangulfont{Pretendard-Regular}[BoldFont=Pretendard-Bold]
+% Fallback 2 (Noto Sans/Serif CJK KR):
+%   \setmainhangulfont{Noto Serif CJK KR}[BoldFont={Noto Serif CJK KR Bold}]
+% Fallback 3 (NanumMyeongjo / NanumGothic):
+%   \setmainhangulfont{NanumMyeongjo}[BoldFont=NanumMyeongjoBold]
+
+% ─────────────────────────────────────────────
+% 페이지 레이아웃
+% ─────────────────────────────────────────────
+\usepackage[
+  a4paper,
+  top=20mm,
+  bottom=22mm,
+  left=18mm,
+  right=18mm,
+  columnsep=6mm,
+  headheight=14pt,
+  headsep=8mm,
+  footskip=10mm
+]{geometry}
+
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.15}
+
+% ─────────────────────────────────────────────
+% 색상 토큰
+% ─────────────────────────────────────────────
+\usepackage{xcolor}
+\definecolor{primary}{HTML}{1A2332}   % Deep Ocean Navy
+\definecolor{accent}{HTML}{C97B3F}    % Warm Terracotta
+\definecolor{muted}{HTML}{5B6470}
+\definecolor{rule}{HTML}{D6D9DE}
+\definecolor{bgsoft}{HTML}{F5F2EC}
+
+% ─────────────────────────────────────────────
+% 그래픽 / 표
+% ─────────────────────────────────────────────
+\usepackage{graphicx}
+\graphicspath{{media/}{media/media/}}
+
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% ─────────────────────────────────────────────
+% 캡션
+% ─────────────────────────────────────────────
+\usepackage[
+  font=small,
+  labelfont={bf,sf,color=primary},
+  textfont=small,
+  labelsep=period,
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=4pt
+]{caption}
+\captionsetup[sub]{font=footnotesize,labelfont={bf,sf}}
+
+% ─────────────────────────────────────────────
+% 섹션 스타일링 (titlesec)
+% ─────────────────────────────────────────────
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\sffamily\bfseries\large\color{primary}}
+  {\thesection}{0.6em}{}
+  [\vspace{2pt}{\color{rule}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+
+\titleformat{\subsection}
+  {\sffamily\bfseries\normalsize\color{primary}}
+  {\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+\titleformat{\subsubsection}
+  {\sffamily\bfseries\small\color{accent}}
+  {\thesubsubsection}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
+
+% ─────────────────────────────────────────────
+% 머리말 / 발 (fancyhdr)
+% ─────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[L]{\sffamily\small\color{muted}서울 25개 자치구 디지털 연결성 분석}
+\fancyhead[R]{\sffamily\small\color{muted}\leftmark}
+\fancyfoot[C]{\sffamily\small\thepage}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\sffamily\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% ─────────────────────────────────────────────
+% 수학 / 단위
+% ─────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{siunitx}
+\sisetup{
+  group-separator={,},
+  group-minimum-digits=4,
+  detect-all
+}
+
+% ─────────────────────────────────────────────
+% 인용 / 리스트 / 따옴표
+% ─────────────────────────────────────────────
+\usepackage[shortlabels]{enumitem}
+\setlist{topsep=2pt,itemsep=1pt,parsep=0pt,leftmargin=1.4em}
+
+\usepackage{csquotes}
+\usepackage{url}
+
+% 참고문헌: natbib + apalike
+% 선택 이유: References가 비정형 텍스트라 BibTeX 변환 시 가벼운 저자-연도 스타일이 적합.
+% biblatex(APA)는 정식 .bib + biber 빌드가 필수라 초기 변환 비용이 크다.
+\usepackage[round,authoryear]{natbib}
+\bibliographystyle{apalike}
+\setcitestyle{aysep={,}}
+
+% ─────────────────────────────────────────────
+% 하이퍼링크 / PDF 메타데이터
+% ─────────────────────────────────────────────
+\usepackage[
+  unicode=true,
+  bookmarks=true,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  pdfencoding=auto,
+  colorlinks=true,
+  linkcolor=primary,
+  citecolor=accent,
+  urlcolor=accent,
+  filecolor=primary,
+  breaklinks=true
+]{hyperref}
+
+\hypersetup{
+  pdftitle={서울 25개 자치구 디지털 연결성(UMC) 분석 보고서},
+  pdfauthor={UMC Project Team},
+  pdfsubject={Urban Digital Connectivity Analysis},
+  pdfkeywords={디지털 연결성, 서울, 자치구, 다층모형, LLM 텍스트 분석}
+}
+
+% ─────────────────────────────────────────────
+% 박스 환경 (tcolorbox)
+% ─────────────────────────────────────────────
+\usepackage[most]{tcolorbox}
+
+% 메타이론 박스: 이론적 배경/개념 정의 강조용
+\newtcolorbox{metabox}[1][]{
+  enhanced,
+  colback=bgsoft,
+  colframe=primary,
+  boxrule=0.6pt,
+  arc=2pt,
+  left=8pt,right=8pt,top=6pt,bottom=6pt,
+  fonttitle=\sffamily\bfseries\color{primary},
+  coltitle=primary,
+  title=메타이론 노트,
+  #1
+}
+
+% 핵심 메시지 박스: 장/절 핵심 결론 강조
+\newtcolorbox{keymsg}[1][]{
+  enhanced,
+  colback=white,
+  colframe=accent,
+  boxrule=1pt,
+  arc=2pt,
+  leftrule=4pt,
+  left=8pt,right=8pt,top=5pt,bottom=5pt,
+  fonttitle=\sffamily\bfseries\color{accent},
+  coltitle=accent,
+  title=핵심 메시지,
+  #1
+}
+
+% 인용 블록: 짧은 인용/요약용 사이드바
+\newtcolorbox{quoteblock}[1][]{
+  enhanced,
+  colback=bgsoft,
+  colframe=bgsoft,
+  boxrule=0pt,
+  leftrule=2pt,
+  arc=0pt,
+  borderline west={2pt}{0pt}{accent},
+  left=8pt,right=8pt,top=4pt,bottom=4pt,
+  fontupper=\itshape\small,
+  #1
+}
+
+% ─────────────────────────────────────────────
+% 그림 / 표 매크로
+% ─────────────────────────────────────────────
+% 단일 단(column) 폭 그림
+\newcommand{\fig}[3]{%
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{#1}
+    \caption{#2}
+    \label{#3}
+  \end{figure}%
+}
+
+% 2단 폭(페이지 폭) 가로지르는 그림
+\newcommand{\figfull}[3]{%
+  \begin{figure*}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{#1}
+    \caption{#2}
+    \label{#3}
+  \end{figure*}%
+}
+
+% 표 예시 (실제 사용 시 복사해서 변형)
+% \begin{table}[htbp]
+%   \centering\small
+%   \caption{자치구별 UMC 지수 상위 5}
+%   \label{tab:umc-top5}
+%   \begin{tabularx}{\linewidth}{lYS[table-format=2.2]}
+%     \toprule
+%     순위 & 자치구 & {UMC} \\
+%     \midrule
+%     1 & 강남구 & 87.42 \\
+%     \bottomrule
+%   \end{tabularx}
+% \end{table}
+
+% ─────────────────────────────────────────────
+% 기타 유틸
+% ─────────────────────────────────────────────
+\newcommand{\umc}{\textsc{umc}}
+\newcommand{\llm}{\textsc{llm}}
+\newcommand{\gu}[1]{#1구}
+
+\renewcommand{\arraystretch}{1.15}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\widowpenalty=10000
+\clubpenalty=10000
+\flushbottom
+
+% ─────────────────────────────────────────────
+% 문서 정보 (main.tex에서 override 가능)
+% ─────────────────────────────────────────────
+\title{\sffamily\bfseries\color{primary}\Large
+서울 25개 자치구 디지털 연결성(UMC) 분석 보고서}
+\author{\sffamily\normalsize UMC Project Team}
+\date{\sffamily\small\today}

@@ -1,0 +1,489 @@
+% ch3_analysis.tex --- Chapter 3 Analysis (English)
+% Called by: main_en.tex (\input{sections/ch3_analysis.tex})
+\section{Analysis}
+\label{sec:analysis}
+
+\noindent{\sffamily\small\color{muted}\textbf{CHAPTER 3}}
+
+\begin{quoteblock}
+A three-stage pipeline of measurement $\rightarrow$ HLM $\rightarrow$ Bayesian integration jointly estimates the spatial distribution of Seoul's digital divide, the separation of individual and district-level contributions, and latent gap signals derived from text.
+\end{quoteblock}
+
+The three analyses in this chapter are sequentially connected. First, this study constructs a UMC index by autonomous district in Seoul to measure regional disparities (\ref{subsec:3-1}). It then uses these results as district-level variables to analyze the effects of individual and district characteristics on individuals' digital connectivity (\ref{subsec:3-2}). Finally, it derives concrete cases not captured by the quantitative analysis through digital platform text. This sequence consists of measurement, causal identification, and phenomenological supplementation, and Section~\ref{subsec:3-4} synthesizes the results of the three analyses.
+
+\subsection{Regional Disparities in UMC in Seoul}
+\label{subsec:3-1}
+
+\subsubsection{Measurement Indicators and Data}
+\label{subsubsec:3-1-1}
+
+The measurement indicators constructed in this project are based on the conceptual definitions of the six dimensions of UMC. These dimensions are classified as Connectivity, Available for Use, Affordability, Devices, Skills, and Safety, and the individual measurement indicators were specified according to two core components that simultaneously consider meaningfulness and universality~\citep{ITU2023}. The measurement indicators for the six dimensions comprising Seoul's UMC used in this analysis are shown in Table~\ref{tab:1-umc-dims}.
+
+In selecting measurement indicators, the analysis comprehensively considered alignment with conceptual definitions, Seoul's digital technology environment, and data availability. The analysis used data from two time points, 2023 and 2024, the most recent years for which data could be secured. National administrative data and related sources from these two time points were used. However, because of limitations in the timing of data provision, the Devices, Skills, and Safety dimensions applied the same values for both time points based on 2023 survey data.
+
+For Connectivity, measurement indicators were calculated using mobile communication radio station data provided by Korea Radio Promotion Association and living population data from Seoul's administrative data. According to \citet{ITU2023}, Connectivity can be measured based on the population residing within network coverage. In Korea, however, the separation between workplace and residence is often pronounced, so the area of residence may differ from the area where individuals actually access the digital environment. Accordingly, this study devised an indicator more appropriate to the Korean context by calculating 4G and 5G network coverage using daytime floating population data rather than simple resident population. Specifically, the numbers of 4G base stations and 5G base stations were each converted into the number of base stations per 1{,}000 daytime living population at the enumeration-district level, and the final indicator used the average of these values by autonomous district.
+
+Available for Use is the dimension that measures the practical usability of digital services. Monthly mobile data usage per household within each area, provided by SKT communication information, and online service usage days in four categories---finance, shopping, video, and delivery---were aggregated monthly by autonomous district as population-weighted averages, and the 12-month average values were used. In addition, data on public Wi-Fi registration status from autonomous district governments were used to calculate and include the number of public Wi-Fi APs per 1{,}000 total population. Public Wi-Fi density functions as an especially important digital access pathway for older adults whose home internet access environment is limited~\citep{vanDijk2020}.
+
+Affordability was constructed following the two-axis structure of the ITU ICT Development Index 2023~\citep{ITU2024}. For the purchasing power (capacity) side, the analysis used average monthly household income by autonomous district provided by Seoul's Commercial District Analysis Service. For the price burden side, it used the share of bill arrears within the most recent three months from SKT communication information. The arrears rate was calculated as a population-weighted average by administrative dong, sex, and age group, and then aggregated to the autonomous-district level; it is a reverse-coded indicator, meaning that higher values indicate lower economic accessibility.
+
+Devices measures the possession and diversity of use of digital devices. The weighted averages by autonomous district were calculated for the number of core digital device types owned within households and the number of device types actually used by individuals, based on the Seoul Citizens' Digital Competency Survey. According to \citet{ITU2023}, possession and use are interpreted differently depending on device characteristics, such as mobile phones and computers. In the Korean domestic context, whether a computer is owned can also be an indicator of digital connectivity. In Seoul, where smartphone penetration is effectively saturated, ownership of auxiliary devices such as desktops, laptops, and tablets acts as a differentiating factor in digital usage capability~\citep{vanDeursenHelsper2015}.
+
+Digital Skills comprises four subdomains: Basic, Applied, Advanced, and Cyber activity. Basic competency measures the basic ability to operate smart devices; Applied competency measures the ability to use digital services; Advanced competency measures proficiency in smart-device activities; and Cyber activity competency measures the ability to act in cyberspace. The raw score for each subdomain was divided by its maximum possible score and converted to a 0--1 ratio, after which weighted averages were calculated by autonomous district.
+
+Safety comprises two subindicators: digital security behavior and security awareness. Security behavior measures actual security practices, such as password management, software updates, and use of two-factor authentication, while security awareness measures the level of recognition of the importance of personal information protection. Each subindicator was converted to a ratio relative to its maximum possible score, and weighted averages were then calculated by autonomous district.
+
+\begin{table*}[htbp]
+  \centering\small
+  \caption{UMC Dimension Indicators}
+  \label{tab:1-umc-dims}
+  \begin{tabularx}{\textwidth}{l Y Y Y}
+    \toprule
+    \textbf{Dimension} & \textbf{Indicators} & \textbf{Data Source} & \textbf{Note} \\
+    \midrule
+    Connectivity & station\_density\_4g, station\_density\_5g, download\_speed & Spectrum Resource Mgmt System; NIA Communication Quality & Per 1K daytime living population; CQ uses 2022--2024 average \\
+    \addlinespace[2pt]
+    Available for Use & mobile\_data\_usage, online\_service\_days, wifi\_density & SKT Telecom Data; Local Administrative Wi-Fi License Data & Population-weighted district average; Wi-Fi per 1K total population \\
+    \addlinespace[2pt]
+    Affordability & avg\_income, delinq\_rate (reverse) & Seoul Commercial Analysis Service; SKT Telecom Data & ITU IDI capacity + burden; delinq = reverse-coded \\
+    \addlinespace[2pt]
+    Devices & device\_home\_core, device\_use\_core & Seoul Citizens' Digital Competency Survey 2023 & Home: excluding smartphones; Use: including smartphones \\
+    \addlinespace[2pt]
+    Digital Skills & Basic / Applied / Advanced / Cyber activity & Seoul Citizens' Digital Competency Survey 2023 & --- \\
+    \addlinespace[2pt]
+    Safety & safety\_behavior, safety\_awareness & Seoul Citizens' Digital Competency Survey 2023 & Security practices (7 items) + awareness (3 items) \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
+
+\subsubsection{Indexing the Measurement Indicators}
+\label{subsubsec:3-1-2}
+
+All raw indicators were normalized to the $[0,1]$ interval through Min-Max scaling across the 25 autonomous districts. The normalized value $x^{*}$ is calculated as shown in Equation~\eqref{eq:minmax}.
+
+\begin{equation}\label{eq:minmax}
+  x^{*} = \frac{x_{i} - x_{\min}}{x_{\max} - x_{\min}}
+\end{equation}
+
+At this stage, reverse-direction indicators, for which larger values indicate worse outcomes, were transformed so that all indicators had a consistent direction. Next, the normalized indicators within each dimension were combined using an equally weighted arithmetic mean to calculate dimension-level scores. Equal weights were used in the analysis to minimize arbitrary researcher judgment in the absence of an agreed standard for the relative importance of the six dimensions~\citep{ITU2024}. The resulting composite index ranges from 0 (lowest) to 1 (highest), and was calculated independently for 2023 and 2024 for all 25 autonomous districts in Seoul. A key point for interpretation is that this composite index represents each district's relative position among other autonomous districts in Seoul, rather than an absolute level of regional UMC.
+
+\subsubsection{Characteristics of the UMC Index by District}
+\label{subsubsec:3-1-3}
+
+The 2024 UMC composite index for the 25 autonomous districts ranged from 0.279 (Jungnang-gu) to 0.695 (Seocho-gu), indicating an approximately 2.5-fold gap between the highest and lowest districts. Despite the common perception that Seoul is a city with high internet penetration, a substantial relative digital connectivity divide was observed at the lower administrative-unit level. The top five autonomous districts were Seocho-gu (0.695), Yeongdeungpo-gu (0.686), Mapo-gu (0.665), Seodaemun-gu (0.615), and Yongsan-gu (0.603). The bottom five were Jungnang-gu (0.279), Dobong-gu (0.303), Gangbuk-gu (0.380), Guro-gu (0.389), and Nowon-gu (0.389). Higher-ranked districts were generally located in the central city or the Gangnam area, benefiting from dense commercial activity, high income levels, and abundant private digital infrastructure, whereas lower-ranked districts were concentrated in the northern periphery and the southwest.
+
+Examining the spatial distribution of the composite index (Figure~\ref{fig:3-umc-comp}), autonomous districts with high UMC index values were concentrated in two areas. These were the Han River and central-city corridor running from Seocho to Yeongdeungpo and Mapo, and the traditional downtown area centered on Yongsan, Jongno, and Jung-gu. By contrast, the northern periphery (Gangbuk-gu, Dobong-gu, Nowon-gu) and the southwest (Guro-gu, Geumcheon-gu) scored below the city average. This spatial distribution was associated with the distribution of socioeconomic resources in Seoul. In other words, it suggests that the digital divide may be closely linked to structural spatial inequality in the city.
+
+At the same time, the dimension-level analysis found that no autonomous district performed uniformly well across all six dimensions (Figure~\ref{fig:3-umc-heatmap}). For example, Eunpyeong-gu in northern Seoul ranked high in the Connectivity dimension, with a score of 0.781, but remained in the lower tier in the Affordability dimension, with a score of 0.328. Similarly, Gwanak-gu ranked first in the Digital Skills dimension, with a score of 0.795, but fell into the lowest tier for Affordability, at 0.152. These multidimensional inter-district inequalities indicate that policy-relevant dimension-specific vulnerabilities cannot be captured by the composite ranking alone.
+
+\begin{keymsg}[title=Key Finding \textperiodcentered{} Four Digital Desert Districts]
+The bottom-ranked districts on the composite index (Jungnang, Dobong, Gangbuk, Nowon) exhibit joint deficits on the Devices and Safety dimensions and form a spatial cluster in northern Seoul. This provides justification for a sub-regional cooperative governance framework.
+\end{keymsg}
+
+In conclusion, as shown in Figure~\ref{fig:3-umc-dim}, this project provisionally classifies the four spatially clustered autonomous districts in the lowest group of the composite index (Jungnang-gu, Dobong-gu, Gangbuk-gu, and Nowon-gu) as Digital Deserts. These districts commonly exhibit clear deficits in the Devices and Safety dimensions, and Affordability also falls below the Seoul average. Meanwhile, in the Connectivity dimension, some districts (Jungnang-gu 0.630, Gangbuk-gu 0.562) exceed the Seoul average, indicating that the core divide may stem from insufficient human and economic capabilities to use physical network infrastructure rather than from the absence of that infrastructure itself. This finding is examined more systematically in Section~\ref{subsec:3-2} by separating and testing the relative contributions of individual-level and district-level variables in a multilevel analysis.
+
+In addition, geographically adjacent areas displayed similar patterns in some dimensions of UMC. Figure~\ref{fig:3-lisa-grid} shows the spatial autocorrelation of districts by dimension. The fact that spatially clustered autonomous districts show similar patterns suggests the possibility of establishing a metropolitan governance system to address Digital Deserts.
+
+In conclusion, as shown in Figure~\ref{fig:3-umc-dim}, this project provisionally classifies the five autonomous districts in the lowest group of the composite index (Jungnang-gu, Dobong-gu, Gangbuk-gu, Guro-gu, and Nowon-gu) as Digital Deserts. These districts commonly exhibit clear deficits in the Devices and Safety dimensions, and Affordability also falls below the Seoul average. Meanwhile, in the Connectivity dimension, some districts (Jungnang-gu 0.630, Gangbuk-gu 0.562) exceed the Seoul average, indicating that the core divide may stem from insufficient human and economic capabilities to use physical network infrastructure rather than from the absence of that infrastructure itself. This finding is examined more systematically in Section~\ref{subsec:3-2} by separating and testing the relative contributions of individual-level and district-level variables in a multilevel analysis. In addition, geographically adjacent areas displayed similar patterns in some dimensions of UMC. Figure~\ref{fig:3-lisa-grid} shows the spatial autocorrelation of districts by dimension. The fact that spatially clustered autonomous districts show similar patterns suggests the possibility of establishing a metropolitan governance system to address Digital Deserts.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.55\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{image5.png}
+    \caption{UMC composite scores by district}
+    \label{fig:3-umc-comp}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.43\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{image6.png}
+    \caption{Heatmap of UMC dimension scores}
+    \label{fig:3-umc-heatmap}
+  \end{subfigure}
+  \caption{UMC composite score by district and dimension-level heatmap}
+  \label{fig:3-umc-two}
+\end{figure}
+
+\figfull{image7.png}{UMC dimension scores}{fig:3-umc-dim}
+
+\begin{figure*}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{image8.jpg}
+    \caption{Connectivity}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{image9.jpg}
+    \caption{Available for Use}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{image10.jpg}
+    \caption{Affordability}
+  \end{subfigure}
+
+  \vspace{4pt}
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{image11.jpg}
+    \caption{Devices}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{image12.jpg}
+    \caption{Digital Skills}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{image13.jpg}
+    \caption{Safety}
+  \end{subfigure}
+  \caption{Spatial autocorrelation by UMC level across Seoul's 25 autonomous districts}
+  \label{fig:3-lisa-grid}
+\end{figure*}
+
+\subsection{Individual and District Characteristics and Digital Connectivity}
+\label{subsec:3-2}
+
+The data used in this study have a hierarchical structure in which individuals (Level 1) are clustered within autonomous districts (Level 2). Here, Level 2 corresponds to each individual's place of residence. In this structure, conventional OLS regression can violate the assumption of independent observations, underestimate the standard errors of district-level predictors, and inflate Type I error~\citep{RaudenbushBryk2002}. Therefore, this study adopted a two-level hierarchical linear model (HLM) that decomposes variance into within-district and between-district components across Seoul's 25 autonomous districts and allows individual-level and district-level variables to be entered simultaneously.
+
+The Seoul Survey, used in the second analysis, is administrative data that the Seoul Metropolitan Government has collected annually since 2003 from 20{,}000 households. Data collection is conducted every August--September through a combination of non-face-to-face and in-person interviews.
+
+\subsubsection{Variable Construction}
+\label{subsubsec:3-2-1}
+
+First, the dependent variable in the analysis, the digital usage score, is the summed score of eight items on digital service usage frequency among the Seoul Survey response items. The eight items consist of living information services, e-commerce services, financial transaction services, public services, communication services, leisure services, education and learning services, and mobile payment. These are not basic acts of connection such as phone calls or text messaging, but rather substantive additional uses mediated by digital devices, and were therefore judged to be indicators suited to Seoul's advanced digital environment. Each item was transformed from its original four-point ordinal scale into a 0--10 continuous scale, yielding a continuous variable ranging from 0 to 80 points. A higher score means that an individual uses a more diverse range of digital services and can freely use desired services.
+
+The independent variables in this analysis are divided into individual-characteristic variables and district-characteristic variables (Table~\ref{tab:2-hlm-vars}). The individual-characteristic variables consist of sex, age, occupation, educational attainment, income level, and disability status, all of which may affect individual digital usage. Educational attainment was divided into four categories: middle school completion or below, high school completion, college graduation (reference category), and graduate school or above. Occupation was divided into four categories: managers and professionals, clerical workers (reference category), production and technical workers, and other (students, homemakers, and unemployed persons). Housing type was classified into four categories: apartment (reference category), detached house, multiplex and multi-household housing, and other. Age and income were grand-mean centered to improve the interpretability of the intercept. In addition, a single-person household dummy, a disability-status dummy, and a year dummy (reference: 2023) were included.
+
+As Level 2 variables, the analysis used three UMC dimension scores constructed in Section~\ref{subsec:3-1} that represent exogenous factors determining the local digital environment: Connectivity, Available for Use, and Affordability. This choice reflects that Devices, Digital Skills, and Safety are aggregated to the autonomous-district level from individual responses in the Seoul Citizens' Digital Competency Survey. To avoid the resulting endogeneity problem, these three dimensions were excluded from the main analysis, and dimensions judged more appropriate for district-level universal meaningful connectivity were selected. District average income and the aging rate were included as control variables, and all Level-2 variables were standardized to the $[0,1]$ range using Min-Max normalization, as in Section~\ref{subsec:3-1}.
+
+The analysis proceeds in four steps. After estimating an unconditional model and calculating the intraclass correlation coefficient (ICC) to confirm the justification for multilevel analysis, the study sequentially estimates M1, which includes individual-level variables; M2, which adds autonomous district-level variables; and M3, which includes cross-level interactions. The cross-level interactions are constructed as products of UMC infrastructure variables (Connectivity, Available for Use, and Affordability) and vulnerable-group indicators, in order to test whether the level of digital infrastructure in an autonomous district operates differently for the digital usage of vulnerable groups.
+
+\subsubsection{Analysis Results}
+\label{subsubsec:3-2-2}
+
+The sample used in the analysis consists of a total of 10{,}000 Seoul Survey respondents from 2023--2024, with an average of 400 sampled from each of the 25 autonomous districts. Table~\ref{tab:3-descstat} presents descriptive statistics for the main variables. The mean value of individual digital connectivity was 60 out of 80 points, clearly demonstrating the high level of digital connectivity among Seoul residents. Although the dependent variable may exhibit negative skewness, the analysis was conducted using the scale-linearized raw scores, given the institutional standard scale and a sample size approaching 10{,}000.
+
+Table~\ref{tab:4-hlm-results} presents the sequential estimation results of the multilevel models. The intraclass correlation coefficient (ICC) of the unconditional model was 0.49\%, indicating that the share of between-district variance itself was not large. However, the design effect, calculated in light of the average sample size of 400 persons per autonomous district, was 2.94, exceeding the threshold of 2.0 and confirming the validity of using a multilevel model~\citep{HoxEtAl2018}. Nevertheless, taken together, the small number of 25 autonomous districts and the very small share of variance explained by autonomous districts suggest that district-level connectivity-related characteristics may have an extremely limited effect on individual digital connectivity. These results may indicate that, because Seoul has excellent digital connectivity and a high level of digital competency, district-level connectivity infrastructure does not exert a measurable effect. In addition, because the Seoul Survey records individuals' residential districts, those districts may not correspond to the areas where individuals are directly affected by connectivity.
+
+Among individual characteristics, the association with educational attainment was the most pronounced. Education of middle school completion or below was associated with a digital usage score approximately 22.6 points lower than that of college graduates. This is a substantial gap, corresponding to 28\% of the 80-point scale. High school graduates also scored 7.3 points lower than college graduates, whereas those with graduate school education or above scored 2.9 points higher, confirming a clear positive relationship between educational attainment and digital usage capacity. Age also had a significant effect. For each one-year increase from the mean age, the score for individual digital connectivity decreased by 0.35 points, and among older adults aged 65 or above, an additional 6.0-point decline was observed apart from the age effect. A pronounced decline in digital connectivity appeared among those aged 65 or above. In terms of occupation, managers and professionals scored 2.3 points higher than clerical workers, indicating that higher-income occupations tended to have higher levels of digital usage. In terms of the residential environment, residents of detached houses scored 2.5 points lower than apartment residents, and residents of multiplex or multi-household housing scored 1.8 points lower.
+
+\begin{table*}[htbp]
+  \centering\small
+  \caption{Variable Descriptions}
+  \label{tab:2-hlm-vars}
+  \begin{tabularx}{\textwidth}{l Y c l l}
+    \toprule
+    \textbf{Variable} & \textbf{Description} & \textbf{Level} & \textbf{Scale} & \textbf{Source} \\
+    \midrule
+    digital\_use\_score & Digital service usage score (sum of 8 items) & L1 & 0--80 (continuous) & Seoul Survey 2023--24 \\
+    \addlinespace[2pt]
+    age\_c & Age (grand-mean centered, M = 49.3) & L1 & years & Seoul Survey \\
+    \addlinespace[2pt]
+    female & Female (ref: male) & L1 & 0/1 & Seoul Survey \\
+    \addlinespace[2pt]
+    Edu & Education: $\leq$middle school / high school / graduate school or higher (ref: college) & L1 & 0/1 each & Seoul Survey \\
+    \addlinespace[2pt]
+    Income & Monthly income (grand-mean centered) & L1 & 10K KRW & Seoul Survey \\
+    \addlinespace[2pt]
+    job & Job: professional / blue-collar / other (ref: white-collar) & L1 & 0/1 each & Seoul Survey \\
+    \addlinespace[2pt]
+    disabled\_bin & Disability status & L1 & 0/1 & Seoul Survey \\
+    \addlinespace[2pt]
+    hh\_size\_1 & Single-person household & L1 & 0/1 & Seoul Survey \\
+    \addlinespace[2pt]
+    housing\_detached / \_multi / \_other & Housing: detached / multi-family / other (ref: apartment) & L1 & 0/1 each & Seoul Survey \\
+    \addlinespace[2pt]
+    year & Year 2024 dummy (ref: 2023) & L1 & 0/1 & Seoul Survey \\
+    \addlinespace[2pt]
+    elderly & Older adults ($\geq$65) & L1 & 0/1 & Seoul Survey \\
+    \addlinespace[2pt]
+    low\_edu & Lower educational attainment ($\leq$middle school) & L1 & 0/1 & Seoul Survey \\
+    \addlinespace[2pt]
+    connectivity & Connectivity dimension score (normalized) & L2 & 0--1 & UMC Part 1 \\
+    \addlinespace[2pt]
+    wifi\_total\_n & Public Wi-Fi density per 1K population (normalized) & L2 & 0--1 & Local Admin License \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
+
+This finding can be interpreted as reflecting not only income-level differences by housing type but also differences in internet connectivity conditions by building type. Single-person households also scored 1.8 points lower than multi-person households. Among other individual characteristics, women scored 2.6 points higher than men. Women's higher digital connectivity relative to men may reflect their greater responsiveness to various digital services in Korea. These results should be interpreted with attention to country-specific sociocultural contexts. Respondents with disabilities scored 3.1 points higher, which appears attributable to the characteristics of the sample.
+
+At the autonomous district level, the UMC infrastructure dimensions were generally not significant as main effects. In Model 2, none of the three dimensions reached statistical significance, and the likelihood-ratio test likewise indicated no significant improvement over Model 1. However, in Model 3, which included cross-level interactions, the Infrastructure dimension showed a significant negative effect. This indicates the presence of differential effects across groups rather than an average infrastructure effect.
+
+The central finding of this analysis emerged in the cross-level interactions. The interaction between public Wi-Fi density and the older adult dummy showed a significant positive effect of 3.03 points. This means that public Wi-Fi infrastructure provides relatively greater benefits to older adults than to non-older adults. Residents with lower educational attainment living in autonomous districts with higher levels of digital infrastructure recorded markedly higher digital usage scores than residents with lower educational attainment in areas with lower infrastructure levels. This finding suggests that infrastructure investment may have a disproportionately large effect in reducing the digital divide among educationally vulnerable groups.
+
+At the individual level, the interactions confirmed a pattern of double vulnerability. Older adults living alone scored an additional 4.0 points lower than older adults not living alone, and the negative effect of lower educational attainment became larger with age. These findings show that compound vulnerability factors intensify the digital divide more than any single vulnerability factor.
+
+\begin{table*}[htbp]
+  \centering\small
+  \caption{Descriptive Statistics}
+  \label{tab:3-descstat}
+  \begin{tabularx}{\textwidth}{Y r r r r r}
+    \toprule
+    \textbf{Variable} & \textbf{N} & \textbf{Mean} & \textbf{SD} & \textbf{Min} & \textbf{Max} \\
+    \midrule
+    Digital usage score & 10,000 & 60.88 & 16.84 & 0 & 80 \\
+    Age & 10,000 & 49.32 & 16.23 & 15 & 99 \\
+    Female, proportion & 10,000 & 0.51 & --- & 0 & 1 \\
+    Education: $\leq$ middle school & 10,000 & 0.07 & --- & 0 & 1 \\
+    Education: high school & 10,000 & 0.25 & --- & 0 & 1 \\
+    Education: graduate school or higher & 10,000 & 0.13 & --- & 0 & 1 \\
+    Disability status & 10,000 & 0.03 & --- & 0 & 1 \\
+    Monthly income (10K KRW) & 10,000 & 237.55 & 209.73 & 0 & 1{,}050 \\
+    Single-person household & 10,000 & 0.17 & --- & 0 & 1 \\
+    Older adults (age 65+) & 10,000 & 0.22 & --- & 0 & 1 \\
+    Cluster-level Connectivity Index (norm.) & 50 & 0.5 & 0.18 & 0.18 & 0.98 \\
+    Available for Use (norm.) & 50 & 0.5 & 0.19 & 0.12 & 0.96 \\
+    Affordability (norm.) & 50 & 0.5 & 0.22 & 0.07 & 1 \\
+    \bottomrule
+    \multicolumn{6}{p{0.97\textwidth}}{\footnotesize\textit{Note.} N = 10{,}000 individuals nested within $j$ = 25 autonomous districts (2023--2024 pooled). Income is measured in 10{,}000 KRW units. District-level variables are min-max normalized indices (0--1 scale).}
+  \end{tabularx}
+\end{table*}
+
+\begin{table*}[htbp]
+  \centering\small
+  \caption{HLM Estimation Results}
+  \label{tab:4-hlm-results}
+  \begin{tabularx}{\textwidth}{l Y Y Y}
+    \toprule
+    \textbf{Variable} & \textbf{Model 1} & \textbf{Model 2} & \textbf{Model 3} \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Level 1: Individual characteristics}} \\
+    \addlinespace[2pt]
+    Age (centered) & $-0.347^{***}$ (0.012) & $-0.347^{***}$ (0.012) & $-0.278^{***}$ (0.014) \\
+    Female & $2.636^{***}$ (0.305) & $2.634^{***}$ (0.305) & $2.601^{***}$ (0.305) \\
+    Education: middle school or below & $-22.618^{***}$ (0.770) & $-22.610^{***}$ (0.770) & $-19.019^{***}$ (2.379) \\
+    Education: high school & $-7.289^{***}$ (0.380) & $-7.282^{***}$ (0.380) & $-7.258^{***}$ (0.380) \\
+    Education: graduate school or higher & $2.906^{***}$ (0.483) & $2.909^{***}$ (0.483) & $2.912^{***}$ (0.481) \\
+    Income (centered) & $0.003^{**}$ (0.001) & $0.003^{**}$ (0.001) & $0.002^{**}$ (0.001) \\
+    Job: professional & $2.329^{***}$ (0.451) & $2.326^{***}$ (0.451) & $2.28^{***}$ (0.449) \\
+    Job: blue-collar & $-0.373$ (0.424) & $-0.379$ (0.424) & $-0.385$ (0.423) \\
+    Job: other & $-1.233^{**}$ (0.456) & $-1.226^{**}$ (0.456) & $-1.105^{*}$ (0.454) \\
+    Disability & $3.084^{***}$ (0.888) & $3.081^{***}$ (0.888) & $3.006^{***}$ (0.884) \\
+    Single-person household & $-1.775^{***}$ (0.338) & $-1.776^{***}$ (0.338) & $-0.877^{*}$ (0.367) \\
+    Detached house & $-2.478^{***}$ (0.377) & $-2.480^{***}$ (0.377) & $-2.574^{***}$ (0.379) \\
+    Multi-family housing & $-1.798^{***}$ (0.408) & $-1.795^{***}$ (0.408) & $-1.933^{***}$ (0.408) \\
+    Year (2024) & $0.294$ (0.283) & $0.292$ (0.283) & $0.292$ (0.283) \\
+    Older adults (age 65+) & $-6.046^{***}$ (1.696) & & \\
+    \addlinespace[4pt]
+    \multicolumn{4}{l}{\textit{Level 2: Autonomous district characteristics}} \\
+    \addlinespace[2pt]
+    Connectivity & $-1.127$ (0.747) & $-1.688^{*}$ (0.804) & \\
+    Available for Use (Wi-Fi) & $0.085$ (0.780) & $-0.200$ (0.829) & \\
+    Affordability & $-1.578$ (1.135) & & \\
+    Autonomous district income & $-2.035^{\dagger}$ (1.181) & & \\
+    Aging rate & $-0.298$ (1.095) & $-0.293$ (1.111) & \\
+    \addlinespace[4pt]
+    \multicolumn{4}{l}{\textit{Interactions}} \\
+    \addlinespace[2pt]
+    Older adults $\times$ single-person household & $-3.958^{***}$ (0.936) & & \\
+    Age $\times$ lower educational attainment & $-0.277^{***}$ (0.080) & & \\
+    \addlinespace[4pt]
+    \multicolumn{4}{l}{\textit{Cross-level interactions}} \\
+    \addlinespace[2pt]
+    Connectivity $\times$ older adults & $-1.920$ (1.901) & & \\
+    Wi-Fi $\times$ older adults & $3.026^{*}$ (1.515) & & \\
+    Autonomous district income $\times$ older adults & $2.358$ (1.532) & & \\
+    Connectivity $\times$ lower educational attainment & $10.936^{***}$ (3.370) & & \\
+    \bottomrule
+    \multicolumn{4}{p{0.97\textwidth}}{\footnotesize\textit{Note.} Unstandardized coefficients with standard errors in parentheses. Model 0 = null model (intercept only). Reference categories: male, college education, white-collar job, apartment, multi-person household. $^{\dagger}p<.10$, $^{*}p<.05$, $^{**}p<.01$, $^{***}p<.001$.}
+  \end{tabularx}
+\end{table*}
+
+\subsection{Platform Text Analysis: LLM-Based Case Analysis of Digital Connectivity}
+\label{subsec:3-3}
+
+Sections~\ref{subsec:3-1} and~\ref{subsec:3-2} quantitatively measured Seoul's digital divide using administrative data and survey data and separated the roles of individual characteristics and regional infrastructure. However, quantitative indicators alone make it difficult to capture when, and in what contexts, residents experience a lack of digital connectivity in everyday life. Qualitative evidence must therefore be integrated to narrow the distance between lived experience in the lifeworld and structural indicators of digital connectivity.
+
+The purpose of this section is to use unstructured text from a local community platform to systematically extract latent cases of digital deprivation across the six dimensions of UMC (Connectivity, Available for Use, Affordability, Devices, Digital Skills, Safety) and to present a methodological framework for combining these cases with the quantitative analyses in Sections~\ref{subsec:3-1} and~\ref{subsec:3-2}. Rather than treating the platform itself as the object of analysis, the section seeks to recover the connection between structure and experience through the district-level lived-experience data provided by the platform.
+
+\subsubsection{Characteristics of the Danggeun Platform}
+\label{subsubsec:3-3-1}
+
+The source of the unstructured text is neighborhood-life posts from Danggeun, a Korean local community platform. Danggeun was selected for three reasons. First, each post is automatically assigned geographic metadata at the administrative-dong and autonomous-district levels, allowing direct linkage with the UMC index constructed in Section~\ref{subsec:3-1}. Second, platform users are distributed broadly across all of Seoul's 25 autonomous districts, reducing concentration in a specific area or age group. Third, because posts voluntarily record digital problems encountered in everyday life, they can reveal lived deprivations that researchers may not capture through surveys. The focus of this study is not to evaluate the platform itself, but to use these structural advantages to collect experiences from the lifeworld.
+
+\subsubsection{Why LLMs: Limitations of Existing Methods and the Structural Advantages of LLMs}
+\label{subsubsec:3-3-2}
+
+Classifying unstructured text according to the six dimensions of UMC requires meeting two requirements. First, it is necessary to determine accurately whether a post is related to a digital connectivity problem and, if it is, which dimension it corresponds to. Second, colloquial Korean written in everyday language is difficult to process accurately with simple morphological analyzers because of its agglutinative features, including complex particles and inflectional endings. Existing topic modeling or keyword-based classification is useful for identifying latent themes, but it either does not align with predefined dimensions or has limitations in analyzing conversational text. These limitations are more pronounced because Korean morphological analyzers have low accuracy on colloquial data, while machine-learning models that require data training demand sufficiently large labeled datasets.
+
+Large language models (LLMs) overcome a substantial share of these constraints. Because they are pretrained multilingually, they can grasp context without Korean morphological analysis, and models that handle 104 or more languages simultaneously share cross-linguistic semantic representations that allow them to adapt to new tasks with only a small number of examples. When LLMs are used as tools, their probabilistic outputs and variability must be considered. Because results can differ even for the same input, this study fixed the analytic procedure and used the LLM only as a computational module for classification and inference. This design makes it possible to apply researcher-defined classification rules and inference protocols consistently while drawing on the contextual understanding capacity of the LLM.
+
+\subsubsection{Analytic Structure}
+\label{subsubsec:3-3-3}
+
+The text analysis consists of four stages. First, inaccessible posts deleted from the crawled raw CSV data, along with advertising and duplicate posts, are removed, and candidate UMC posts are extracted using keyword dictionaries for the six dimensions. The keyword dictionaries organize terms directly or indirectly related to digital connectivity, and only posts containing those terms are extracted in the first pass. Next, a first-stage classification (umc\_related = Y/N/?) determines whether each post is related to a digital connectivity problem; to broaden the scope of judgment, the LLM is used without detailed examples or restrictions. Then, only posts confirmed as related are classified into cases corresponding to the six conceptual dimensions by presenting the LLM with a few-shot prompt that includes detailed examples provided by the user. In this stage, the model's autonomy is constrained by providing only concrete classification criteria and specifications, including examples in the prompt, and by strictly managing the context, that is, the information space the model refers to in making judgments.
+
+Table~\ref{tab:5-text-sample} summarizes the analytic structure and sampling process. Of the 1{,}287{,}761 raw records, approximately 51.5\% were excluded from the analysis because their body text could not be viewed due to poster withdrawal or blocking. After duplicate and advertising posts were removed, approximately 480{,}000 posts remained, and applying the keyword dictionaries for the six dimensions extracted 26{,}742 UMC-related candidates. In the first-stage judgment using the few-shot prompt, approximately 57.7\% (15{,}438 posts) were classified as related (Y), 29.6\% (7{,}921 posts) as unrelated (N), and 12.6\% (3{,}383 posts) as indeterminate (?). Dimension classification was then conducted only on the posts classified as Y.
+
+In the dimension-classification judgment, the LLM was given prompts containing three to four representative examples for each dimension. Such few-shot prompts help the model learn human judgment criteria and have been shown to perform better than zero-shot prompting on complex tasks. The examples also included negative examples showing which types of posts were unrelated to digital connectivity issues, thereby narrowing relevance as much as possible and securing high precision. In the second-stage dimension classification, only specific classification criteria and definitions were provided in the prompt, so that the model could classify cases more autonomously. In this respect, the earlier stage used an example-based few-shot approach, whereas the later stage used rule-based prompts, showing a balance between reasoning and few-shot prompting (see Figure~\ref{fig:3-pipeline-roles}).
+
+\begin{table}[htbp]
+  \centering\small
+  \caption{Text analysis sampling and judgment procedure}
+  \label{tab:5-text-sample}
+  \begin{tabularx}{\linewidth}{l Y r}
+    \toprule
+    \textbf{Stage} & \textbf{Description} & \textbf{Remaining posts} \\
+    \midrule
+    Raw data & All Neighborhood Life posts written between May 2024 and March 2026 & 1{,}287{,}761 \\
+    Accessible posts & Removed posts whose body text could not be checked because of account withdrawal or blocking & 624{,}564 \\
+    Duplicate and advertisement removal & Removed duplicate content and advertising or promotional posts & 480{,}972 \\
+    UMC keyword filter & Extracted candidate posts by applying keyword dictionaries for the six dimensions & 26{,}742 \\
+    First-stage judgment & Classified UMC relevance using a few-shot prompt & --- \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\fig{image14.png}{Distinguishing the roles of classification and reasoning}{fig:3-pipeline-roles}
+
+Subsequently, the classification results are aggregated at the autonomous district level to create expression profiles, and Bayesian updating is applied to combine them with the quantitative indicators in Section~\ref{subsec:3-1}. The prior distribution is the latent space of the six UMC concepts. For autonomous district $j$ in dimension $d$, let the observed UMC value be $s_{jd}$. The prior distribution is $\mathrm{Beta}(\alpha_{jd}, \beta_{jd})$ with mean $s_{jd}$. Using the concentration parameter $\kappa$, it is expressed as $\alpha_{jd} = s_{jd}\cdot\kappa$, $\beta_{jd} = (1 - s_{jd})\cdot\kappa$. In the text classification, when the number of posts assigned to the corresponding dimension is $y_{jd}$ and the total number of classified posts is $n_{jd}$, the likelihood is expressed as $\mathrm{Binomial}(n_{jd}, \theta_{jd})$. The posterior distribution is $\theta_{jd}\mid y_{jd} \sim \mathrm{Beta}(\alpha_{jd}+y_{jd}, \beta_{jd}+n_{jd}-y_{jd})$. The prior concentration $\kappa$ uses a default value of 20, with sensitivity analyses at 10 and 30. To prevent the posterior distribution in autonomous districts with small numbers of posts from being excessively dominated by the prior, the post count $n_{jd}$ is adjusted by the living population and used as $n_{jd}^{*} = n_{jd}\times(\text{livingpop}_{j}/\overline{\text{livingpop}})$.
+
+\begin{align}
+\alpha_{jd} &= \kappa \times s_{jd} \label{eq:alpha} \\
+\beta_{jd}  &= \kappa \times (1 - s_{jd}) \label{eq:beta} \\
+\theta_{jd}\mid y_{jd} &\sim \mathrm{Beta}\bigl(\alpha_{jd}+y_{jd},\, \beta_{jd}+n_{jd}-y_{jd}\bigr) \label{eq:posterior} \\
+n_{jd}^{*} &= n_{jd}\times\bigl(\text{livingpop}_{j}/\overline{\text{livingpop}}\bigr) \label{eq:popadj}
+\end{align}
+
+In the Bayesian aggregation, qualitative inference about causal mechanisms was conducted for autonomous district-dimension combinations in which the posterior distribution estimated from posts moved meaningfully away from the prior distribution. Specifically, interpretation was performed only when (1) the posterior shift was statistically significant, (2) there were at least five posts classified as Y in the relevant autonomous district and dimension, and (3) the interpretation remained within the bounds permitted by the multilevel model results in Section~\ref{subsec:3-2}. For the combinations derived from the prior distribution, three to five representative posts were selected, and the linkage pathway between structural indicators and lived experience was described in one or two sentences. Classification and inference were conducted by three independent agents through different reasoning paths, and the final judgment was made by a fourth agent who compared and verified the three results. This followed a triangulation approach that controls bias through cross-validation from multiple perspectives rather than relying on a single protocol.
+
+All classification and inference tasks were conducted by three independent analytical agents using prompts and contexts based on different reasoning approaches, and a fourth analyst compared and verified the three results. This procedure is grounded in the triangulation approach used in qualitative research to reduce bias by drawing on multiple data sources and analysts. A post was included in the final analysis only when the three perspectives converged, and interpretive uncertainty was reflected in the presentation of the results. The results of this process are summarized in Table~\ref{tab:6-units} and Figure~\ref{fig:3-pipeline-full}.
+
+\begin{table}[htbp]
+  \centering\small
+  \caption{Analysis units and interpretation units in Section~\ref{subsec:3-3}}
+  \label{tab:6-units}
+  \begin{tabularx}{\linewidth}{l l Y Y}
+    \toprule
+    \textbf{Category} & \textbf{Unit} & \textbf{What it shows} & \textbf{Interpretive cautions} \\
+    \midrule
+    Observation unit & Individual post & Clues to experiences of digital connectivity & Regional structure cannot be asserted on the basis of a single post alone \\
+    Pattern unit & Administrative-dong posts & Expression ratios and distributions by dimension & Aggregation criteria and sample bias must be reviewed together \\
+    Structural unit & UMC regional indicators & Regional-level connectivity conditions & Interpret only in a limited manner through consistency with the aggregated text results \\
+    Causal-mechanism unit & Inference mechanism & Explains the connection between cases and regional patterns & Interpret only within the bounds permitted by the quantitative results in Section~\ref{subsec:3-2} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsubsection{Data and Scope of Application}
+\label{subsubsec:3-3-4}
+
+The raw data consist of a crawl of all Neighborhood Life posts written for Seoul's 25 autonomous districts from May 2024 to March 2026, totaling 1{,}287{,}761 posts after duplicate removal. Of these, 766{,}891 posts (59.6\%), comprising 663{,}163 deleted (DELETED) posts (51.5\%) and 103{,}728 blocked (BLOCKED) posts (8.1\%), were excluded from the analysis because their body text could not be checked. The final analytic sample consists of approximately 520{,}000 posts.
+
+A review of the possibility of systematic bias from sample attrition showed that the standard deviation of removal rates across autonomous districts was 4.6\%, indicating that variation across districts was not large. Categories that were central to inferring digital deprivation, such as Life/Convenience (47.0\%), Neighborhood Incidents and Accidents (48.4\%), and Hospitals/Pharmacies (35.5\%), had lower removal rates than categories oriented toward socializing or promotion, such as Neighborhood Friends (86.6\%) and Education (69.0\%). A substantial share of deletions appears to have resulted from batch deletions associated with user withdrawal. Nevertheless, it cannot be completely ruled out that some deleted posts included cases related to digital deprivation, or that the act of deletion itself was systematically associated with digital deprivation. This constitutes a limitation of the present analysis.
+
+The structural limitations of the Danggeun data must also be recognized. Because platform users themselves are limited to groups with digital access, the experiences of digitally excluded groups are structurally underrepresented. Since the temporal and spatial distribution of posts is not uniform, sample bias may affect comparisons across autonomous districts. These limitations are constraints of the data source, not constraints of the methodology. In contexts where more direct qualitative data are available, the same pipeline could be applied to produce a more precise analysis.
+
+\figfull{image15.png}{LLM-based text analysis pipeline}{fig:3-pipeline-full}
+
+\subsubsection{Analysis Results}
+\label{subsubsec:3-3-5}
+
+The text classification results are shown in Table~\ref{tab:7-district-cls}. The Connectivity (Connection Quality) dimension has the smallest range of shifts among the six dimensions ($-0.006$ to $+0.005$). It can be viewed as a dimension in which measured values and textual evidence generally converge. Yangcheon-gu has a relatively low measured UMC value of 0.278, but its share of related posts is comparatively high, producing a shift of $+0.005$. By contrast, Yongsan-gu has a high measured value of 0.884, but related posts are rare, producing a shift of $-0.006$.
+
+In the Availability for Use dimension, Dobong-gu had the lowest measured value (0.213) while also having a high share of related posts, producing a shift of $+0.006$. Gwangjin-gu had a high measured value of 0.832 and few related posts, recording a shift of $-0.010$.
+
+The Affordability dimension showed a pattern consistent with income levels across Seoul's autonomous districts. Jungnang-gu and Gangseo-gu each showed positive shifts of $+0.005$, whereas Seocho-gu had the highest measured value, at 0.993, and few related posts, producing a shift of $-0.007$. This dimension is consistent with the tendency for concerns about telecommunications fees and device purchase costs to be expressed differentially by income level.
+
+The Devices dimension shows the largest variation across autonomous districts (gap = 0.090). Jungnang-gu had a measured value of 0.052, but its share of device-related posts was 4.95\%, the highest among all autonomous districts, producing a shift of $+0.048$. Songpa-gu also showed a similar pattern, with a shift of $+0.026$. By contrast, Yongsan-gu ($-0.042$) and Dongjak-gu ($-0.033$) had high measured values but few related posts. However, in this dimension, the measured indicator captures device ownership, whereas the textual evidence captures everyday transactions and difficulties related to devices, such as secondhand transactions and repair requests. It is therefore difficult to rule out the possibility that the two indicators partly refer to different objects.
+
+The Digital Skills dimension has the second-largest variation after the Devices dimension (gap = 0.092). Jungnang-gu showed a shift of $+0.047$, with a measured value of 0.242 and a related-post share of 4.8\%. Gangnam-gu also had a relatively low measured value of 0.276 and a comparatively high share of related posts, producing a shift of $+0.013$. By contrast, Gwanak-gu had the highest measured value, at 0.795, and few related posts, producing a shift of $-0.045$.
+
+The Digital Skills dimension showed the second-largest variation after the Devices dimension. Jungnang-gu showed a shift of $+0.047$, with a related-post share of 4.8\% relative to a measured value of 0.242, whereas Gangseo-gu showed a shift of $-0.031$ because related posts were few despite a high measured value. In the Safety dimension, phishing and voice-phishing cases constituted the main content of the posts, and positive shifts were identified in Jungnang-gu ($+0.018$) and Dobong-gu ($+0.015$). Jongno-gu had a very high measured value and few related posts, so its posterior distribution shifted downward.
+
+In the Safety and Security dimension, Jungnang-gu ($+0.018$) and Dobong-gu ($+0.015$) had high shares of posts related to phishing scams and voice phishing. Jongno-gu had the highest measured value, at 0.984, but few related posts, producing a shift of $-0.019$. It is necessary to also consider the possibility that the residential composition of a tourism and commercial center differs from the characteristics of Danggeun users.
+
+When aggregated at the autonomous district level, differences between regional measured values and post distributions can be classified into three broad types. First are autonomous districts with positive mean shifts. Jungnang-gu showed the largest positive shift in four of the six dimensions and had the highest average value, at $+0.020$. Dobong-gu and Gangnam-gu also showed positive mean shifts, although their magnitudes were small, at approximately 0.001. In Gangnam-gu in particular, positive shifts were observed in the Availability for Use and Digital Skills dimensions despite the district's high average income, suggesting that heterogeneous groups within the autonomous district may be expressing related issues. Second are autonomous districts with shifts close to zero. Gangbuk-gu ($-0.000$), Gangdong-gu ($-0.001$), and Dongdaemun-gu ($-0.001$) fall into this category. In these districts, positive and negative shifts are mixed across dimensions and tend to cancel out on average. Third are autonomous districts with negative mean shifts. Mapo-gu ($-0.014$), Yeongdeungpo-gu ($-0.013$), Gwanak-gu ($-0.013$), and Seocho-gu ($-0.009$) fall into this category. In Gwanak-gu, the population composition centered around university areas and the measured value for Digital Skills may be associated with the rarity of help-seeking posts. Seocho-gu showed particularly large negative shifts in the Affordability and Devices dimensions. In sensitivity analyses that varied the prior concentration $\kappa$ across 10, 20, and 30, differences in posterior means remained at the level of 0.00001 to 0.00010, indicating no substantive change. This suggests that, after adjustment by the living population, the effective number of observations was sufficient and changes in the weight of the prior did not substantially affect the results.
+
+A point requiring caution in interpretation is that a positive shift does not directly mean that the measured indicator has underestimated the true condition. A positive shift may reflect lived inconveniences that the measured indicator does not capture, but it may also include cultural and demographic factors that make discussion of a particular issue more active in a given autonomous district. In addition, sampling bias among platform users and temporal and spatial imbalances in posts may affect interpretation of the results. Therefore, when linking the direction and magnitude of posterior distributions to policy implications, quantitative and qualitative indicators must be considered together. What is meaningful in the results of this section is that the sign and magnitude of shifts vary systematically by dimension and autonomous district. If only the frequency of Danggeun Market posts is aggregated, platform activity itself may be conflated with estimates of UMC levels. The procedure of entering measured values as the prior distribution and combining text classification results as the likelihood partially separates the portion of observed text frequency attributable to platform activity from the portion attributable to UMC levels. In this sense, the prior-posterior shift functions as an indicator of the extent to which textual evidence adjusts measured values.
+
+However, two constraints must be considered when interpreting the direction of a shift. First, even when a positive shift is observed, it cannot be immediately concluded that the UMC level of the corresponding autonomous district is lower than the measured value. A positive shift suggests the possibility that residents perceive lived conditions not captured by the measured indicator, but the way related topics are expressed on the specific platform of Danggeun Market depends on the composition of users by autonomous district. Second, a negative shift should be read not as meaning that the autonomous district's UMC level is higher than the measured value, but rather as a condition in which there is relatively little incentive for related issues to be expressed on the platform.
+
+\begin{table*}[htbp]
+  \centering\small
+  \caption{Post classification results by district}
+  \label{tab:7-district-cls}
+  \begin{tabularx}{\textwidth}{l r r r r r}
+    \toprule
+    \textbf{Autonomous district} & \textbf{Total posts (n)} & \textbf{Y classification} & \textbf{? classification} & \textbf{N classification} & \textbf{Y rate (\%)} \\
+    \midrule
+    \textbf{Jungnang-gu}    & 5{,}476  & 794 & 28  & 4{,}654  & 14.5 \\
+    \textbf{Songpa-gu}      & 9{,}367  & 860 & 99  & 8{,}408  & 9.18 \\
+    \textbf{Seocho-gu}      & 6{,}170  & 434 & 216 & 5{,}520  & 7.03 \\
+    \textbf{Eunpyeong-gu}   & 6{,}140  & 429 & 50  & 5{,}661  & 6.99 \\
+    \textbf{Dobong-gu}      & 3{,}491  & 233 & 5   & 3{,}253  & 6.67 \\
+    \textbf{Seodaemun-gu}   & 4{,}500  & 289 & 5   & 4{,}206  & 6.42 \\
+    \textbf{Gangbuk-gu}     & 3{,}885  & 247 & 31  & 3{,}607  & 6.36 \\
+    \textbf{Yongsan-gu}     & 3{,}012  & 181 & 12  & 2{,}819  & 6.01 \\
+    \textbf{Yangcheon-gu}   & 4{,}975  & 296 & 7   & 4{,}672  & 5.95 \\
+    \textbf{Gangdong-gu}    & 6{,}254  & 342 & 231 & 5{,}681  & 5.47 \\
+    \textbf{Yeongdeungpo-gu}& 5{,}964  & 306 & 5   & 5{,}653  & 5.13 \\
+    \textbf{Dongdaemun-gu}  & 4{,}754  & 238 & 29  & 4{,}487  & 5.01 \\
+    \textbf{Seongbuk-gu}    & 5{,}437  & 266 & 141 & 5{,}030  & 4.89 \\
+    \textbf{Jung-gu}        & 1{,}351  & 63  & 16  & 1{,}272  & 4.66 \\
+    \textbf{Gangseo-gu}     & 8{,}174  & 371 & 236 & 7{,}567  & 4.54 \\
+    \textbf{Geumcheon-gu}   & 2{,}298  & 101 & 7   & 2{,}190  & 4.40 \\
+    \textbf{Jongno-gu}      & 2{,}267  & 97  & 27  & 2{,}143  & 4.28 \\
+    \textbf{Dongjak-gu}     & 3{,}675  & 150 & 22  & 3{,}503  & 4.08 \\
+    \textbf{Gangnam-gu}     & 10{,}047 & 404 & 459 & 9{,}184  & 4.02 \\
+    \textbf{Seongdong-gu}   & 404      & 16  & 9   & 379      & 3.96 \\
+    \textbf{Gwanak-gu}      & 11{,}665 & 407 & 75  & 11{,}183 & 3.49 \\
+    \textbf{Mapo-gu}        & 7{,}974  & 242 & 254 & 7{,}478  & 3.03 \\
+    \textbf{Guro-gu}        & 4{,}082  & 121 & 96  & 3{,}865  & 2.96 \\
+    \textbf{Gwangjin-gu}    & 5{,}440  & 147 & 42  & 5{,}251  & 2.70 \\
+    \textbf{Nowon-gu}       & 5{,}040  & 103 & 46  & 4{,}891  & 2.04 \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
+
+\figfull{image16.png}{Differences between prior and posterior distributions}{fig:3-prior-posterior}
+
+A cautious interpretation is warranted. As the contrast between Jungnang-gu and Mapo-gu shows, the interpretation of the shift becomes meaningful when combined with diverse contextual information, including the autonomous district's demographic composition and platform-use characteristics. Second, a negative shift should also be read not as meaning that the autonomous district's UMC level is higher than the measured value, but rather as indicating a condition in which there is relatively little incentive for related issues to be expressed on the platform. In this respect, it is also important to consider why local resources may be lacking in practice yet remain undiscussed on the platform.
+
+\begin{table*}[htbp]
+  \centering\small
+  \caption{Hypothesis-generation results: distribution by type of deprivation}
+  \label{tab:8-deficit-types}
+  \begin{tabularx}{\textwidth}{l Y r r}
+    \toprule
+    \textbf{Type of deprivation} & \textbf{Related UMC dimension} & \textbf{Number of related posts (n=100)} & \textbf{Share (\%)} \\
+    \midrule
+    Information absence & Digital Skills & 63 & 63.0 \\
+    Lack of institutional pathways & Available for Use & 61 & 61.0 \\
+    Lack of device access & Devices & 50 & 50.0 \\
+    Absence of digital competency & Digital Skills & 45 & 45.0 \\
+    Lack of connectivity infrastructure & Connectivity & 40 & 40.0 \\
+    Lack of public access points & Available for Use & 32 & 32.0 \\
+    Lack of economic access & Affordability & 27 & 27.0 \\
+    Safety and security deficiency & Safety & 16 & 16.0 \\
+    Composite deprivation (two or more) & --- & 88 & 88.0 \\
+    \bottomrule
+    \multicolumn{4}{p{0.97\textwidth}}{\footnotesize\textit{Note.} Because multiple types of deprivation may be inferred from a single post, the sum of the percentages exceeds 100\%. Phase 1 is the hypothesis-generation stage, and the final classification is confirmed through triangulation in Phase 2 (judgment).}
+  \end{tabularx}
+\end{table*}
+
+\subsection{Synthesis of Analytical Results}
+\label{subsec:3-4}
+
+This section synthesizes the results of Section~\ref{subsec:3-1} (construction of the UMC index), Section~\ref{subsec:3-2} (HLM multilevel analysis), and Section~\ref{subsec:3-3} (LLM-based text analysis) to provide an integrated interpretation of the structure through which Seoul's digital divide operates. The three analyses respectively answer the questions of `where the divide exists' (measurement), `why the divide arises' (causal identification), and `how the divide is experienced' (qualitative context), and policy-relevant implications emerge at their points of intersection.
+
+The first finding jointly supported by all three analyses, and the central empirical result of this project, is that Seoul's digital divide is structured by differences between individuals rather than by differences across autonomous districts. In the HLM analysis in Section~\ref{subsec:3-2}, the ICC was only 0.49\%, meaning that 99.5\% of the variance in digital usage scores was attributable to differences between individuals within the same autonomous district. This result indicates that, although the cross-district variation in the UMC composite index constructed in Section~\ref{subsec:3-1} is real, its direct effect on individuals' level of digital usage is limited. However, this low ICC does not mean that district-level variables are meaningless; rather, it suggests that their effects are expressed differentially across groups. The cross-level interaction results in Model 3 support this interpretation.
+
+The text analysis in Section~\ref{subsec:3-3} specifies how this quantitative finding is manifested in everyday life. The fact that `information absence' appeared as the most frequent type of deprivation (63\%) suggests that, among those with lower levels of education, an information gap may intensify in which the very existence of digital services is not recognized. Cases in which users did not know about self-service printing at convenience stores, did not know the ISP customer center number, or did not know about Government24's public-document printing function all point to a structural problem in which `services exist but are not visible to users.' This can be interpreted as complementary evidence that explains, at the experiential level, why the education gradient is steep in the HLM.
+
+The second finding is that the effects of autonomous-district infrastructure are not significant at the level of main effects, but operate significantly as moderating effects for specific vulnerable groups. In Model 2, the main effect of the infrastructure variable related to the Connectivity dimension among the UMC dimensions did not reach statistical significance ($p = 0.237$), a result consistent with the limited main effects of district-level variables when the ICC is 0.49\%. However, the significant cross-level interaction in Model 3 confirmed that the effect of infrastructure operates not as an average effect, but as a group-specific moderating effect.
+
+The text analysis in Section~\ref{subsec:3-3} provides the qualitative context for this differential effect. The fact that information absence regarding public access points (print cafes, library multifunction printers, and self-service printing) was inferred in 32\% of posts shows that, even when infrastructure physically exists, it is not converted into substantive benefits unless users' awareness and access capabilities are also present. The case from Sinsa-dong, Eunpyeong-gu (`Could it really be that there is none?') suggests the possibility that the user had already attempted an online search but found the results insufficient, thereby highlighting the gap between the existence of infrastructure and its `discoverability.' When combined with the HLM result that the infrastructure main effect was not significant, this supports the interpretation that the effects of infrastructure investment emerge only when accompanied by support for information access and capabilities among vulnerable groups.
+
+The third finding is that the digital divide is deepened by intersections of complex vulnerability rather than by a single axis. In the HLM, older adults living alone scored an additional 4.0 points lower than older adults not living alone, and the negative effect of lower educational attainment was found to accelerate as age increased. Section~\ref{subsec:3-3} likewise showed a consistent pattern of composite deprivation. On average, more than 2.5 types of deprivation were identified per post, and when information absence, competency absence, and blocked institutional pathways overlapped, users were found to leave official channels and rely on the community. The absence of a digital support network (`because they do not have children, or because they live apart from them and find it difficult to ask') shows that household composition functions as an informal pathway for acquiring digital competency, and can therefore be interpreted as a mechanism explaining the additional gap among older adults living alone.
+
+The fourth finding concerns the spatial clustering of Digital Deserts and heterogeneity by dimension. In Section~\ref{subsec:3-1}, among the bottom five areas, northern Seoul in particular (Dobong-gu, Gangbuk-gu, Nowon-gu, and Jungnang-gu) formed a Low-Low cluster in the UMC composite index; while these areas recorded above the city average on the Connectivity dimension, they showed extreme deficits in the Devices and Safety dimensions. This heterogeneity in dimension-specific profiles suggests the need for dimension-specific tailored interventions rather than uniform infrastructure investment.
+
+From a methodological perspective, combining the three analyses allows their respective limitations to be mutually compensated. The composite index in Section~\ref{subsec:3-1} identifies the relative positions of autonomous districts but cannot capture within-individual variation, while the HLM in Section~\ref{subsec:3-2} separates the contributions of individuals and areas but cannot explain the qualitative pathways through which the digital divide is manifested. The text analysis in Section~\ref{subsec:3-3} visualizes the experiential context of deprivation but is limited in representativeness. By combining the three analyses through sequential triangulation rather than in parallel (measurement $\rightarrow$ causal identification $\rightarrow$ qualitative context), the project was able to construct an integrated answer to the three questions of `where' (autonomous districts), `why' (the interaction between individual characteristics and infrastructure), and `how' (the pathways through which deprivation is manifested).
+
+These synthesized results lead directly to the policy recommendations in Chapter~\ref{sec:policy}. The finding that individual characteristics are the dominant explanatory variables provides the basis for prioritizing people-based policies; the differential effects of infrastructure support the need for place-based policies targeted to vulnerable groups; the confirmation of complex vulnerability indicates the need for an integrated support system rather than a single program; and the identification of spatial clustering provides the basis for subregional governance.

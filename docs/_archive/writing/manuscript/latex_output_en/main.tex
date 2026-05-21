@@ -1,0 +1,57 @@
+% main.tex
+% Bridging Seoul's Digital Divide — English Edition
+% Compile: xelatex main.tex (run twice; bibtex if .bib is added)
+
+\input{preamble.tex}
+
+\begin{document}
+
+% ─────────────────────────────────────────────
+% Cover page (single column)
+% ─────────────────────────────────────────────
+\onecolumn
+\thispagestyle{empty}
+\begin{center}
+  \vspace*{0.08\textheight}
+
+  {\sffamily\small\color{muted}\textbf{ITU UMC DATA HACKATHON 2026}}
+
+  \vspace{20pt}
+
+  {\sffamily\bfseries\color{primary}\Huge Bridging Seoul's Digital Divide}
+
+  \vspace{18pt}
+
+  {\itshape\Large A Multilevel Analysis of Universal Meaningful Connectivity\\across Seoul's 25 Districts}
+
+  \vspace{32pt}
+
+  {\color{rule}\rule{0.4\textwidth}{0.6pt}}
+
+  \vspace{20pt}
+
+  {\sffamily\small\color{muted}SEOUL \textperiodcentered{} 25 DISTRICTS \textperiodcentered{} MARCH 2026}
+
+  \vspace{6pt}
+
+  {\sffamily\footnotesize\color{muted}REPORT \textperiodcentered{} EN EDITION}
+\end{center}
+\clearpage
+
+% ─────────────────────────────────────────────
+% Body (two columns)
+% ─────────────────────────────────────────────
+\twocolumn
+
+\input{sections/ch1_overview.tex}
+\input{sections/ch2_theory.tex}
+\input{sections/ch3_analysis.tex}
+\input{sections/ch4_policy.tex}
+\input{sections/ch5_conclusion.tex}
+
+% ─────────────────────────────────────────────
+% References
+% ─────────────────────────────────────────────
+\input{sections/references.tex}
+
+\end{document}
