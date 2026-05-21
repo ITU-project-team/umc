@@ -1,0 +1,364 @@
+{
+  "component_id": "umc_data_sources",
+  "component_version": "2026-05-21",
+  "component_role": "external_data_source_registry",
+  "source_authority": {
+    "ppt_file": "ppt/High-Five_20260507.pptx",
+    "slides_inspected": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "data_source_slides": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "authority_note": "The user identified ppt/High-Five_20260507.pptx as the most accurate source for data-source information."
+  },
+  "schema": {
+    "id": "stable snake_case source id",
+    "dataset_name": "display name from PPT",
+    "source_organization": "provider or organization from PPT",
+    "link": "URL or PPT link text",
+    "coverage": {
+      "geographic": "geographic coverage",
+      "time": "years or period used"
+    },
+    "key_variables": "variables explicitly listed in PPT",
+    "format": "format/access format shown in PPT when available",
+    "access_method": "access route shown in PPT when available",
+    "used_in": "analysis components that consume or reference the source",
+    "slide_refs": "PPT slide numbers used as evidence",
+    "uncertainty": "low/medium/high based on PPT readability"
+  },
+  "data_sources": [
+    {
+      "id": "seoul_digital_competency_survey",
+      "dataset_name": "Seoul Digital Competency Survey",
+      "source_organization": "Seoul AI Foundation",
+      "link": "https://saif.or.kr/dataroom/2564",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023"
+        ]
+      },
+      "key_variables": [
+        "devices",
+        "skills",
+        "safety",
+        "survey weights"
+      ],
+      "format": "CSV/XLSX",
+      "access_method": "data provision upon official request",
+      "used_in": [
+        "section_3_1_devices",
+        "section_3_1_digital_skills",
+        "section_3_1_safety"
+      ],
+      "slide_refs": [
+        2,
+        3,
+        9
+      ],
+      "notes": [
+        "PPT states that raw data were requested separately on 2026-02-11.",
+        "PPT states that the data were obtained via official channels."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "seoul_survey",
+      "dataset_name": "Seoul Survey",
+      "source_organization": "Seoul Open Data",
+      "link": "https://data.seoul.go.kr/dataList/OA-15564/F/1/datasetView.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "digital service use",
+        "demographics",
+        "income",
+        "housing",
+        "district/year"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "used_in": [
+        "section_3_2_hlm"
+      ],
+      "slide_refs": [
+        2,
+        10,
+        13,
+        16
+      ],
+      "notes": [
+        "Used for respondent-level digital-use outcome and individual controls."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "cellular_base_station_data",
+      "dataset_name": "Cellular Base Station Data",
+      "source_organization": "Spectrum Resource Mgmt System",
+      "link": "https://spectrummap.kr/gis/mobile_service.do?menuNo=300480",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "4G cell-site locations",
+        "5G cell-site locations"
+      ],
+      "format": "CSV/XLSX",
+      "access_method": "Public Open Data",
+      "used_in": [
+        "section_3_1_connectivity"
+      ],
+      "slide_refs": [
+        4,
+        6
+      ],
+      "notes": [
+        "Prepared as base-station density after deduplication and district spatial join."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "nia_communication_quality",
+      "dataset_name": "NIA Communication Quality (CQ)",
+      "source_organization": "Korean Public Data Portal",
+      "link": "https://www.data.go.kr/data/15120591/fileData.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "district-level download speed"
+      ],
+      "format": null,
+      "access_method": null,
+      "used_in": [
+        "section_3_1_connectivity"
+      ],
+      "slide_refs": [
+        4,
+        6
+      ],
+      "notes": [
+        "PPT row has readable source, link, coverage, and variable fields; format/access cells are blank in visible slide text."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "public_free_wifi_installation",
+      "dataset_name": "Public Free Wi-Fi Installation Data",
+      "source_organization": "Local Admin WiFi License Data",
+      "link": "https://www.localdata.go.kr/lif/lifeCtacDataView.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "public Wi-Fi installation locations"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "used_in": [
+        "section_3_1_available_for_use"
+      ],
+      "slide_refs": [
+        4,
+        7
+      ],
+      "notes": [
+        "Converted into resident-adjusted density for the availability dimension."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "telecommunication_indicators",
+      "dataset_name": "Telecommunication Indicators",
+      "source_organization": "SKT Telecom Data",
+      "link": "https://www.data.go.kr/data/15127168/fileData.do#",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "mobile data use",
+        "online service days",
+        "fee delinquency rate"
+      ],
+      "format": null,
+      "access_method": null,
+      "used_in": [
+        "section_3_1_available_for_use",
+        "section_3_1_affordability"
+      ],
+      "slide_refs": [
+        4,
+        7,
+        8
+      ],
+      "notes": [
+        "PPT link includes trailing #.",
+        "Neighborhood-level telecom indicators are aggregated to district level with population weights."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "average_monthly_household_income_by_district",
+      "dataset_name": "Average Monthly Household Income by District",
+      "source_organization": "Seoul Commercial Analysis Service",
+      "link": "https://data.seoul.go.kr/dataList/OA-22167/S/1/datasetView.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "average monthly household income"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "used_in": [
+        "section_3_1_affordability"
+      ],
+      "slide_refs": [
+        4,
+        8
+      ],
+      "notes": [
+        "Used as the positive resource side of affordability."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "daangn_community_posts",
+      "dataset_name": "Daangn Community Post",
+      "source_organization": "Daangn Market",
+      "link": "daangn.com/kr/community/s",
+      "coverage": {
+        "geographic": "Seoul dong fields",
+        "time": [
+          "2024",
+          "2025",
+          "2026"
+        ]
+      },
+      "key_variables": [
+        "post text",
+        "gu/location",
+        "createdAt",
+        "subject/category"
+      ],
+      "format": "CSV/XLSX",
+      "access_method": "Web Scraping",
+      "used_in": [
+        "section_3_3_text_preprocessing",
+        "section_3_3_llm_classification",
+        "section_3_3_bayesian_aggregation",
+        "section_3_3_structured_inference"
+      ],
+      "slide_refs": [
+        5,
+        11,
+        14,
+        17,
+        20
+      ],
+      "notes": [
+        "Raw post text and post-level identifiers are internal only and must not be exposed in report-facing artifacts."
+      ],
+      "uncertainty": "low"
+    },
+    {
+      "id": "seoul_living_floating_population",
+      "dataset_name": "Seoul Living/Floating Population",
+      "source_organization": "Seoul Open Data",
+      "link": "data.seoul.go.kr / OA-14991",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ]
+      },
+      "key_variables": [
+        "hourly/dong population",
+        "daytime population",
+        "age shares",
+        "dong/district code"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "used_in": [
+        "section_3_1_connectivity_density_denominators",
+        "section_3_3_dong_living_population_join",
+        "section_3_3_participation_density"
+      ],
+      "slide_refs": [
+        5,
+        11,
+        14,
+        17,
+        20
+      ],
+      "notes": [
+        "Section 3.3 joins this source at exact date-hour-administrative-dong grain."
+      ],
+      "uncertainty": "low"
+    }
+  ],
+  "uncertainty_summary": [
+    "Some slide 4 table cells are blank in visible text, especially format/access fields for selected public-data rows.",
+    "The PPT text has one typo in the slide 2 table header, but dataset rows are readable.",
+    "The data-source registry intentionally records PPT-visible facts rather than inferring missing fields."
+  ],
+  "privacy_boundary": [
+    "Do not store raw Danggeun post text in this component.",
+    "Do not store post IDs, writer names, article URLs, local credentials, or private row-level records in this component."
+  ]
+}

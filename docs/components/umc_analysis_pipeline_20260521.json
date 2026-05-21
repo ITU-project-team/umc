@@ -1,0 +1,594 @@
+{
+  "component_id": "umc_analysis_pipeline",
+  "component_version": "2026-05-21",
+  "component_role": "external_analysis_pipeline_registry",
+  "project_topic": "An integrated methodology for measuring universal and meaningful connectivity (UMC) in highly connected cities",
+  "scope": [
+    "Section 3.1 UMC district index construction",
+    "Section 3.2 HLM multilevel digital-connectivity analysis",
+    "Section 3.3 platform-visible signal analysis, Bayesian aggregation, and agent-based interpretation"
+  ],
+  "source_components": {
+    "data_sources": "docs/components/umc_data_sources_20260521.json",
+    "data_source_authority": "ppt/High-Five_20260507.pptx",
+    "active_report": "docs/ITU UMC Data Hackathon 2026.docx"
+  },
+  "repository_boundaries": {
+    "root_report_repo": "/Users/ujunbin/project/umc",
+    "part1_repo": "analysis/part 1",
+    "part2_repo": "analysis/part 2",
+    "part3_repo": "analysis/part 3",
+    "text_preprocessing_repo": "analysis/part 3/01_text_preprocessing",
+    "privacy_rule": "Do not expose raw platform text, post IDs, writer fields, local credentials, or full post-level LLM dumps in public/report artifacts."
+  },
+  "sections": [
+    {
+      "section_id": "3.1",
+      "section_name": "UMC Index Construction",
+      "owner_repo": "analysis/part 1",
+      "purpose": "Construct Seoul district-level UMC scores for 2023 and 2024 and produce report-ready spatial/statistical figures.",
+      "data_source_ids": [
+        "cellular_base_station_data",
+        "nia_communication_quality",
+        "public_free_wifi_installation",
+        "telecommunication_indicators",
+        "average_monthly_household_income_by_district",
+        "seoul_digital_competency_survey",
+        "seoul_living_floating_population"
+      ],
+      "stages": [
+        {
+          "stage_id": "3.1.base_station_preprocess",
+          "script": "analysis/part 1/scripts/preprocess_base_stations.py",
+          "inputs": [
+            "analysis/part 1/data/raw/base_station/",
+            "analysis/part 1/data/gis/Seoul/"
+          ],
+          "outputs": [
+            "analysis/part 1/data/processed/base_station_by_district.csv"
+          ],
+          "transformations": [
+            "Deduplicate physical station coordinates",
+            "Spatially join base stations to Seoul district boundaries",
+            "Compute 4G and 5G station-density indicators"
+          ],
+          "validation_checks": [
+            "Prints deduplication coverage and district-mapping counts",
+            "Reports density ranges"
+          ]
+        },
+        {
+          "stage_id": "3.1.living_population_preprocess",
+          "script": "analysis/part 1/scripts/preprocess_living_pop.py",
+          "inputs": [
+            "analysis/part 1/data/raw/생활인구/LOCAL_PEOPLE_YYYYMM.zip"
+          ],
+          "outputs": [
+            "analysis/part 1/data/processed/living_pop_by_district.csv"
+          ],
+          "transformations": [
+            "Read monthly living-population files",
+            "Use representative dates and daytime hours",
+            "Aggregate to district-year daytime living-population denominators"
+          ],
+          "validation_checks": [
+            "Reports Seoul district count",
+            "Reports minimum/maximum daytime living-population values"
+          ]
+        },
+        {
+          "stage_id": "3.1.telecom_preprocess",
+          "script": "analysis/part 1/scripts/preprocess_telecom_traffic.py",
+          "inputs": [
+            "analysis/part 1/data/raw/"
+          ],
+          "outputs": [
+            "analysis/part 1/data/processed/telecom_by_district_2023.csv",
+            "analysis/part 1/data/processed/telecom_by_district_2024.csv",
+            "analysis/part 1/data/processed/telecom_by_district_combined.csv"
+          ],
+          "transformations": [
+            "Auto-detect monthly telecom workbooks",
+            "Aggregate neighborhood-level telecom indicators to district level with population weights",
+            "Compute annual mobile data usage, online service days, and fee delinquency rate"
+          ],
+          "validation_checks": [
+            "Reports yearly ranges for delinquency, mobile data, and online service days",
+            "Reports year-to-year change summaries"
+          ]
+        },
+        {
+          "stage_id": "3.1.umc_score_v7",
+          "script": "analysis/part 1/scripts/calculate_umc_scores_v7.py",
+          "inputs": [
+            "analysis/part 1/data/processed/base_station_by_district.csv",
+            "analysis/part 1/data/processed/telecom_by_district_2023.csv",
+            "analysis/part 1/data/processed/telecom_by_district_2024.csv",
+            "analysis/part 1/data/raw/CQ_1_2023.csv",
+            "analysis/part 1/data/raw/CQ_1_2024.csv",
+            "analysis/part 1/data/raw/Seoul_digital_2023.SAV",
+            "analysis/part 1/data/processed/living_pop_by_district.csv",
+            "analysis/part 1/data/raw/seoul_umc_scores.csv"
+          ],
+          "outputs": [
+            "analysis/part 1/output/tables/seoul_umc_scores_v7_2023.csv",
+            "analysis/part 1/output/tables/seoul_umc_scores_v7_2024.csv"
+          ],
+          "transformations": [
+            "Compute infrastructure/connectivity from station density and download speed",
+            "Compute availability from mobile data use, online service days, and Wi-Fi density",
+            "Compute affordability from income and telecom fee delinquency with burden reversal",
+            "Compute devices, digital skills, and safety from weighted digital-competency survey items",
+            "Apply min-max normalization and same-direction scoring",
+            "Create dimension scores, composite UMC score, and district ranks"
+          ],
+          "validation_checks": [
+            "Reports top districts by UMC score",
+            "Reports dimension means",
+            "Reports rank and score changes across years"
+          ]
+        },
+        {
+          "stage_id": "3.1.figures_and_spatial_diagnostics",
+          "scripts": [
+            "analysis/part 1/scripts/visualize_umc_v7.py",
+            "analysis/part 1/scripts/visualize_report.py",
+            "analysis/part 1/scripts/generate_section31_figures.py"
+          ],
+          "inputs": [
+            "analysis/part 1/output/tables/seoul_umc_scores_v7_2024.csv",
+            "analysis/part 1/data/gis/Seoul/"
+          ],
+          "outputs": [
+            "analysis/part 1/output/figures/2023/",
+            "analysis/part 1/output/figures/2024/",
+            "analysis/part 1/output/figures/report/",
+            "analysis/part 1/output/figures/report_refresh_20260516/",
+            "analysis/part 1/output/tables/codebook_umc_v7.csv",
+            "analysis/part 1/output/figures/report_refresh_20260516/fig05_lisa_moran_stats_2024.csv"
+          ],
+          "transformations": [
+            "Generate heatmaps, rankings, profile charts, maps, and LISA/Moran diagnostics"
+          ],
+          "validation_checks": [
+            "generate_section31_figures.py enforces 25 districts",
+            "Moran and LISA statistics are exported for report verification"
+          ]
+        }
+      ],
+      "report_outputs": [
+        "Section 3.1 score tables",
+        "Section 3.1 report figures",
+        "Part 1 UMC score inputs for Sections 3.2 and 3.3"
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_name": "HLM Multilevel Digital Connectivity Analysis",
+      "owner_repo": "analysis/part 2",
+      "purpose": "Estimate associations between individual characteristics, district-level UMC conditions, and individual digital service use among Seoul Survey respondents.",
+      "data_source_ids": [
+        "seoul_survey"
+      ],
+      "derived_input_ids": [
+        "section_3_1_umc_scores"
+      ],
+      "stages": [
+        {
+          "stage_id": "3.2.data_preparation",
+          "script": "analysis/part 2/scripts/data_prep.py",
+          "inputs": [
+            "analysis/part 2/data/raw/서울서베이_2023.csv",
+            "analysis/part 2/data/raw/서울서베이_2024.csv",
+            "Part 1 district-year L2 files: umc_l2_variables_2023.csv and umc_l2_variables_2024.csv"
+          ],
+          "outputs": [
+            "analysis/part 2/data/processed/analysis_df.csv",
+            "analysis/part 2/data/processed/analysis_df.parquet",
+            "analysis/part 2/data/processed/centering_info.txt"
+          ],
+          "transformations": [
+            "Pool Seoul Survey 2023 and 2024 respondent files",
+            "Map district codes and harmonize changed survey fields",
+            "Construct digital_use_score from eight digital service-use items scaled to 0-80",
+            "Create binary robustness outcomes from selected Q3 items",
+            "Recode demographic, socioeconomic, household, housing, and vulnerability covariates",
+            "Grand-mean center age and income",
+            "Merge time-varying Part 1 UMC district-year predictors",
+            "Normalize main Level 2 predictors and raw indicators",
+            "Drop unresolved missing dependent-variable and required-control rows"
+          ],
+          "validation_checks": [
+            "Reports respondent counts by year",
+            "Checks L2 merge coverage",
+            "Runs VIF scan for Level 1 predictors",
+            "Screens Level 2 correlations"
+          ]
+        },
+        {
+          "stage_id": "3.2.eda",
+          "script": "analysis/part 2/scripts/eda.py",
+          "inputs": [
+            "analysis/part 2/data/processed/analysis_df.parquet"
+          ],
+          "outputs": [
+            "analysis/part 2/output/tables/eda_descriptive_l1.csv",
+            "analysis/part 2/output/tables/eda_descriptive_l2.csv",
+            "analysis/part 2/output/tables/eda_vulnerable_comparison.csv",
+            "analysis/part 2/output/figures/"
+          ],
+          "transformations": [
+            "Create Level 1 and Level 2 descriptive statistics",
+            "Create vulnerable-group comparisons and exploratory figures"
+          ],
+          "validation_checks": [
+            "Descriptive table dimensions and variable names checked against report claims"
+          ]
+        },
+        {
+          "stage_id": "3.2.hlm_modeling",
+          "script": "analysis/part 2/scripts/hlm_modeling.py",
+          "inputs": [
+            "analysis/part 2/data/processed/analysis_df.parquet"
+          ],
+          "outputs": [
+            "analysis/part 2/output/tables/hlm_model_comparison.csv",
+            "analysis/part 2/output/tables/hlm_fit_statistics.csv",
+            "analysis/part 2/output/tables/hlm_sensitivity_summary.csv",
+            "analysis/part 2/output/tables/hlm_policy_simulation.csv",
+            "analysis/part 2/output/tables/HLM_Results_Tables.docx",
+            "analysis/part 2/output/figures/"
+          ],
+          "model_sequence": [
+            "Model 0: null random-intercept model by district_code",
+            "Model 1: Level 1 individual characteristics",
+            "Model 2: Level 1 plus district-level UMC predictors",
+            "Model 3: cross-level interaction model for elderly and low-education vulnerability"
+          ],
+          "validation_checks": [
+            "ICC and design effect from Model 0",
+            "Likelihood-ratio tests across nested models",
+            "Fallback estimation when Level 2 variance collapses",
+            "Residual checks for random effects and Level 1 residuals",
+            "Sensitivity tests: year split, endogenous expansion, low-education district exclusion, raw indicator replacement",
+            "Policy simulation confidence intervals and interpretation boundaries"
+          ]
+        },
+        {
+          "stage_id": "3.2.report_generation_and_validity",
+          "scripts": [
+            "analysis/part 2/scripts/generate_report.py",
+            "analysis/part 2/scripts/regenerate_codebook_euckr.py"
+          ],
+          "outputs": [
+            "analysis/part 2/output/reports/UMC_분석_보고서.docx",
+            "analysis/part 2/output/reports/validity_check_report.md",
+            "analysis/part 2/output/tables/codebook_analysis.csv"
+          ],
+          "validation_checks": [
+            "validity_check_report.md records exogeneity, causal-limit, parameter-count, robustness, and interpretation checks"
+          ]
+        }
+      ],
+      "report_outputs": [
+        "Section 3.2 HLM coefficients",
+        "Model fit and sensitivity tables",
+        "Policy simulation and vulnerable-group interpretation"
+      ],
+      "interpretation_boundary": [
+        "HLM is association/decomposition analysis, not causal identification.",
+        "District-level effects must be interpreted cautiously because Level 2 has 25 Seoul districts."
+      ]
+    },
+    {
+      "section_id": "3.3",
+      "section_name": "Platform-Visible Signal Analysis, Bayesian Aggregation, and Agent-Based Interpretation",
+      "owner_repo": "analysis/part 3",
+      "supporting_text_preprocessing_repo": "analysis/part 3/01_text_preprocessing",
+      "purpose": "Identify platform-visible lived-experience signals of UMC-related deprivation and integrate them with measured district UMC priors without treating platform posts as a representative population sample.",
+      "data_source_ids": [
+        "daangn_community_posts",
+        "seoul_living_floating_population"
+      ],
+      "derived_input_ids": [
+        "section_3_1_umc_scores"
+      ],
+      "subpipelines": [
+        {
+          "stage_id": "3.3.text_preprocessing_and_llm_classification",
+          "primary_paths": [
+            "analysis/part 3/01_text_preprocessing",
+            "analysis/part 3/data/processed"
+          ],
+          "orchestration_scripts": [
+            "analysis/part 3/01_text_preprocessing/main.py",
+            "analysis/part 3/01_text_preprocessing/src/phase00_data_cleaning.py",
+            "analysis/part 3/01_text_preprocessing/src/phase01_keyword_filter.py",
+            "analysis/part 3/01_text_preprocessing/src/phase02_split_by_gu.py",
+            "analysis/part 3/01_text_preprocessing/src/phase03_llm_analysis.py"
+          ],
+          "outputs": [
+            "analysis/part 3/data/processed/01_cleaned_merged.csv",
+            "analysis/part 3/data/processed/02_keyword_filtered.csv",
+            "analysis/part 3/data/processed/split_by_gu/",
+            "analysis/part 3/data/processed/phase03_batches/",
+            "analysis/part 3/data/processed/phase03_responses/",
+            "analysis/part 3/data/processed/phase03_parsed/",
+            "analysis/part 3/data/processed/03_umc_classified.csv"
+          ],
+          "transformations": [
+            "Clean raw post records and remove unusable text",
+            "Filter candidate posts with UMC keyword dictionaries",
+            "Split candidates by district",
+            "Generate markdown batches for LLM classification",
+            "Parse LLM table responses",
+            "Merge parsed labels back to candidate metadata"
+          ],
+          "classification_agent": {
+            "path": "analysis/part 3/01_text_preprocessing/.claude/agents/umc_classifier.md",
+            "model_label": "sonnet",
+            "role": "Structured UMC text classification assistant",
+            "input_contract": "Markdown table with ID and text",
+            "output_contract": "Four columns: ID, UMC Related, UMC Dimension, Problem Summary",
+            "decision_rules": [
+              "Y only when digital connectivity is the primary concern",
+              "N when digital is absent, peripheral, or merely a tool/background",
+              "Question mark for ambiguous digital relevance",
+              "Dimension names must use official English UMC dimension names"
+            ],
+            "overclassification_controls": [
+              "Restaurant/cafe, offline skill learning, lost items, housing, vehicle, health, and general life posts remain N unless the digital-connectivity problem is primary",
+              "Danggeun transaction disputes are not Safety & Security unless they are online/cybersecurity threats"
+            ]
+          },
+          "baseline_counts": {
+            "keyword_matched_candidates_in_report": 146933,
+            "classified_rows_current_safe_input": 131792,
+            "llm_y": 7136,
+            "llm_question_mark": 2147,
+            "llm_n": 122509
+          },
+          "human_validation_layer": {
+            "script": "analysis/part 3/01_text_preprocessing/scripts/build_full_human_validation_files.py",
+            "internal_outputs": [
+              "analysis/part 3/data/processed/human_validation/human_validation_y_full.csv",
+              "analysis/part 3/data/processed/human_validation/human_validation_n_full.csv",
+              "analysis/part 3/data/processed/human_validation/chunks/Y/",
+              "analysis/part 3/data/processed/human_validation/chunks/N/",
+              "analysis/part 3/data/processed/human_validation/human_validation_manifest.json"
+            ],
+            "review_rows": {
+              "y_full": 7136,
+              "n_full": 122509
+            },
+            "privacy_note": "Reviewer files include internal join keys and short text excerpts for checking; do not reproduce row-level content in public outputs."
+          }
+        },
+        {
+          "stage_id": "3.3.safe_dong_and_living_population_join",
+          "scripts": [
+            "analysis/part 3/02_bayesian/scripts/phase_a/build_safe_dong_inputs.py",
+            "analysis/part 3/02_bayesian/scripts/phase_b/participation_density_dong.py"
+          ],
+          "inputs": [
+            "analysis/part 3/data/processed/phase03_parsed/*.csv",
+            "analysis/part 3/data/processed/02_keyword_filtered.csv",
+            "analysis/part 3/02_bayesian/data/processed/hdong_bdong_mapping.csv",
+            "analysis/02. baysian/data/processed/dong_supplement_mapping.csv",
+            "analysis/02. baysian/data/raw/생활인구_행정동/"
+          ],
+          "outputs": [
+            "analysis/part 3/02_bayesian/data/processed/03_umc_classified.csv",
+            "analysis/part 3/02_bayesian/data/processed/dong_crosswalk_full.csv",
+            "analysis/part 3/02_bayesian/data/processed/safe_dong_handoff_inputs.csv",
+            "analysis/part 3/02_bayesian/data/processed/safe_dong_input_manifest.json",
+            "analysis/part 3/02_bayesian/data/processed/participation_density_dong.parquet",
+            "analysis/part 3/02_bayesian/data/processed/participation_summary_dong.csv",
+            "analysis/part 3/02_bayesian/data/processed/participation_density_dong_qc.json"
+          ],
+          "transformations": [
+            "Restore only safe metadata: gu, regionName, createdAt",
+            "Map gu x regionName to administrative-dong candidates",
+            "Use equal allocation_weight for ambiguous region-to-dong candidates",
+            "Join posts to living population at date-hour-living_pop_dong_code exact grain",
+            "Exclude official living-population exact cells that are absent without interpolation"
+          ],
+          "validation_checks": [
+            "Parsed files: 3004",
+            "Classified rows: 131792",
+            "Dong source match rate: 100 percent",
+            "Allocated post weight total: 131792.0 before living-population exclusions",
+            "Exact matched density rows: 145826",
+            "Two missing official living-population cells excluded"
+          ]
+        },
+        {
+          "stage_id": "3.3.region_dimension_bayesian_aggregation",
+          "scripts": [
+            "analysis/part 3/02_bayesian/scripts/phase_c/region_dimension_sensitivity.py",
+            "analysis/part 3/02_bayesian/scripts/phase_c/bayesian_beta_binomial.py"
+          ],
+          "inputs": [
+            "analysis/part 3/02_bayesian/data/processed/03_umc_classified.csv",
+            "analysis/part 3/02_bayesian/data/processed/dong_crosswalk_full.csv",
+            "analysis/part 3/02_bayesian/data/processed/participation_density_dong_qc.json",
+            "analysis/part 1/output/tables/seoul_umc_scores_v7_2024.csv"
+          ],
+          "outputs": [
+            "analysis/part 3/02_bayesian/output/tables/region_dimension_sensitivity.csv",
+            "analysis/part 3/02_bayesian/output/tables/region_dimension_sensitivity_summary.csv",
+            "analysis/part 3/02_bayesian/output/tables/region_dimension_report_notes.json",
+            "analysis/part 3/02_bayesian/output/tables/bayesian_posterior_k20.csv",
+            "analysis/part 3/02_bayesian/output/figures/phase_c/19_region_dimension_shift_sensitivity.png",
+            "analysis/part 3/02_bayesian/output/figures/phase_c/20_region_dimension_top_shifts.png",
+            "analysis/part 3/02_bayesian/output/figures/phase_c/21_region_dimension_shift_maps.png",
+            "analysis/part 3/02_bayesian/output/figures/phase_c/22_region_dimension_summary_maps.png"
+          ],
+          "transformations": [
+            "Create dimension flags only when umc_related == Y and a dimension pattern is present",
+            "Aggregate n_weight and y_weight by district, UMC dimension, and mapping-sensitivity scenario",
+            "Use Part 1 district UMC scores as prior information",
+            "Set prior strength KAPPA = 20",
+            "Compute alpha_post = alpha_prior + y_weight",
+            "Compute beta_post = beta_prior + n_weight - y_weight",
+            "Report posterior mean shift in percentage points"
+          ],
+          "sensitivity_scenarios": [
+            "all_weighted",
+            "candidate_count_1",
+            "ambiguous_excluded"
+          ],
+          "validation_checks": [
+            "region_dimension_sensitivity.csv has 450 rows: 25 districts x 6 dimensions x 3 scenarios",
+            "region_dimension_sensitivity_summary.csv has 150 rows",
+            "149 of 150 district-dimension cells are sign-stable across mapping scenarios",
+            "Maximum sensitivity range is 0.1463 percentage points"
+          ],
+          "interpretation_boundary": [
+            "Bayesian updating is exploratory evidence integration, not prevalence estimation.",
+            "Positive and negative posterior shifts are directional platform-prior divergences, not causal claims."
+          ]
+        },
+        {
+          "stage_id": "3.3.structured_inference_agent_pipeline",
+          "primary_path": "analysis/part 3/03_inference",
+          "configuration_files": [
+            "analysis/part 3/03_inference/CLAUDE.md",
+            "analysis/part 3/03_inference/config/coding_scheme.json",
+            "analysis/part 3/03_inference/config/umc_dimensions.json",
+            "analysis/part 3/03_inference/config/absence_typology.json",
+            "analysis/part 3/03_inference/config/noise_keywords.json",
+            "analysis/part 3/03_inference/config/preprocessing_config.json"
+          ],
+          "agents": [
+            {
+              "name": "Reasoner A",
+              "path": "analysis/part 3/03_inference/.claude/agents/Reasoner A.md",
+              "role": "Abductive hypothesis generation",
+              "information_set": "post text plus metadata and shared coding scheme; no typology/context block"
+            },
+            {
+              "name": "Reasoner B",
+              "path": "analysis/part 3/03_inference/.claude/agents/Reasoner B.md",
+              "role": "Forward hypothesis generation",
+              "information_set": "post text plus metadata and shared coding scheme; no typology/context block"
+            },
+            {
+              "name": "Reasoner C",
+              "path": "analysis/part 3/03_inference/.claude/agents/Reasoner C.md",
+              "role": "Sequential/pathway hypothesis generation",
+              "information_set": "post text plus metadata and shared coding scheme; no typology/context block"
+            },
+            {
+              "name": "judgment-synthesizer",
+              "path": "analysis/part 3/03_inference/.claude/agents/judgment-synthesizer.md",
+              "role": "Phase 2 synthesis and final judgment",
+              "information_set": "three hypotheses plus context block, district/living-pop context, typology/category files"
+            },
+            {
+              "name": "preprocessor",
+              "path": "analysis/part 3/03_inference/.claude/agents/preprocessor.md",
+              "role": "Preprocessing support"
+            },
+            {
+              "name": "jump-auditor",
+              "path": "analysis/part 3/03_inference/.claude/agents/jump-auditor.md",
+              "role": "Inference jump audit"
+            },
+            {
+              "name": "knowledge-curator",
+              "path": "analysis/part 3/03_inference/.claude/agents/knowledge-curator.md",
+              "role": "Category knowledge maintenance"
+            }
+          ],
+          "skills": [
+            "analysis/part 3/03_inference/.claude/skills/preprocess-batch/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/analyze-post/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/judge-post/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/run-round/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/audit-jump/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/update-knowledge/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/benchmark-case/SKILL.md",
+            "analysis/part 3/03_inference/.claude/skills/infer-context/SKILL.md"
+          ],
+          "scripts": [
+            "analysis/part 3/03_inference/scripts/preprocess_filter.py",
+            "analysis/part 3/03_inference/scripts/gen_phase1_prompts.py",
+            "analysis/part 3/03_inference/scripts/merge_hypotheses.py",
+            "analysis/part 3/03_inference/scripts/merge_and_clean.py",
+            "analysis/part 3/03_inference/scripts/build_casebook.py",
+            "analysis/part 3/03_inference/scripts/hooks/guard_typology.py",
+            "analysis/part 3/03_inference/scripts/hooks/validate_parallel.py",
+            "analysis/part 3/03_inference/scripts/hooks/validate_output.py",
+            "analysis/part 3/03_inference/scripts/hooks/log_token_usage.py",
+            "analysis/part 3/03_inference/scripts/hooks/validate_changelog.py"
+          ],
+          "outputs": [
+            "analysis/part 3/03_inference/output/hypotheses/",
+            "analysis/part 3/03_inference/output/judgments/",
+            "analysis/part 3/03_inference/output/district_level/round_1/summary.json",
+            "analysis/part 3/03_inference/output/district_level/round_2/summary.json",
+            "analysis/part 3/03_inference/output/saturation/round_1.json",
+            "analysis/part 3/03_inference/output/saturation/round_2.json"
+          ],
+          "validation_checks": [
+            "Phase 1 reasoners are isolated from each other",
+            "Phase 1 reasoners do not read absence_typology.json or active category knowledge",
+            "Judgment synthesizer starts after Phase 1 and compares the three hypotheses",
+            "Hooks validate parallel outputs, output structure, typology access, changelog, and token logs"
+          ],
+          "current_summary_outputs": {
+            "round_2_saturation": {
+              "path": "analysis/part 3/03_inference/output/saturation/round_2.json",
+              "detected_gu": 24,
+              "total_gu": 25,
+              "total_posts": 109
+            }
+          }
+        }
+      ],
+      "report_outputs": [
+        "Section 3.3 methods paragraphs",
+        "Figure 6 platform-visible signal analysis pipeline",
+        "Figure 8 agent-based text analysis and Bayesian aggregation",
+        "Figure 9 region-dimension posterior shift result",
+        "Table 6 analysis units",
+        "Table 8 exploratory absence categories"
+      ],
+      "interpretation_boundary": [
+        "Platform posts are platform-visible lived-experience signals, not representative prevalence data.",
+        "LLMs are structured coding assistants and judgment support tools, not autonomous evidence sources.",
+        "Post-level inference examples must remain anonymized and paraphrased in report-facing text."
+      ]
+    }
+  ],
+  "global_validation_checks": [
+    "Root report repo and nested analysis repos must be checked separately before commits.",
+    "No raw data, private text, post IDs, or local credentials may be staged.",
+    "Report claims must cite source tables, figures, scripts, validation notes, or rendered DOCX pages.",
+    "Section 3.1 outputs feed Section 3.2 Level 2 predictors and Section 3.3 Bayesian priors.",
+    "Section 3.3 Bayesian results must remain framed as exploratory platform-prior divergence."
+  ],
+  "subagent_evidence_used": [
+    {
+      "agent": "Erdos",
+      "task": "Extract PPT data-source information from ppt/High-Five_20260507.pptx",
+      "status": "completed"
+    },
+    {
+      "agent": "Feynman",
+      "task": "Map Section 3.1 Part 1 UMC index pipeline",
+      "status": "completed"
+    },
+    {
+      "agent": "Helmholtz",
+      "task": "Map Section 3.2 Part 2 HLM pipeline",
+      "status": "completed"
+    },
+    {
+      "agent": "Maxwell",
+      "task": "Map Section 3.3 Part 3 text/Bayesian/inference pipeline",
+      "status": "completed"
+    }
+  ]
+}

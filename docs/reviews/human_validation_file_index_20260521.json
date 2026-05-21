@@ -1,0 +1,48 @@
+{
+  "date": "2026-05-21",
+  "purpose": "Report-safe index for exhaustive internal Y/N human-validation files.",
+  "generator": "analysis/part 3/01_text_preprocessing/scripts/build_full_human_validation_files.py",
+  "internal_output_dir": "analysis/part 3/data/processed/human_validation",
+  "classified_rows": 131792,
+  "label_counts": {
+    "Y": 7136,
+    "N": 122509,
+    "?": 2147
+  },
+  "reviewed_rows": 129645,
+  "excluded_rows": 2147,
+  "excluded_label_counts": {
+    "?": 2147
+  },
+  "source_duplicate_stats": {
+    "duplicate_source_rows": 0,
+    "duplicate_dbids": 0,
+    "conflicting_duplicate_dbids": 0
+  },
+  "chunk_size": 5000,
+  "review_files": [
+    {
+      "review_set": "Y",
+      "path": "analysis/part 3/data/processed/human_validation/human_validation_y_full.csv",
+      "rows": 7136,
+      "chunk_dir": "analysis/part 3/data/processed/human_validation/chunks/Y",
+      "chunks": 2,
+      "chunk_row_sum": 7136
+    },
+    {
+      "review_set": "N",
+      "path": "analysis/part 3/data/processed/human_validation/human_validation_n_full.csv",
+      "rows": 122509,
+      "chunk_dir": "analysis/part 3/data/processed/human_validation/chunks/N",
+      "chunks": 25,
+      "chunk_row_sum": 122509
+    }
+  ],
+  "protocol": "analysis/part 3/01_text_preprocessing/docs/human_validation_protocol_20260521.md",
+  "report_summary": "docs/reviews/human_validation_summary_20260521.md",
+  "privacy_boundary": [
+    "Reviewer CSV files are internal only.",
+    "Reviewer CSV files contain row-level excerpts and an internal join key.",
+    "Public/report-facing outputs may use only aggregate counts, validation design, and post-review stability results."
+  ]
+}
