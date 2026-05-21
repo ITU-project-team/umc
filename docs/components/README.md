@@ -17,6 +17,11 @@ workflows that need the project pipeline or data-source inventory.
   - Covers scripts, inputs, outputs, validation checks, report artifacts, and
     the Section 3.3 agent pipeline.
 
+- `report_analysis_sync_gate_20260521.json`
+  - Project-local warning gate metadata for analysis-to-report handoff checks.
+  - Covers the checker, configuration, sync rule, monitored repo boundaries, and
+    privacy-safe output policy.
+
 ## Boundary
 
 These components must not contain raw post text, post IDs, user identifiers,

@@ -19,17 +19,20 @@ This includes:
 
 ## Repository Map
 
-Treat these as separate Git repositories:
+Treat these as separate Git repositories when they exist, but use the active
+Part 1-3 repositories as the report-sync boundary unless the user explicitly
+assigns legacy/reference analysis work.
 
 | Path | Role |
 | --- | --- |
 | `/Users/ujunbin/project/umc` | Root report/document repository |
 | `analysis/part 1` | Part 1 UMC index, district scores, maps, and Section 3.1 figures |
 | `analysis/part 2` | Part 2 HLM/multilevel analysis for Section 3.2 |
-| `analysis/text-preprocessing` | Text preprocessing and UMC classifier support |
-| `analysis/03. Test-for-inference` | Structured inference and judgment pipeline |
-| `analysis/Part 2-2` | Mirrored/related inference pipeline |
-| `analysis/Part 2-4` | Three-pipeline post-level inference, reconciliation, saturation checks |
+| `analysis/part 3` | Consolidated Part 3 text, Bayesian, and inference workflow for Section 3.3 |
+| `analysis/01. Text_preprocessing` | Legacy/reference preprocessing repository; Part 3 data has been consolidated under `analysis/part 3` |
+| `analysis/text-preprocessing` | Legacy/reference text preprocessing and classifier support repository |
+| `analysis/02. baysian` | Legacy/reference Bayesian workspace; prefer `analysis/part 3/02_bayesian` for active Part 3 work |
+| `analysis/03. Test-for-inference` | Legacy/reference structured inference repository; prefer `analysis/part 3/03_inference` for active Part 3 work |
 
 Always run `git status --short --branch` inside the repository that owns the files being changed.
 
@@ -257,7 +260,14 @@ When analysis results are used in the root report:
 2. Update the report DOCX, figures, tables, or prose in the root repo.
 3. Render or structurally inspect the DOCX when layout matters.
 4. Fix figure/table references after replacing outputs.
-5. Commit analysis repo and root repo separately.
+5. Run the report-analysis lag checker from the root repo when analysis output
+   may affect the report:
+
+```bash
+python3 .codex/hooks/report_analysis_lag_check.py
+```
+
+6. Commit analysis repo and root repo separately.
 
 For DOCX checks, use `$doc` when layout matters.
 
@@ -270,4 +280,7 @@ Before reporting completion:
 - Any report claim has a source table, figure, script, or validation note.
 - No raw data or private files were staged.
 - All temporary verification outputs were cleaned or clearly left in `tmp/`.
+- For analysis/report handoffs, run
+  `python3 .codex/hooks/report_analysis_lag_check.py --json` from the root repo
+  and resolve or explicitly carry forward any warning-only lag notes.
 - If pushing, each touched repo reports `0 0` for `HEAD...origin/main` after push.

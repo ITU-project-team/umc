@@ -1,0 +1,70 @@
+{
+  "component_id": "report_analysis_sync_gate",
+  "component_version": "2026-05-21",
+  "component_role": "project_local_warning_gate_metadata",
+  "purpose": "Document the warning-only gate that checks whether report-relevant analysis repository changes may need a root report-facing handoff.",
+  "owned_files": {
+    "checker": ".codex/hooks/report_analysis_lag_check.py",
+    "configuration": ".codex/config/report_analysis_lag.json",
+    "rule_document": ".codex/rules/report-analysis-sync.md",
+    "workflow_skill": ".codex/skills/umc-analysis-workflow/SKILL.md",
+    "controller_registration": "/Users/ujunbin/.codex/hooks.json"
+  },
+  "monitored_boundaries": {
+    "analysis_repositories": [
+      "analysis/part 1",
+      "analysis/part 2",
+      "analysis/part 3"
+    ],
+    "root_report_paths": [
+      "docs/ITU UMC Data Hackathon 2026.docx",
+      "docs/components/",
+      "docs/reviews/",
+      "docs/figures/",
+      "writing/",
+      ".codex/config/report_analysis_lag.json",
+      ".codex/rules/report-analysis-sync.md",
+      ".codex/hooks/report_analysis_lag_check.py",
+      ".codex/skills/umc-analysis-workflow/SKILL.md"
+    ]
+  },
+  "warning_policy": {
+    "default_mode": "warning_only",
+    "stop_hook_exit_code": 0,
+    "stop_hook_warning_shape": {
+      "continue": true,
+      "message_field": "systemMessage"
+    },
+    "manual_strict_mode": "python3 .codex/hooks/report_analysis_lag_check.py --strict",
+    "warns_on": [
+      "report-relevant dirty analysis worktree paths",
+      "latest relevant analysis commit newer than latest root report-facing commit"
+    ],
+    "root_report_dirty_paths": "context_only_unless_analysis_lag_exists"
+  },
+  "manual_commands": {
+    "human_report": "python3 .codex/hooks/report_analysis_lag_check.py",
+    "json_report": "python3 .codex/hooks/report_analysis_lag_check.py --json",
+    "stop_hook_mode": "python3 .codex/hooks/report_analysis_lag_check.py --hook stop"
+  },
+  "privacy_boundary": {
+    "allowed_output": [
+      "repo names",
+      "safe relative paths",
+      "aggregate counts",
+      "commit timestamps",
+      "commit hashes"
+    ],
+    "forbidden_output": [
+      "raw data contents",
+      "private platform text",
+      "post IDs",
+      "secrets",
+      ".env contents",
+      "local settings",
+      "existing PDF or DOCX contents"
+    ],
+    "content_inspection": false
+  },
+  "controller_note": "Global Stop-hook registration contains only the command that calls the project-local checker; all report-analysis sync policy remains in this project-local component."
+}

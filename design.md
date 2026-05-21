@@ -1,6 +1,6 @@
 # UMC Report Design
 
-Reference form: `paper/ICT index_2025.pdf`.
+Reference form: `paper/ITU_2025_ICT_Development_Index.pdf`.
 
 This design guide adapts the visual grammar of the ICT Development Index report to the UMC Seoul methodology report without copying its proprietary cover artwork or institutional marks.
 
