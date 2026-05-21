@@ -2,13 +2,9 @@
 
 Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 
-## Local Skills
+## Project Topic
 
-- `umc-worker-orchestration`: worker assignment, cmux context, result review, and artifact hygiene.
-- `umc-analysis-workflow`: Part 1, Part 2, Part 3, text preprocessing, Bayesian aggregation, inference, and report handoff.
-- `umc-report-evidence-framing`: cautious HLM/LLM/Bayesian wording, exploratory-evidence limits, policy-framing alignment, and term dictionary use.
-- `umc-report-theory`: Chapter 2 theory/background writing using `paper/` and the active DOCX.
-- `umc-academic-table-formatting`: academic DOCX table creation/review, compact row rules, captions, appendix prompt/keyword tables, and PDF layout checks.
+An Integrated Methodology for Measuring Universal and Meaningful Connectivity (UMC) in a Hyper-Connected City
 
 ## Local Agents
 
@@ -18,14 +14,6 @@ Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 - `part2-analysis-manager`: Part 2 HLM/multilevel analysis, model outputs, validity checks, and Section 3.2 handoff.
 - `part3-analysis-manager`: consolidated Part 3 text/Bayesian/inference workflow and data-boundary review.
 - `project-verifier`: read-only verification of claims, paths, Git state, and protected-artifact boundaries.
-
-Default worker mapping:
-
-- `보고서 DOCX 담당 · report-docx-manager` -> `report-docx-manager`
-- `Part 1 분석 총괄 · part1-analysis-manager` -> `part1-analysis-manager`
-- `Part 2 분석 총괄 · part2-analysis-manager` -> `part2-analysis-manager`
-- `Part 3 분석 총괄 · part3-analysis-manager` -> `part3-analysis-manager`
-- `검증 담당 · project-verifier` -> `project-verifier`
 
 Bounded parallel subagents are allowed for independent side checks inside each
 worker's assigned boundary. Worker prompts must keep ownership explicit and
@@ -44,5 +32,5 @@ local settings to subagents.
 
 - Active draft: `docs/ITU UMC Data Hackathon 2026.docx`
 - Literature folder: `paper/`
-- Part 3 repo: `analysis/part 3`
+- Part 1~3 repo: `analysis/part 1~3`
 - Report evidence-framing term dictionary: `docs/style/umc_report_evidence_terms.json`

@@ -1,42 +1,36 @@
-# UMC Codex Components
+# UMC Claude Project Router
 
-This folder is the project-local Codex component layer for UMC.
+Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 
-## Skills
+## Project Topic
 
-- `skills/umc-cmux-worker-supervision/SKILL.md`: cmux worker ownership, worker briefs, context hygiene, artifact placement, and repository boundaries.
-- `skills/umc-analysis-workflow/SKILL.md`: Part 1, Part 2, Part 3, text preprocessing, inference, report handoff, and verification workflow.
-- `skills/umc-report-evidence-framing/SKILL.md`: cautious HLM/LLM/Bayesian wording, exploratory-evidence limits, policy-framing alignment, and term dictionary use.
-- `skills/umc-academic-table-formatting/SKILL.md`: academic DOCX table creation/review, compact row rules, captions, appendix prompt/keyword tables, and PDF layout checks.
+An Integrated Methodology for Measuring Universal and Meaningful Connectivity (UMC) in a Hyper-Connected City
 
-## Agents
+## Local Agents
 
-- `agents/report-docx-manager.toml`: report DOCX editing, section structure, figures, academic tables, captions, and layout-risk verification.
-- `agents/report-figure-generator.toml`: report figure generation and repair, source-data checks, consistent academic styling, and DOCX figure layout verification.
-
-Default worker mapping:
-
-- `보고서 DOCX 담당 · report-docx-manager` -> `agents/report-docx-manager.toml`
-- `Part 1 분석 총괄 · part1-analysis-manager` -> cmux role prompt plus `skills/umc-analysis-workflow/SKILL.md`, owning path `analysis/part 1`
-- `Part 2 분석 총괄 · part2-analysis-manager` -> cmux role prompt plus `skills/umc-analysis-workflow/SKILL.md`, owning path `analysis/part 2`
-- `Part 3 분석 총괄 · part3-analysis-manager` -> Claude agent `.claude/agents/part3-analysis-manager.md` plus `skills/umc-analysis-workflow/SKILL.md`, owning path `analysis/part 3`
-- `검증 담당 · project-verifier` -> Claude agent `.claude/agents/project-verifier.md`, read-only verification across touched paths
+- `report-docx-manager`: report DOCX structure, section edits, figure/table placement, and layout risk.
+- `report-figure-generator`: report figure generation/repair, source-data checks, academic styling, and DOCX layout verification.
+- `part1-analysis-manager`: Part 1 UMC index construction, district scores, report-ready figures/tables, and Section 3.1 handoff.
+- `part2-analysis-manager`: Part 2 HLM/multilevel analysis, model outputs, validity checks, and Section 3.2 handoff.
+- `part3-analysis-manager`: consolidated Part 3 text/Bayesian/inference workflow and data-boundary review.
+- `project-verifier`: read-only verification of claims, paths, Git state, and protected-artifact boundaries.
 
 Bounded parallel subagents are allowed for independent side checks inside each
 worker's assigned boundary. Worker prompts must keep ownership explicit and
 must not expose raw data, private platform text, post IDs, secrets, `.env`, or
 local settings to subagents.
 
-## Scope Rule
+## Project Rules
 
-Keep UMC-specific Codex components here. Do not place UMC-only skills or agents in `/Users/ujunbin/.codex` unless the user explicitly asks for a global capability.
+- Keep UMC-specific Claude skills and agents in this project root.
+- Nested analysis repos may keep their own `.claude` skills and agents for narrow execution details.
+- Do not move or delete raw data, existing DOCX/PDF files, or local settings without explicit approval.
+- Use role-based worker labels and compact worker briefs.
+- Keep generated check/render files in `tmp/` unless a durable output path is specified.
 
-## Maintenance
+## Active Paths
 
-After changing skills or agents:
-
-```bash
-python3 /Users/ujunbin/.codex/scripts/check-agent-skill-links.sh --json
-```
-
-For substantial local component changes, write provenance under `.codex/logs/`.
+- Active draft: `docs/ITU UMC Data Hackathon 2026.docx`
+- Literature folder: `paper/`
+- Part 1~3 repo: `analysis/part 1~3`
+- Report evidence-framing term dictionary: `docs/style/umc_report_evidence_terms.json`

@@ -1,51 +1,36 @@
-# UMC Project Instructions
+# UMC Claude Project Router
 
-This file is the project-local operating contract for `/Users/ujunbin/project/umc`.
+Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
 
-## Local Components
+## Project Topic
 
-- Use project-local Codex skills before global fallbacks:
-  - `$umc-cmux-worker-supervision`
-  - `$umc-analysis-workflow`
-  - `$umc-report-evidence-framing`
-- Claude-facing project components live under `.claude/`.
-- Codex-facing project components live under `.codex/`.
-- UMC-specific skills, agents, and routing notes should stay project-local unless they are genuinely reusable across `/Users/ujunbin/project`, `/Users/ujunbin/knowledge`, `/Users/ujunbin/research`, and `/Users/ujunbin/resource`.
+An Integrated Methodology for Measuring Universal and Meaningful Connectivity (UMC) in a Hyper-Connected City
 
-## Worker Orchestration
+## Local Agents
 
-- Use functional worker labels, not decorative names:
-  - `보고서 DOCX 담당`
-  - `Part 1 분석 총괄`
-  - `Part 2 분석 총괄`
-  - `Part 3 분석 총괄`
-  - `검증 담당`
-- Assign `보고서 DOCX 담당` to the project-local `report-docx-manager` role by default for report DOCX work. Use `.codex/agents/report-docx-manager.toml` for Codex-side delegation and `.claude/agents/report-docx-manager.md` for Claude/cmux worker panes unless the user explicitly asks for another role.
-- Give compact briefs with exact paths, scope boundary, evidence source, and expected output.
-- Continue the leader loop after delegation: read worker results, judge sufficiency, verify important claims, and issue the next bounded instruction.
+- `report-docx-manager`: report DOCX structure, section edits, figure/table placement, and layout risk.
+- `report-figure-generator`: report figure generation/repair, source-data checks, academic styling, and DOCX layout verification.
+- `part1-analysis-manager`: Part 1 UMC index construction, district scores, report-ready figures/tables, and Section 3.1 handoff.
+- `part2-analysis-manager`: Part 2 HLM/multilevel analysis, model outputs, validity checks, and Section 3.2 handoff.
+- `part3-analysis-manager`: consolidated Part 3 text/Bayesian/inference workflow and data-boundary review.
+- `project-verifier`: read-only verification of claims, paths, Git state, and protected-artifact boundaries.
 
-## Repository Boundaries
+Bounded parallel subagents are allowed for independent side checks inside each
+worker's assigned boundary. Worker prompts must keep ownership explicit and
+must not expose raw data, private platform text, post IDs, secrets, `.env`, or
+local settings to subagents.
 
-- Root repo: report, docs, writing, project-level coordination.
-- Nested analysis repos own their own code and outputs:
-  - `analysis/part 1`
-  - `analysis/part 2`
-  - `analysis/part 3`
-  - `analysis/text-preprocessing`
-  - legacy/specialized inference folders under `analysis/`.
-- Commit and push from the repository that owns the changed files.
-- Do not stage raw data, secrets, `.env`, local settings, or private platform text.
+## Project Rules
 
-## Artifact Hygiene
+- Keep UMC-specific Claude skills and agents in this project root.
+- Nested analysis repos may keep their own `.claude` skills and agents for narrow execution details.
+- Do not move or delete raw data, existing DOCX/PDF files, or local settings without explicit approval.
+- Use role-based worker labels and compact worker briefs.
+- Keep generated check/render files in `tmp/` unless a durable output path is specified.
 
-- Use `tmp/` for disposable render/check outputs.
-- Use clear durable locations such as `docs/`, `writing/`, or each analysis repo's `output/`.
-- Do not delete or move existing user files without explicit approval.
-- For DOCX work, preserve the active file path unless the user changes it.
-
-## Current Report Context
+## Active Paths
 
 - Active draft: `docs/ITU UMC Data Hackathon 2026.docx`
 - Literature folder: `paper/`
-- Part 3 consolidated repo: `analysis/part 3`
+- Part 1~3 repo: `analysis/part 1~3`
 - Report evidence-framing term dictionary: `docs/style/umc_report_evidence_terms.json`
