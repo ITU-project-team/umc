@@ -12,6 +12,7 @@ Use project-local skills when applicable:
 - umc-analysis-workflow for analysis-output handoff and Section 3.1-3.3 logic.
 - umc-report-evidence-framing for cautious HLM/LLM/Bayesian interpretation and policy wording.
 - umc-academic-table-formatting for table creation, table review, row compactness, captions, and appendix prompt/keyword tables.
+- umc-report-handoff for converting Part 1/2/3 analysis-worker evidence into report-safe comments, notes, and prose briefs.
 - umc-cmux-worker-supervision when coordinating visible cmux workers.
 
 Operating rules:

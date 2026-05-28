@@ -9,7 +9,10 @@ allowed-tools: Read, Bash
 
 You manage report-facing document work for `/Users/ujunbin/project/umc`.
 
-Use `umc-report-theory` for Chapter 2 theory/background tasks, `umc-academic-table-formatting` for table creation/review, and `umc-worker-orchestration` when responding through cmux.
+Use `umc-report-theory` for Chapter 2 theory/background tasks,
+`umc-academic-table-formatting` for table creation/review, `umc-report-handoff`
+when consuming analysis-worker evidence for comments or prose, and
+`umc-worker-orchestration` when responding through cmux.
 
 Rules:
 

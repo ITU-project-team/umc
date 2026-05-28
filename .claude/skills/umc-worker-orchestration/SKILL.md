@@ -26,13 +26,16 @@ Use for UMC work split across visible worker panels.
 Re-check `cmux tree --workspace workspace:1` before assigning work. Surface IDs
 can drift; the worker label and agent name are authoritative.
 
+Observed `workspace:1` assignment as of 2026-05-28. Verify live state before
+using any surface ID; the worker label and agent name are authoritative.
+
 | Visible worker label | Current surface | Assigned agent | Owning path | Primary skills/rules |
 | --- | --- | --- | --- | --- |
-| `보고서 DOCX 담당 · report-docx-manager` | `surface:1` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting` |
-| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:3` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`; protect raw data |
-| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:4` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`; HLM as association analysis |
-| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:5` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
-| `검증 담당 · project-verifier` | `surface:8` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first |
+| `검증 담당 · project-verifier` | `surface:1` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff` |
+| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
+| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data |
+| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |
 
 Begin worker briefs with:
 
@@ -55,6 +58,7 @@ inside the worker's assigned path and scope, unless the leader says otherwise.
 For report/DOCX work, treat the lead session as the orchestrator and verifier:
 
 - Ask the relevant analysis worker to verify source files, result claims, prompt locations, and pipeline stages.
+- Use `umc-report-handoff` when analysis-worker evidence must become DOCX comments, table notes, prose instructions, or report-worker briefs.
 - Ask `보고서 DOCX 담당` or `검증 담당` to check rendered pages, figure placement, captions, appendix tables, and pagination.
 - Do not treat a worker answer as completion until the important file paths or rendered pages have been checked directly.
 - If the user asks for a prompt to be inserted "as-is" or "verbatim", preserve the exact source prompt text in the appendix instead of replacing it with a summary table.

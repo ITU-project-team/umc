@@ -1,12 +1,6 @@
-# UMC Claude Project Router
-
-Use this file as the root Claude router for `/Users/ujunbin/project/umc`.
-
 ## Project Topic
 
 An Integrated Methodology for Measuring Universal and Meaningful Connectivity (UMC) in a Hyper-Connected City
-
-Report target: full report; the current draft is incomplete.
 
 ## Local Agents
 

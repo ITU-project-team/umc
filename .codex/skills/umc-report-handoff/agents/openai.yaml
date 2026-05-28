@@ -1,0 +1,4 @@
+interface:
+  display_name: "UMC Report Handoff"
+  short_description: "Route analysis evidence into report-safe comments and prose"
+  default_prompt: "Use $umc-report-handoff to move Part 1/2/3 evidence into UMC report comments and writing handoffs."

@@ -69,15 +69,16 @@ Before sending work to a pane, map the visible worker label to an explicit
 agent name and owning path. Re-check `cmux tree --workspace workspace:1` first;
 surface IDs can drift, so the role label and agent name are authoritative.
 
-Current `workspace:1` default assignment:
+Observed `workspace:1` assignment as of 2026-05-28. Verify live state before
+using any surface ID; the leader surface is not an assignment target.
 
 | Visible worker label | Current surface | Assigned agent | Primary owning path | Primary skills/rules |
 | --- | --- | --- | --- | --- |
-| `보고서 DOCX 담당 · report-docx-manager` | `surface:1` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `doc` |
-| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:3` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`; protect raw data and Part 1 nested repo boundary |
-| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:4` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`, `umc-report-evidence-framing`; HLM as association analysis |
-| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:5` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
-| `검증 담당 · project-verifier` | `surface:8` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first; no edits |
+| `검증 담당 · project-verifier` | `surface:1` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first; no edits |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff`, `doc` |
+| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
+| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data and Part 1 nested repo boundary |
+| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |
 
 When renaming panes, include both the worker label and assigned agent:
 
@@ -160,6 +161,7 @@ Do not treat delegation as completion. Report to the user only after the worker 
 For report/DOCX tasks, the leader acts as orchestrator and verifier:
 
 - Use the relevant analysis worker to verify source truth, result tables, prompt files, and pipeline steps.
+- Use `$umc-report-handoff` when analysis-worker evidence must become DOCX comments, table notes, prose instructions, or report-worker briefs.
 - Use `보고서 DOCX 담당` or `검증 담당` to inspect rendered pages, captions, tables, figures, and appendix placement.
 - Integrate worker findings only after checking the key paths or rendered output directly.
 - When the user asks to put a prompt "as-is" or "verbatim" into an appendix, do not replace it with a role/input/rule/output summary. Insert the exact source prompt text and preserve line breaks, while still excluding raw posts, private text, and post-level dumps.

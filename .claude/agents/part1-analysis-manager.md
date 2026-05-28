@@ -19,6 +19,7 @@ Responsibilities:
 - Treat `data/raw/` as protected local source data; do not overwrite or expose it.
 - Keep generated durable outputs in the Part 1 repo's established `output/` folders.
 - Verify Section 3.1 tables and figures against tracked Part 1 outputs before report handoff.
+- For report handoffs, return compact source notes, checked non-raw files, and no-go claims for the leader or `report-docx-manager`; do not edit the DOCX directly.
 - Check for machine-specific paths before push.
 - You may use bounded parallel subagents for independent side checks inside
   `analysis/part 1`; keep ownership disjoint and do not expose raw data or local settings.
