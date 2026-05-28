@@ -1,88 +1,46 @@
 ---
 name: umc-report-handoff
-description: Use in `/Users/ujunbin/project/umc` when Part 1, Part 2, or Part 3 analysis-worker evidence must be converted into report-safe DOCX comments, table notes, prose handoffs, or report-worker instructions without exposing raw data, private text, post IDs, or local raw paths.
+description: "UMC Part 1, Part 2, Part 3 분석 워커 증거를 보고서에 안전하게 전달할 때 사용한다. 원자료, 비공개 텍스트, 게시물 ID, 로컬 원자료 경로를 노출하지 않고 DOCX comment, 각주, 표/그림 노트, 산문 브리프, 보고서 워커 지시로 변환한다."
 ---
 
-# UMC Report Handoff
+# UMC 보고서 전달
 
-## Overview
+분석 워커 findings를 보고서용 지시나 독자용 설명으로 바꿔야 할 때 사용한다. 기본 chain은 analysis worker -> leader/orchestrator -> report DOCX worker다. 분석 워커는 소유권이 명시적으로 재배정되지 않는 한 DOCX를 직접 편집하지 않는다.
 
-Use this skill to move analysis evidence into the report through a controlled
-worker chain: analysis worker -> leader/orchestrator -> report DOCX worker.
-It is for handoff, verification, and safe wording; it is not a license for
-analysis workers to edit the report directly.
+## 경로 레지스트리
 
-## Trigger
+- 구체 파일은 `config`의 프로젝트 경로 레지스트리로 해석한다.
+- 키가 있으면 워커 브리프에는 하드코딩 경로 대신 경로 키를 사용한다.
 
-Use this skill for tasks such as:
+## 전달 구조
 
-- Table 1 indicator/source notes from Part 1 into DOCX comments or table notes.
-- Section 3.1/3.2/3.3 evidence checks that need report-safe prose.
-- HLM or Part 3 interpretation updates where analysis claims must be bounded.
-- Passing reviewer feedback from analysis owners to `report-docx-manager`.
+1. live cmux layout을 확인하고 워커 역할을 확정한다.
+2. 분석 워커에는 담당 경계 안의 읽기 전용 증거 작업을 배정한다.
+   - Part 1: UMC 지수, Table 1 지표, 3.1절 그림/표.
+   - Part 2: HLM 산출물, 모형 점검, 3.2절 연관성 문구.
+   - Part 3: 플랫폼 텍스트, Bayesian/inference workflow, 3.3절 경계.
+3. 반환 형식은 압축한다. 제안 문구, 확인한 비원자료 파일, 금지해야 할 주장, 범위 caveat를 받는다.
+4. 리더가 핵심 사실을 직접 검증한 뒤 보고서 표면으로 변환한다.
+5. 적절한 표면을 선택한다.
+   - 작성자 전용 지시: DOCX reviewer comment.
+   - 독자용 출처·정의·범위 설명: 각주.
+   - 표/그림 자체 설명: compact table/figure note.
+   - 산문 초안이 필요한 경우: `report-docx-manager` 브리프.
+6. 보이는 레이아웃이 바뀌면 DOCX 또는 영향받은 렌더 쪽을 검증한다.
+7. 보고서 DOCX 본문이나 각주를 의미 있게 바꾼 뒤에는 `paths.docs.korean_markdown_copy`에 한국어 읽기용 Markdown 전문 복사본을 간단한 구조로 갱신한다.
+8. 기존 PDF와 대비해 달라지는 본문·표기·부록 연결 문구는 DOCX에서 파란색 run으로 표시한다.
 
-Also use `$umc-cmux-worker-supervision` for pane routing, `$umc-report-commenting`
-for DOCX comments, `$umc-report-evidence-framing` for interpretation wording,
-and `$doc` when editing or validating the DOCX.
+## 작성 원칙
 
-## Workflow
+- 내부 작업 상태, 워커 이름, 검증 TODO는 독자용 각주에 넣지 않는다.
+- 출처 설명은 짧고 재현 가능한 수준으로만 쓴다.
+- 실질적 해석을 먼저 쓰고 숫자는 보조 근거로만 사용한다.
+- 본문에서 부록 자료를 가리킬 때는 문장 안 설명 뒤에 `(Appendix 1)`처럼 괄호형 참조를 붙이고, 해당 부록 제목과 번호가 일치하는지 확인한다.
+- Part 3 예시는 보고서에 이미 안전하게 일반화된 사례가 있는 경우를 제외하고 익명화·범주 수준으로 유지한다.
+- 한국어 Markdown 읽기본은 사용자가 빠르게 검토하기 위한 보조본이다. 원문 DOCX를 대체하지 않으며, 표·그림은 간단한 Markdown 텍스트와 캡션 중심으로 옮긴다.
 
-1. Re-check the live workspace:
+## 경계
 
-```bash
-cmux tree --workspace workspace:1
-git status --short --branch
-```
-
-2. Assign the analysis worker read-only evidence work.
-   - Part 1 owns UMC index construction, Table 1 indicators, Section 3.1
-     figures/tables, and source notes.
-   - Part 2 owns HLM/multilevel outputs, model validity, and Section 3.2
-     association wording.
-   - Part 3 owns platform text, Bayesian/inference workflow, and Section 3.3
-     exploratory evidence boundaries.
-   - Allow bounded parallel subagents only for independent read-only checks
-     inside that worker's owning path.
-
-3. Require a compact worker return:
-   - finding or proposed comment text;
-   - exact non-raw files or outputs checked;
-   - claims that must not be made;
-   - privacy or scope caveats.
-
-4. The leader verifies the key facts directly before touching the report.
-   Check at least the relevant codebook/output/script lines, rendered page,
-   or document anchor when feasible. Do not delegate final judgment.
-
-5. Convert evidence into report-safe form.
-   - For editor-only guidance, add Word comments with `$umc-report-commenting`.
-   - For reader-facing information, add compact table/figure/body notes.
-   - For interpretive text, state the substantive finding first and numbers
-     second; avoid causal, prevalence, or representativeness overclaims.
-
-6. Brief `보고서 DOCX 담당 · report-docx-manager`.
-   Include the active DOCX path, comment anchors or section anchors, the
-   intended reader-facing output, and the no-go claims. Analysis workers should
-   not edit the DOCX unless the leader explicitly reassigns ownership.
-
-7. Validate and report.
-   Reopen the DOCX or render when visible layout changed, run project link
-   checks after capability edits, and report residual dirty files or nested-repo
-   warnings separately from the completed handoff.
-
-## Output Contract
-
-A finished handoff should say:
-
-- which worker was used and whether it stayed read-only;
-- what was added to the DOCX or passed to the report worker;
-- which files or outputs the leader checked directly;
-- what remains dirty, blocked, or awaiting later report writing.
-
-## Boundaries
-
-- Never put raw survey rows, private platform text, post IDs, local raw-data
-  paths, secrets, `.env` values, or local settings into comments or handoffs.
-- Keep UMC-only skills and agents project-local under `.codex/` and `.claude/`
-  unless the user explicitly asks for a global reusable capability.
-- Commit root and nested analysis repos separately when publication is requested.
+- 원 설문 행, 비공개 플랫폼 텍스트, 게시물 ID, 로컬 원자료 경로, 비밀값, `.env`, 로컬 설정을 comment, 각주, handoff에 포함하지 않는다.
+- 분석 저장소와 루트 보고서 저장소의 dirty 상태는 완료된 전달과 분리해 보고한다.
+- 중첩 저장소 경고는 숨기지 말고 별도로 표시한다.

@@ -1,47 +1,53 @@
 ---
 name: umc-cmux-worker-supervision
-description: Use when work in `/Users/ujunbin/project/umc` is coordinated through cmux worker panes, especially when assigning report, Part 1, Part 2, text-preprocessing, git, or document-verification work and the leader must keep worker roles, context, artifacts, and repository boundaries clear.
+description: "UMC 프로젝트 작업을 cmux 워커 패널로 조율할 때 사용한다. 보고서, Part 1, Part 2, text preprocessing, git, 문서 검증 작업에서 리더가 워커 역할, 맥락, 산출물, 저장소 경계를 명확히 유지해야 할 때 적용한다."
 ---
 
-# UMC cmux Worker Supervision
+# UMC cmux 워커 감독
 
-## Trigger
+## 트리거
 
-Use this skill when the active root is `/Users/ujunbin/project/umc` and any of these are true:
+활성 루트가 UMC 프로젝트이고 다음 중 하나에 해당하면 이 스킬을 사용한다.
 
-- The task is split across cmux worker panes.
-- A worker pane needs to be named, renamed, refreshed, or reassigned.
-- A report, DOCX, figure, table, or analysis output is being edited or verified.
-- Git work spans the root UMC repo and one or more nested analysis repos.
-- Temporary renders, backups, reports, or verification outputs may be created.
+- 작업이 cmux 워커 패널로 나뉜다.
+- 워커 패널의 이름 지정, 재지정, 갱신, 재배정이 필요하다.
+- 보고서, DOCX, 그림, 표, 분석 산출물을 편집하거나 검증한다.
+- Git 작업이 루트 UMC 저장소와 하나 이상의 중첩 분석 저장소에 걸친다.
+- 임시 렌더, 백업, 보고서, 검증 산출물이 생성될 수 있다.
 
-Do not use this skill for unrelated workspaces or single-command tasks that do not involve UMC worker coordination.
+UMC 워커 조율과 무관한 작업이나 단일 명령 작업에는 사용하지 않는다.
 
-## First Checks
+## 첫 점검
 
-1. Confirm the current root is `/Users/ujunbin/project/umc`.
-2. Inspect the live cmux layout before addressing workers:
+1. 현재 루트가 설정된 UMC 프로젝트 루트인지 확인한다.
+2. 워커에게 지시하기 전 live cmux layout을 확인한다.
 
 ```bash
 cmux tree --workspace workspace:1
 ```
 
-3. Check the relevant Git repositories before editing or committing:
+3. 편집이나 커밋 전 관련 Git 저장소를 확인한다.
 
 ```bash
 git status --short --branch
-git -C "analysis/part 1" status --short --branch
-git -C "analysis/part 2" status --short --branch
-git -C "analysis/text-preprocessing" status --short --branch
+git -C "$PART1_REPO" status --short --branch
+git -C "$PART2_REPO" status --short --branch
+git -C "$TEXT_PREPROCESSING_REPO" status --short --branch
 ```
 
-4. Identify the durable output location before creating files. Use `tmp/` only for disposable checks, renders, and backups.
+4. 파일을 만들기 전 내구 산출물 위치를 정한다. 일회성 점검, 렌더, 백업에는 설정된 임시 출력 키를 사용한다.
 
-## Worker Naming
+## 경로 레지스트리
 
-Use functional role names, not decorative or personality-based names.
+- 구체 파일은 `config`의 프로젝트 경로 레지스트리로 해석한다.
+- 레지스트리 값은 루트 저장소 기준 GitHub 상대 경로다.
+- 워커 브리프에는 가능하면 경로 키를 쓰고, 실행 시점에만 구체 경로로 해석한다.
 
-Preferred visible pane labels:
+## 워커 이름
+
+기능적 역할 이름을 사용하고 장식적·성격 기반 이름을 쓰지 않는다.
+
+권장 visible pane label:
 
 - `보고서 DOCX 담당`
 - `Part 1 분석 총괄`
@@ -51,182 +57,111 @@ Preferred visible pane labels:
 - `Git/배포 담당`
 - `검증 담당`
 
-Rename panes with:
+이름 변경:
 
 ```bash
 cmux rename-tab --workspace workspace:1 --surface surface:<n> '<role label>'
 ```
 
-After renaming, verify with:
+변경 후 확인:
 
 ```bash
 cmux tree --workspace workspace:1
 ```
 
-## Default Worker Assignments
+## 기본 워커 배정
 
-Before sending work to a pane, map the visible worker label to an explicit
-agent name and owning path. Re-check `cmux tree --workspace workspace:1` first;
-surface IDs can drift, so the role label and agent name are authoritative.
+패널에 작업을 보내기 전 visible worker label을 명시적 agent name과 owning path에 매핑한다. surface ID는 달라질 수 있으므로, 역할 라벨과 agent name을 우선한다.
 
-Observed `workspace:1` assignment as of 2026-05-28. Verify live state before
-using any surface ID; the leader surface is not an assignment target.
+2026-05-28 기준 관측 배정이다. 실제 사용 전 live state를 다시 확인한다. leader surface는 배정 대상이 아니다.
 
 | Visible worker label | Current surface | Assigned agent | Primary owning path | Primary skills/rules |
 | --- | --- | --- | --- | --- |
 | `검증 담당 · project-verifier` | `surface:1` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first; no edits |
-| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff`, `doc` |
-| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
-| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data and Part 1 nested repo boundary |
-| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `paths.docs.active_report_docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff`, `doc` |
+| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `paths.analysis.part3.repo` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
+| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `paths.analysis.part1.repo` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data and Part 1 nested repo boundary |
+| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `paths.analysis.part2.repo` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |
 
-When renaming panes, include both the worker label and assigned agent:
+패널 이름을 바꿀 때는 worker label과 assigned agent를 함께 넣는다.
 
 ```bash
 cmux rename-tab --workspace workspace:1 --surface surface:<n> '<worker label> · <agent-name>'
 ```
 
-When briefing a worker, the first line should restate the assignment:
+워커 브리프의 첫 줄은 배정을 다시 확인한다.
 
 ```text
 [역할 지정] 이 패널의 담당 agent는 `<agent-name>`입니다.
 ```
 
-Do not assign report DOCX edits to an analysis agent. Do not assign raw-data,
-private-text, or post-level inspection to a report or verification worker.
+보고서 DOCX 편집을 분석 에이전트에게 맡기지 않는다. 원자료, 비공개 텍스트, 게시물 수준 검토를 보고서나 검증 워커에게 맡기지 않는다.
 
-## Parallel Subagents
+## 병렬 서브에이전트
 
-Bounded parallel subagents are allowed by default for independent side checks
-inside the assigned worker boundary unless the user or leader says otherwise.
-Use them to split clearly separable verification, file inspection, or
-implementation subtasks.
+사용자나 리더가 금지하지 않는 한, 배정된 워커 경계 안에서 독립적인 보조 점검에는 제한된 병렬 서브에이전트를 기본 허용한다.
 
-Rules:
+규칙:
 
-- The worker remains responsible for integrating and judging subagent results.
-- Parallel subtasks must have disjoint files, sections, scripts, outputs, or
-  read-only evidence targets.
-- Do not send raw data, private platform text, post IDs, secrets, `.env` files,
-  or local settings into subagent prompts.
-- For write tasks, state the owned file path or module for each subagent and
-  forbid reverting or overwriting other workers' edits.
-- For verification tasks, keep subagents read-only and require findings-first
-  output with exact files, commands, or rendered pages checked.
-- Report which subagents were used, what each checked or changed, and what the
-  worker verified directly before returning to the leader.
+- 워커는 결과 통합과 최종 판단 책임을 유지한다.
+- 병렬 하위 작업은 파일, 절, 스크립트, 산출물, 읽기 전용 증거 대상이 서로 분리되어야 한다.
+- 원자료, 비공개 플랫폼 텍스트, 게시물 ID, 비밀값, `.env`, 로컬 설정을 서브에이전트 프롬프트에 보내지 않는다.
+- 쓰기 작업은 각 서브에이전트의 소유 파일 경로나 모듈을 지정하고 다른 워커의 변경을 되돌리거나 덮어쓰지 못하게 한다.
+- 검증 작업은 읽기 전용으로 두고 findings first 형식과 정확한 파일, 명령, 렌더 쪽을 요구한다.
+- 어떤 서브에이전트를 썼고, 각자 무엇을 점검·변경했으며, 워커가 직접 무엇을 재검증했는지 보고한다.
 
-## Worker Briefs
+## 워커 브리프
 
-Send bounded briefs. Do not paste long transcript history into a worker.
+브리프는 제한적으로 보낸다. 긴 대화 이력을 붙여 넣지 않는다.
 
-Every worker instruction should include:
+모든 워커 지시에는 다음을 포함한다.
 
-- Current file path or repo path.
-- Exact section, table, figure, script, or output being checked.
-- Scope boundary: read-only, edit allowed, or report-only.
-- Evidence source: files, tables, rendered pages, logs, or command output.
-- Expected return format: concise findings plus exact files/sections checked.
-- Explicit permission that bounded parallel subagents are allowed for
-  independent side checks, unless this specific task forbids it.
+- 현재 파일 키 또는 해석된 저장소 경로.
+- 점검할 정확한 절, 표, 그림, 스크립트, 산출물.
+- 범위 경계: read-only, edit allowed, report-only.
+- 증거 출처: 파일 키, 표, 렌더 쪽, 로그, 명령 출력.
+- 기대 반환 형식: 간결한 findings와 확인한 파일/절.
+- 이 특정 작업에서 금지하지 않는 한 독립 보조 점검을 위한 제한된 병렬 서브에이전트 허용 문구.
 
-When a worker is likely holding stale context or nearing context pressure, instruct it to save a short status note or clear context before the new task.
+워커가 오래된 context를 들고 있거나 context 압박이 크면 새 작업 전 짧은 상태 메모 저장 또는 context 정리를 지시한다.
 
-Always submit the message after `cmux send`:
+`cmux send` 뒤에는 반드시 Enter를 보낸다.
 
 ```bash
 cmux send --workspace workspace:1 --surface surface:<n> '<brief>'
 cmux send-key --workspace workspace:1 --surface surface:<n> Enter
 ```
 
-Then read back the screen if the task depends on the worker actually starting:
+작업 착수 여부가 중요하면 화면을 다시 읽는다.
 
 ```bash
 cmux read-screen --workspace workspace:1 --surface surface:<n> --lines 40
 ```
 
-## Leader Loop
+## 리더 루프
 
-The leader owns the workflow until the task is closed.
+리더는 작업이 닫힐 때까지 워크플로 책임을 가진다.
 
-1. Assign a bounded task.
-2. Confirm the worker received it.
-3. Monitor completion.
-4. Read and judge the worker result.
-5. Verify important claims directly when feasible.
-6. Send the next bounded instruction or put the worker on standby.
+1. 제한된 작업을 배정한다.
+2. 워커가 지시를 받았는지 확인한다.
+3. 완료를 모니터링한다.
+4. 워커 결과를 읽고 충분성을 판단한다.
+5. 중요한 주장은 가능한 범위에서 직접 검증한다.
+6. 다음 제한 작업을 보내거나 대기 상태로 둔다.
 
-Do not treat delegation as completion. Report to the user only after the worker result has been reviewed and any important claims have been checked.
+위임을 완료로 취급하지 않는다. 워커 결과를 검토하고 중요한 주장을 확인한 뒤에만 사용자에게 보고한다.
 
-For report/DOCX tasks, the leader acts as orchestrator and verifier:
+보고서/DOCX 작업에서 리더는 오케스트레이터이자 검증자다.
 
-- Use the relevant analysis worker to verify source truth, result tables, prompt files, and pipeline steps.
-- Use `$umc-report-handoff` when analysis-worker evidence must become DOCX comments, table notes, prose instructions, or report-worker briefs.
-- Use `보고서 DOCX 담당` or `검증 담당` to inspect rendered pages, captions, tables, figures, and appendix placement.
-- Integrate worker findings only after checking the key paths or rendered output directly.
-- When the user asks to put a prompt "as-is" or "verbatim" into an appendix, do not replace it with a role/input/rule/output summary. Insert the exact source prompt text and preserve line breaks, while still excluding raw posts, private text, and post-level dumps.
-- For report figures, do not add sentence-style explanatory footers inside the image or as one-line notes directly below it. Put interpretation in the body text, caption, or formal table note.
+- 관련 분석 워커에게 원천 truth, 결과 표, 프롬프트 파일, 파이프라인 단계를 확인시킨다.
+- 분석 워커 증거가 DOCX comment, 각주, 표/그림 노트, 산문 지시, report-worker brief로 바뀌어야 하면 `$umc-report-handoff`를 사용한다.
+- `보고서 DOCX 담당` 또는 `검증 담당`에게 렌더 쪽, 그림 배치, 캡션, 부록 표, 페이지네이션을 점검시킨다.
+- 프롬프트를 "as-is" 또는 "verbatim"으로 넣으라는 요청이 있으면 요약 표로 대체하지 말고 원천 프롬프트 텍스트를 부록에 보존한다.
+- 보고서 그림 안이나 바로 아래에 문장형 설명 푸터를 추가하지 않는다.
 
-## Repository Boundaries
+## Git 경계
 
-The root repo and analysis repos are separate Git repositories.
-
-- Root UMC repo: `/Users/ujunbin/project/umc`
-  - Tracks report, writing, docs, PPT, and project-level files.
-  - Ignores `analysis/`.
-- Part 1 repo: `/Users/ujunbin/project/umc/analysis/part 1`
-  - Tracks Part 1 UMC index construction and Section 3.1 figure outputs.
-- Part 2 repo: `/Users/ujunbin/project/umc/analysis/part 2`
-  - Tracks HLM/multilevel analysis for Section 3.2.
-- Text preprocessing repo: `/Users/ujunbin/project/umc/analysis/text-preprocessing`
-  - Tracks text preprocessing and classification support.
-
-Commit from the repository that owns the changed files. If a task changes both analysis outputs and a report artifact, commit the analysis repo and the root repo separately.
-
-Before push, verify each touched repo:
-
-```bash
-git status --short --branch
-git rev-list --left-right --count HEAD...origin/main
-```
-
-After push, the expected synchronization result is:
-
-```text
-0 0
-```
-
-## Artifact Hygiene
-
-Keep generated files tidy.
-
-- Use `tmp/` for disposable renders, OCR output, DOCX unzip checks, screenshots, and one-off verification files.
-- Use a clear backup folder such as `tmp/docs/backups/` for dated document backups.
-- Keep durable outputs in the owning repo's established output folder, for example `docs/`, `writing/`, or `analysis/<part>/output/`.
-- Do not scatter backups or temporary render pages in main folders.
-- Remove disposable render/check folders before final reporting unless the user explicitly asks to keep them.
-- Do not delete or move existing user files without explicit approval.
-
-## Approval Boundaries
-
-Proceed autonomously for normal inspection, bounded worker instructions, README/doc edits, non-destructive verification, commits, and pushes when the user explicitly asks for that flow.
-
-Pause for approval before:
-
-- Deleting or moving existing user files.
-- Rewriting raw data or private inputs.
-- Resetting, restoring, or discarding changes not made by the current task.
-- Broadening a worker's scope beyond the assigned analysis/report boundary.
-- Taking externally visible actions that were not requested.
-
-## Final Report Checklist
-
-Before reporting completion:
-
-- Current worker labels are role-based and match ownership.
-- Workers that were assigned have either reported completion or are explicitly on standby.
-- Important worker claims were checked directly where feasible.
-- Disposable files were cleaned.
-- The touched Git repos are clean or clearly reported as dirty.
-- Any commits/pushes include commit hashes and repository names.
-- Any residual risk or skipped verification is stated plainly.
+- 파일을 소유한 저장소에서 커밋한다.
+- 루트 저장소와 중첩 분석 저장소 변경을 섞어 하나의 커밋으로 만들지 않는다.
+- 원자료, 비공개 플랫폼 텍스트, `.env`, 로컬 설정이 staging에 들어가지 않았는지 확인한다.
+- push 전 `project-verifier` 또는 직접 읽기 전용 점검으로 staged 범위를 확인한다.

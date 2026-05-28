@@ -1,47 +1,55 @@
 ---
 name: umc-report-commenting
-description: Use when adding, reviewing, or resolving UMC report comments, annotations, footnotes, table notes, appendix notes, or reviewer-style DOCX comments in `/Users/ujunbin/project/umc`, especially when Codex must mark an issue without rewriting report prose or must add a compact reader-facing note safely.
+description: "UMC 보고서의 DOCX reviewer comment, 각주, 표 노트, 그림 노트, 부록 노트, 검토 주석을 추가·검토·해결할 때 사용한다. 작성자용 지적과 독자용 설명을 구분한다."
 ---
 
-# UMC Report Commenting
+# UMC 보고서 주석·각주 처리
 
-Use this skill for annotation work in the UMC report workflow, especially the active draft `docs/ITU UMC Data Hackathon 2026.docx`.
+UMC 보고서 워크플로에서 annotation 작업을 할 때 이 스킬을 사용한다.
 
-## Choose the Note Type
+## 경로 레지스트리
 
-- Use a DOCX reviewer comment when the note is for the author/editor and should not become final report text.
-- Use a table note or figure note when the information is reader-facing and belongs with the display.
-- Use a footnote only for source, definition, or scope clarification that would interrupt the paragraph.
-- Use an inline bracketed note only in scratch drafts or when the user explicitly asks for visible inline annotations.
+- 구체 파일은 `config`의 프로젝트 경로 레지스트리로 해석한다.
+- 활성 초안은 `paths.docs.active_report_docx`를 사용한다.
 
-## Comment Rules
+## 노트 유형 선택
 
-- Anchor comments to the smallest exact text range, table cell, caption, or figure reference that needs attention.
-- Keep each comment to one issue and one requested action.
-- Start comments with a short category when useful: `Evidence:`, `Formatting:`, `Source:`, `Privacy:`, or `Decision:`.
-- Do not put raw posts, post IDs, private platform text, local raw-data paths, `.env` values, or secrets in comments or notes.
-- Use anonymized paraphrase for Part 3 examples and privacy-sensitive evidence.
-- Do not use comments to carry final interpretation. Move accepted interpretation into the body text or a compact display note.
+- 작성자나 편집자에게만 보일 지적은 DOCX reviewer comment로 남긴다.
+- 독자가 읽어야 하는 출처, 정의, 범위 설명은 각주나 표/그림 노트로 옮긴다.
+- 표 자체의 약어, 기준범주, 지표 정의, 유의성 표시는 표 아래 compact note로 둔다.
+- 문단 흐름을 끊지만 출처·정의·범위 설명이 필요한 경우에만 각주를 사용한다.
+- 스크래치 초안이거나 사용자가 명시적으로 요청한 경우에만 대괄호 인라인 노트를 사용한다.
 
-## DOCX Comments
+## DOCX Reviewer Comment 규칙
 
-- Prefer `python-docx` comments when available: locate the target paragraph/run, call `Document.add_comment(runs, text, author="UMC reviewer", initials="UMC")`, and save the same document only after confirming the target.
-- If the target text spans part of a run, split the run first so the comment anchors only the intended phrase.
-- If the installed `python-docx` does not support comments, add comments through OOXML only after inspecting the existing `word/comments.xml` and relationship IDs.
-- After adding comments, reopen the DOCX and verify comment count, anchor text, author, and comment text.
-- PDF renders usually do not show Word comments; use PDF rendering only to verify visible footnotes, table notes, figure notes, and pagination.
+- comment는 가장 작은 정확한 텍스트 범위, 표 셀, 캡션, 그림 참조에 앵커링한다.
+- comment 하나에는 하나의 문제와 하나의 요청만 담는다.
+- 필요하면 `Evidence:`, `Formatting:`, `Source:`, `Privacy:`, `Decision:` 같은 짧은 범주로 시작한다.
+- 원문 게시물, 게시물 ID, 비공개 플랫폼 텍스트, 로컬 원자료 경로, `.env` 값, 비밀값은 comment나 note에 넣지 않는다.
+- Part 3 예시와 민감 증거는 익명화된 paraphrase만 사용한다.
+- 최종 해석을 comment에 보관하지 않는다. 채택된 해석은 본문, 각주, 표/그림 노트로 이동한다.
 
-## Reader-Facing Notes
+## 각주와 독자용 노트
 
-- Keep table and figure notes compact: explain abbreviations, reference categories, model variants, source scope, or significance markers.
-- Put table notes directly below the table in 8-9 pt style unless a stronger local precedent exists.
-- Do not duplicate details already clear from captions, column headers, or surrounding prose.
-- For Table 4-style model tables, keep reference categories and significance markers in a single compact note below the table.
+- 독자용 정보 주석은 reviewer comment로 두지 말고 각주 또는 표/그림 노트로 변환한다.
+- 각주는 출처, 정의, 범위 제한, 지표 산식의 짧은 설명에 한정한다.
+- 같은 표의 여러 지표 설명은 각주보다 표 아래 compact note가 더 자연스러운지 먼저 판단한다.
+- 각주 문장은 짧고 보고서 본문 톤을 따른다. 내부 작업 지시, 워커 이름, 검토 상태는 포함하지 않는다.
+- 각주 번호 참조는 항상 윗첨자로 보이게 유지한다. OOXML을 직접 수정한 경우 `w:footnoteReference` 또는 `w:footnoteRef`가 있는 run에 `w:vertAlign w:val="superscript"`가 있는지 확인한다.
+- PDF 렌더는 Word comment를 보통 보여주지 않는다. 각주, 표 노트, 그림 노트, 페이지네이션은 렌더로 확인한다.
 
-## Review
+## DOCX 작업 절차
 
-1. Confirm whether the user wants reviewer comments or visible report notes.
-2. Locate the exact target and avoid broad document-wide annotation.
-3. Add the comment or note with privacy-safe wording.
-4. Reopen or render the artifact as appropriate.
-5. Report the number and location of comments or visible notes added.
+- `python-docx` comment API가 가능하면 대상 paragraph/run을 찾고 필요한 경우 run을 분할한 뒤 `Document.add_comment(...)`를 사용한다.
+- 각주가 필요하면 OOXML의 `footnotes.xml`, document relationship, content type을 함께 확인한다.
+- 기존 comment를 각주로 바꿀 때는 작성자용 comment와 독자용 정보 comment를 분리한다.
+- 각주 변환 후 DOCX를 다시 열어 comment 수, footnote reference 수, footnote text, 각주 참조 윗첨자 속성을 확인한다.
+- 보이는 레이아웃이 바뀌면 DOCX를 PDF로 렌더하고 영향을 받은 쪽을 확인한다.
+
+## 검토 순서
+
+1. 사용자가 작성자용 comment를 원하는지, 독자에게 보이는 각주/노트를 원하는지 확인한다.
+2. 정확한 대상 위치를 찾고 문서 전체에 넓게 annotation하지 않는다.
+3. privacy-safe 문구로 comment, 각주, 표/그림 노트를 추가한다.
+4. 필요에 따라 DOCX를 다시 열거나 렌더한다.
+5. 추가·변환·남겨둔 comment와 각주 수, 위치, 잔여 위험을 보고한다.

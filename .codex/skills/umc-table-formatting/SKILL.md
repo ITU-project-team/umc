@@ -1,79 +1,84 @@
 ---
 name: umc-academic-table-formatting
-description: Use when creating, editing, or reviewing UMC report DOCX academic tables, especially Table 4-style HLM/model-result tables, compact evidence tables, and appendix prompt/keyword tables.
-allowed-tools: Read, Bash
+description: "UMC 보고서 DOCX 학술 표를 생성·편집·검토할 때 사용한다. 특히 Table 4 스타일 HLM/모형 결과표, compact evidence table, 부록 프롬프트/키워드 표에 적용한다."
 ---
 
-# UMC Academic Table Formatting
+# UMC 학술 표 포맷팅
 
-Use for report-facing tables in `/Users/ujunbin/project/umc`, especially `docs/ITU UMC Data Hackathon 2026.docx`.
+활성 UMC 보고서의 보고서용 표에 사용한다.
 
-When the user asks for tables like "Table 4", use `Table 4. HLM Estimation Results` in `docs/ITU UMC Data Hackathon 2026.docx` as the visual reference.
+## 경로 레지스트리
 
-## Rules
+- 구체 파일은 `config`의 프로젝트 경로 레지스트리로 해석한다.
+- 활성 보고서 DOCX는 `paths.docs.active_report_docx`를 사용한다.
+- 일회성 렌더 파일은 `paths.tmp.root`를 사용한다.
 
-- Tables are evidence displays, not prose containers.
-- Keep rows compact: short labels, compact wording, small font, zero paragraph spacing, and tight cell margins.
-- Put interpretation in body text or a note, not in long table cells.
-- Keep captions formal and attached to the table. Avoid captions stranded at page bottoms.
-- Do not use nested or decorative tables.
+사용자가 "Table 4" 같은 표를 요청하면 활성 보고서의 `Table 4. HLM Estimation Results`를 시각 기준으로 삼는다.
 
-## DOCX Defaults
+## 규칙
 
-- Dense numeric tables and Table 4-style model tables: Arial `8 pt`; short descriptive tables: `9-9.5 pt`.
-- Cell paragraphs: `0 pt` before/after, single spacing.
-- Vertical alignment: center for short/numeric cells, top only for unavoidable prose-heavy cells.
-- Cell margins: top/bottom `30-50 twips`; left/right `60-90 twips`.
-- Header row: bold, compact, gray fill, high contrast, no blank line.
-- Avoid fixed tall rows; remove empty cell paragraphs.
+- 표는 증거 display이지 산문 container가 아니다.
+- 행은 짧은 라벨, compact wording, 작은 글꼴, 문단 간격 0, 좁은 셀 여백으로 압축한다.
+- 해석은 긴 표 셀 안이 아니라 본문, 각주, 표 노트에 둔다.
+- 캡션은 formal하게 표와 붙여 둔다. 캡션이 쪽 하단에 고립되지 않게 한다.
+- 중첩 표나 장식적 표를 쓰지 않는다.
 
-## Table 4 Model-Result Pattern
+## DOCX 기본값
 
-- Use for HLM, regression, and comparable multi-model result tables unless the table has a stronger local precedent.
-- Caption: centered `Caption` style, italic report caption text, immediately above the table.
-- Table: near full text width, `List Table 1 Light` when working in the active DOCX; otherwise reproduce its visible effect.
-- Columns: `Variable` plus model columns. For four models, use about `30% / 21% / 16% / 16% / 16%`; keep the first column wide enough for variable labels and center model estimates.
-- Header: gray fill (`D9D9D9` or matching theme shade), bold centered labels, double top/bottom rules.
-- Body: first column left aligned; model-result columns centered; Arial `8 pt`; no paragraph spacing.
-- Group rows: use short labels such as `Level 1: Individual characteristics`, `Level 2: District characteristics`, and `Retained interactions`; leave model cells blank, keep the group label bold, and separate major groups with horizontal double rules.
-- Borders: keep vertical separators visible and thin; use double horizontal rules at the table top, below the header, above major group rows, and at the table bottom.
-- Emphasis: preserve sparse yellow highlighting only when the source table or user explicitly marks estimates for emphasis; do not invent highlights.
-- Notes: put reference categories, model variants, and significance markers in a compact `9 pt` note below the table, not inside body cells.
+- 밀도 높은 수치표와 Table 4 스타일 모형표: Arial `8 pt`; 짧은 설명 표: `9-9.5 pt`.
+- 셀 문단: 앞/뒤 `0 pt`, single spacing.
+- 세로 정렬: 짧은 셀과 수치 셀은 가운데, 불가피한 산문 셀만 위쪽.
+- 셀 여백: 위/아래 `30-50 twips`, 좌/우 `60-90 twips`.
+- 헤더 행: 굵게, compact, gray fill, high contrast, 빈 줄 없음.
+- 고정된 큰 행 높이는 피하고 빈 셀 문단을 제거한다.
 
-## Width Patterns
+## Table 4 모형 결과 패턴
 
-- Numeric/statistical tables: narrow numeric columns and a wider label column.
-- Table 4-style model tables: first column about `30%`; model columns split by content length, with the widest model column around `20-21%` if needed.
-- Prompt tables: label `25-30%`, content `70-75%`.
-- Keyword appendix tables: count column `10-12%` maximum; representative terms get the widest column.
-- If a cell wraps beyond about three visual lines, shorten it or move detail to a note/artifact.
+- HLM, regression, 비교 가능한 multi-model result table에 사용한다.
+- 캡션: 가운데 정렬 `Caption` 스타일, italic report caption text, 표 바로 위.
+- 표: 거의 full text width, 활성 DOCX에서는 `List Table 1 Light` 효과를 따른다.
+- 열: `Variable`과 model columns. 네 모형이면 대략 `30% / 21% / 16% / 16% / 16%`.
+- 헤더: gray fill, bold centered labels, double top/bottom rules.
+- 본문: 첫 열 좌측 정렬, 모형 결과 열 중앙 정렬, Arial `8 pt`, 문단 간격 없음.
+- 그룹 행: `Level 1: Individual characteristics`, `Level 2: District characteristics`, `Retained interactions`처럼 짧은 라벨을 쓴다. 모형 셀은 비우고 그룹 라벨은 굵게 처리한다.
+- 테두리: 세로 구분선은 얇게 보이게 하고, 표 상단·헤더 아래·주요 그룹 위·표 하단에는 double horizontal rules를 둔다.
+- 강조: 원천 표나 사용자가 명시한 경우에만 드문 yellow highlighting을 보존한다. 임의로 강조를 만들지 않는다.
+- 노트: 기준범주, 모형 variant, 유의성 표시는 표 아래 compact `9 pt` note에 둔다.
 
-## Compact Content
+## 너비 패턴
 
-- Use noun phrases instead of sentence prose in cells.
-- Use concise headers such as `SD`, `Min`, and `Max`; define them in notes.
-- Left-align text columns, center short categorical columns, and right- or decimal-align numeric/model-result columns.
-- Repeat only the true header row. Do not mark body rows as repeat headers.
-- Avoid `cantSplit` on every body row; reserve it for headers, group rows, or very short tables.
+- 수치/통계 표: 좁은 수치 열과 넓은 라벨 열.
+- Table 4 스타일 모형표: 첫 열 약 `30%`, 모형 열은 내용 길이에 맞게 분배.
+- 프롬프트 표: label `25-30%`, content `70-75%`.
+- 키워드 부록 표: count column은 최대 `10-12%`, representative terms가 가장 넓은 열.
+- 셀이 시각적으로 세 줄을 넘으면 줄이거나 note/artifact로 옮긴다.
 
-## Appendix Rules
+## 압축 내용
 
-- Prompt tables summarize role/input/rule/output by default. If the user explicitly asks for prompts "as-is", "verbatim", or "그대로", insert the exact source prompt text in the appendix, preserve line breaks, add source path/version metadata, and use compact font/table spacing.
-- Keyword tables show counts and representative terms only.
-- Full prompts and dictionaries belong in maintained appendix artifacts with path/date/version metadata.
-- Never include raw posts, post IDs, post-level LLM dumps, local raw-data paths, or private data in report tables.
+- 셀 안에서는 문장형 산문보다 명사구를 쓴다.
+- `SD`, `Min`, `Max` 같은 짧은 헤더를 쓰고 노트에서 정의한다.
+- 텍스트 열은 좌측 정렬, 짧은 범주 열은 중앙 정렬, 수치/모형 결과 열은 우측 또는 소수점 정렬한다.
+- 진짜 헤더 행만 반복한다. 본문 행을 반복 헤더로 표시하지 않는다.
+- 모든 본문 행에 `cantSplit`을 걸지 않는다. 헤더, 그룹 행, 매우 짧은 표에만 제한적으로 쓴다.
 
-## Pagination Rules
+## 부록 규칙
 
-- Detect report tables by body-order traversal: a caption matching `Table N.` or `Appendix Table A#.` immediately followed by a table. Skip figure-layout tables.
-- Set captions to keep with the following table.
-- After PDF render, flag continuation pages with `<=3` rows or mostly blank space.
-- Do not insert manual page breaks before tables unless the break prevents an orphan caption or broken table.
+- 프롬프트 표는 기본적으로 role/input/rule/output을 요약한다. 사용자가 "as-is", "verbatim", "그대로"를 명시하면 원천 프롬프트 텍스트를 부록에 넣고 줄바꿈, 출처 경로 키, 버전 메타데이터, compact font/table spacing을 유지한다.
+- 키워드 표는 count와 representative terms만 보여준다.
+- 전체 프롬프트와 사전은 경로/날짜/버전 메타데이터가 있는 유지관리 부록 산출물에 둔다.
+- 원문 게시물, 게시물 ID, 게시물 수준 LLM 덤프, 로컬 원자료 경로, 비공개 자료는 보고서 표에 넣지 않는다.
 
-## Review
+## 페이지네이션 규칙
 
-1. Check caption number and title.
-2. Check page split and orphaned captions.
-3. Find rows made tall by prose, repeated labels, blank paragraphs, or large font.
-4. Render to PDF and inspect visually.
-5. Keep disposable render files under `tmp/` and clean them before reporting.
+- 본문 순서로 표를 탐지한다. `Table N.` 또는 `Appendix Table A#.` 캡션 바로 뒤의 표를 보고서 표로 본다. 그림 레이아웃용 표는 건너뛴다.
+- 캡션은 다음 표와 함께 유지한다.
+- PDF 렌더 후 continuation page가 `<=3`행이거나 거의 빈 공간이면 표시한다.
+- 고아 캡션이나 깨진 표를 막는 경우가 아니면 수동 페이지 나누기를 넣지 않는다.
+
+## 검토
+
+1. 캡션 번호와 제목을 확인한다.
+2. 페이지 분할과 고아 캡션을 확인한다.
+3. 산문, 반복 라벨, 빈 문단, 큰 글꼴 때문에 행이 길어진 부분을 찾는다.
+4. PDF로 렌더해 시각적으로 확인한다.
+5. 일회성 렌더 파일은 설정된 임시 출력 키 아래에 두고 보고 전 정리한다.

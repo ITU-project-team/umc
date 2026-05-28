@@ -1,71 +1,74 @@
 ---
 name: umc-worker-orchestration
-description: Coordinate UMC cmux workers, including role labels, compact briefs, context resets, result review, artifact hygiene, and Git repository boundaries.
+description: UMC cmux 워커를 조율한다. 역할 라벨, 압축 브리프, context reset, 결과 검토, 산출물 정리, Git 저장소 경계를 포함한다.
 allowed-tools: Read, Bash
 ---
 
-# UMC Worker Orchestration
+# UMC 워커 오케스트레이션
 
-Use for UMC work split across visible worker panels.
+보이는 워커 패널로 UMC 작업을 나눌 때 사용한다.
 
-## Procedure
+## 절차
 
-1. Inspect the current cmux layout before naming or assigning workers.
-2. Use functional labels such as `보고서 DOCX 담당`, `Part 1 분석 총괄`, `Part 2 분석 총괄`, `Part 3 분석 총괄`, and `검증 담당`.
-3. Send compact briefs with:
-   - exact file or repo path;
-   - target section, table, figure, script, or output;
-   - scope boundary: read-only, edit allowed, or report-only;
-   - evidence source;
-   - expected return format.
-4. Read the worker result, judge sufficiency, verify important claims directly when feasible, and send the next bounded instruction.
-5. Keep temporary renders, checks, and backups under `tmp/`.
+1. 워커 이름 지정이나 배정 전 현재 cmux layout을 확인한다.
+2. `보고서 DOCX 담당`, `Part 1 분석 총괄`, `Part 2 분석 총괄`, `Part 3 분석 총괄`, `검증 담당` 같은 기능적 라벨을 사용한다.
+3. 압축 브리프에는 다음을 넣는다.
+   - 정확한 파일 또는 저장소 경로 키.
+   - 대상 절, 표, 그림, 스크립트, 산출물.
+   - 범위 경계: read-only, edit allowed, report-only.
+   - 증거 출처.
+   - 기대 반환 형식.
+4. 워커 결과를 읽고 충분성을 판단하며, 중요한 주장은 가능한 범위에서 직접 검증한 뒤 다음 제한 지시를 보낸다.
+5. 임시 렌더, 점검, 백업은 설정된 임시 출력 키 아래에 둔다.
 
-## Default Worker Assignments
+## 경로 레지스트리
 
-Re-check `cmux tree --workspace workspace:1` before assigning work. Surface IDs
-can drift; the worker label and agent name are authoritative.
+- 구체 파일은 `config`의 프로젝트 경로 레지스트리로 해석한다.
+- 레지스트리 값은 루트 저장소 기준 GitHub 상대 경로다.
+- 워커 브리프에는 가능하면 경로 키를 쓰고, 실행 시점에만 구체 경로로 해석한다.
 
-Observed `workspace:1` assignment as of 2026-05-28. Verify live state before
-using any surface ID; the worker label and agent name are authoritative.
+## 기본 워커 배정
+
+작업 배정 전 `cmux tree --workspace workspace:1`을 다시 확인한다. surface ID는 바뀔 수 있으므로 worker label과 agent name을 우선한다.
+
+2026-05-28 기준 관측 배정이다. 실제 사용 전 live state를 다시 확인한다.
 
 | Visible worker label | Current surface | Assigned agent | Owning path | Primary skills/rules |
 | --- | --- | --- | --- | --- |
 | `검증 담당 · project-verifier` | `surface:1` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first |
-| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `docs/ITU UMC Data Hackathon 2026.docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff` |
-| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `analysis/part 3` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
-| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `analysis/part 1` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data |
-| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `analysis/part 2` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `paths.docs.active_report_docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff` |
+| `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `paths.analysis.part3.repo` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
+| `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `paths.analysis.part1.repo` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data |
+| `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `paths.analysis.part2.repo` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |
 
-Begin worker briefs with:
+워커 브리프는 다음으로 시작한다.
 
 ```text
 [역할 지정] 이 패널의 담당 agent는 `<agent-name>`입니다.
 ```
 
-## Parallel Subagents
+## 병렬 서브에이전트
 
-Bounded parallel subagents are allowed by default for independent side checks
-inside the worker's assigned path and scope, unless the leader says otherwise.
+리더가 금지하지 않는 한, 워커의 배정 경로와 범위 안에서 독립적인 보조 점검에는 제한된 병렬 서브에이전트를 기본 허용한다.
 
-- The worker owns integration and final judgment.
-- Split only disjoint files, sections, scripts, outputs, or read-only evidence targets.
-- Do not pass raw data, private platform text, post IDs, secrets, `.env`, or local settings to subagents.
-- Keep verification subagents read-only and require findings-first output with exact files or commands checked.
-- For write subtasks, state the owned file path or module and forbid reverting other workers' edits.
-- Report what each subagent checked or changed before returning to the leader.
+- 워커가 통합과 최종 판단을 책임진다.
+- 파일, 절, 스크립트, 산출물, 읽기 전용 증거 대상이 분리될 때만 나눈다.
+- 원자료, 비공개 플랫폼 텍스트, 게시물 ID, 비밀값, `.env`, 로컬 설정을 서브에이전트에 전달하지 않는다.
+- 검증 서브에이전트는 읽기 전용으로 두고 정확한 파일이나 명령이 들어간 findings first 출력을 요구한다.
+- 쓰기 하위 작업은 소유 파일 경로나 모듈을 지정하고 다른 워커 변경을 되돌리지 못하게 한다.
+- 리더에게 돌아올 때 각 서브에이전트가 확인하거나 바꾼 내용을 보고한다.
 
-For report/DOCX work, treat the lead session as the orchestrator and verifier:
+## 보고서/DOCX 작업
 
-- Ask the relevant analysis worker to verify source files, result claims, prompt locations, and pipeline stages.
-- Use `umc-report-handoff` when analysis-worker evidence must become DOCX comments, table notes, prose instructions, or report-worker briefs.
-- Ask `보고서 DOCX 담당` or `검증 담당` to check rendered pages, figure placement, captions, appendix tables, and pagination.
-- Do not treat a worker answer as completion until the important file paths or rendered pages have been checked directly.
-- If the user asks for a prompt to be inserted "as-is" or "verbatim", preserve the exact source prompt text in the appendix instead of replacing it with a summary table.
-- Do not add sentence-style explanatory footers inside report figures or as one-line notes directly below figures.
+- 관련 분석 워커에게 원천 파일, 결과 주장, 프롬프트 위치, 파이프라인 단계를 확인시킨다.
+- 분석 워커 증거가 DOCX comment, 각주, 표 노트, 산문 지시, report-worker brief로 바뀌어야 하면 `umc-report-handoff`를 사용한다.
+- `보고서 DOCX 담당` 또는 `검증 담당`에게 렌더 쪽, 그림 배치, 캡션, 부록 표, 페이지네이션을 점검시킨다.
+- 중요한 파일 경로나 렌더 쪽을 직접 확인하기 전에는 워커 답변을 완료로 보지 않는다.
+- 사용자가 프롬프트를 "as-is" 또는 "verbatim"으로 넣으라고 하면 요약 표가 아니라 원천 프롬프트 텍스트를 부록에 보존한다.
+- 보고서 그림 내부나 그림 바로 아래에 문장형 설명 푸터를 추가하지 않는다.
 
-## Boundaries
+## 경계
 
-- Do not delete or move existing user files without approval.
-- Do not commit raw data, private platform text, `.env`, or local settings.
-- Commit from the repository that owns the changed files.
+- 명시적 승인 없이 기존 사용자 파일을 삭제하거나 이동하지 않는다.
+- 원자료, 비공개 플랫폼 텍스트, `.env`, 로컬 설정을 커밋하지 않는다.
+- 변경 파일을 소유한 저장소에서 커밋한다.

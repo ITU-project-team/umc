@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "path_format": "github_relative_to_repository_root",
+  "description": "Canonical UMC project path registry for local skills and agents. Values are GitHub-relative paths from the root repository unless the value is '.'.",
+  "paths": {
+    "root": ".",
+    "config": {
+      "project_paths": "config/umc_project_paths.json",
+      "report_analysis_lag": "config/report_analysis_lag.json",
+      "seed_keywords": "config/seed_keywords.yaml"
+    },
+    "docs": {
+      "active_report_docx": "docs/ITU UMC Data Hackathon 20260528.docx",
+      "design_guide": "design.md",
+      "evidence_terms": "docs/style/umc_report_evidence_terms.json",
+      "ppt_source_evidence": "docs/components/umc_ppt_source_evidence_20260528.json",
+      "korean_markdown_copy": "docs/ITU UMC Data Hackathon 2026.ko.md",
+      "figures": "docs/figures"
+    },
+    "ppt": {
+      "step3_submission": "ppt/HighFive_Step3_Submission.pptx"
+    },
+    "paper": {
+      "literature": "paper"
+    },
+    "tmp": {
+      "root": "tmp",
+      "doc_backups": "tmp/docs/backups"
+    },
+    "codex": {
+      "skills": ".codex/skills",
+      "agents": ".codex/agents",
+      "logs": ".codex/logs",
+      "hooks": {
+        "report_analysis_lag_check": ".codex/hooks/report_analysis_lag_check.py"
+      }
+    },
+    "claude": {
+      "skills": ".claude/skills",
+      "agents": ".claude/agents"
+    },
+    "analysis": {
+      "part1": {
+        "repo": "analysis/part 1",
+        "score_table_2024": "analysis/part 1/output/tables/seoul_umc_scores_v7_2024.csv",
+        "section31_figure_script": "analysis/part 1/scripts/generate_section31_figures.py",
+        "report_refresh_figures": "analysis/part 1/output/figures/report_refresh_20260516",
+        "seoul_gis": "analysis/part 1/data/gis/Seoul",
+        "output": "analysis/part 1/output"
+      },
+      "part2": {
+        "repo": "analysis/part 2",
+        "scripts": {
+          "data_prep": "analysis/part 2/scripts/data_prep.py",
+          "eda": "analysis/part 2/scripts/eda.py",
+          "hlm_modeling": "analysis/part 2/scripts/hlm_modeling.py",
+          "generate_report": "analysis/part 2/scripts/generate_report.py",
+          "regenerate_codebook_euckr": "analysis/part 2/scripts/regenerate_codebook_euckr.py",
+          "model3_model4_diagnostics": "analysis/part 2/scripts/model3_model4_diagnostics.py"
+        },
+        "data": {
+          "analysis_csv": "analysis/part 2/data/processed/analysis_df.csv",
+          "analysis_parquet": "analysis/part 2/data/processed/analysis_df.parquet"
+        },
+        "tables": {
+          "dir": "analysis/part 2/output/tables",
+          "hlm_model_comparison": "analysis/part 2/output/tables/hlm_model_comparison.csv",
+          "hlm_fit_statistics": "analysis/part 2/output/tables/hlm_fit_statistics.csv",
+          "hlm_policy_simulation": "analysis/part 2/output/tables/hlm_policy_simulation.csv",
+          "hlm_sensitivity_summary": "analysis/part 2/output/tables/hlm_sensitivity_summary.csv"
+        },
+        "reports": {
+          "validity_check": "analysis/part 2/output/reports/validity_check_report.md"
+        },
+        "output": "analysis/part 2/output"
+      },
+      "part3": {
+        "repo": "analysis/part 3",
+        "text_preprocessing": "analysis/part 3/01_text_preprocessing",
+        "bayesian": "analysis/part 3/02_bayesian",
+        "bayesian_output": "analysis/part 3/02_bayesian/output",
+        "bayesian_tables": "analysis/part 3/02_bayesian/output/tables",
+        "inference": "analysis/part 3/03_inference"
+      },
+      "text_preprocessing": {
+        "repo": "analysis/text-preprocessing"
+      },
+      "legacy": {
+        "text_preprocessing": "analysis/01. Text_preprocessing",
+        "bayesian": "analysis/02. baysian",
+        "inference": "analysis/03. Test-for-inference",
+        "part2_alt1": "analysis/Part 2-2",
+        "part2_alt2": "analysis/Part 2-4"
+      }
+    },
+    "writing": {
+      "root": "writing"
+    }
+  }
+}
