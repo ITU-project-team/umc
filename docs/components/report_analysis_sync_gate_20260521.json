@@ -4,11 +4,14 @@
   "component_role": "project_local_warning_gate_metadata",
   "purpose": "Document the warning-only gate that checks whether report-relevant analysis repository changes may need a root report-facing handoff.",
   "owned_files": {
-    "checker": ".codex/hooks/report_analysis_lag_check.py",
+    "checker": "scripts/hooks/report_analysis_lag_check.py",
     "configuration": "config/report_analysis_lag.json",
     "rule_document": ".codex/rules/report-analysis-sync.md",
     "workflow_skill": ".codex/skills/umc-analysis-workflow/SKILL.md",
-    "controller_registration": "/Users/ujunbin/.codex/hooks.json"
+    "controller_registration": {
+      "codex": "/Users/ujunbin/.codex/hooks.json",
+      "claude": ".claude/settings.local.json (hooks.SubagentStop)"
+    }
   },
   "monitored_boundaries": {
     "analysis_repositories": [
@@ -24,7 +27,7 @@
       "writing/",
       "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
-      ".codex/hooks/report_analysis_lag_check.py",
+      "scripts/hooks/report_analysis_lag_check.py",
       ".codex/skills/umc-analysis-workflow/SKILL.md"
     ]
   },
@@ -35,7 +38,7 @@
       "continue": true,
       "message_field": "systemMessage"
     },
-    "manual_strict_mode": "python3 .codex/hooks/report_analysis_lag_check.py --strict",
+    "manual_strict_mode": "python3 scripts/hooks/report_analysis_lag_check.py --strict",
     "warns_on": [
       "report-relevant dirty analysis worktree paths",
       "latest relevant analysis commit newer than latest root report-facing commit"
@@ -43,9 +46,9 @@
     "root_report_dirty_paths": "context_only_unless_analysis_lag_exists"
   },
   "manual_commands": {
-    "human_report": "python3 .codex/hooks/report_analysis_lag_check.py",
-    "json_report": "python3 .codex/hooks/report_analysis_lag_check.py --json",
-    "stop_hook_mode": "python3 .codex/hooks/report_analysis_lag_check.py --hook stop"
+    "human_report": "python3 scripts/hooks/report_analysis_lag_check.py",
+    "json_report": "python3 scripts/hooks/report_analysis_lag_check.py --json",
+    "stop_hook_mode": "python3 scripts/hooks/report_analysis_lag_check.py --hook stop"
   },
   "privacy_boundary": {
     "allowed_output": [
@@ -66,5 +69,5 @@
     ],
     "content_inspection": false
   },
-  "controller_note": "Global Stop-hook registration contains only the command that calls the project-local checker; all report-analysis sync policy remains in this project-local component."
+  "controller_note": "Both controller registrations contain only the command that calls the project-local checker; all report-analysis sync policy remains in this project-local component. Codex registers globally; Claude registers a project-scoped SubagentStop hook matching report-docx-manager and the part1/part2/part3 analysis managers."
 }

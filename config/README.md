@@ -7,7 +7,7 @@ used by both Codex and Claude workflows.
 
 - `report_analysis_lag.json`
   - Shared configuration for the warning-only report-analysis sync gate.
-  - Loaded by `.codex/hooks/report_analysis_lag_check.py`.
+  - Loaded by `scripts/hooks/report_analysis_lag_check.py`.
   - Referenced by Codex and Claude router files as the canonical settings path.
 - `umc_project_paths.json`
   - Shared GitHub-relative path registry for project-local skills and agents.

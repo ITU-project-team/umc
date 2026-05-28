@@ -6,7 +6,7 @@ allowed-tools: Read, Bash
 
 # UMC 워커 오케스트레이션
 
-보이는 워커 패널로 UMC 작업을 나눌 때 사용한다.
+보이는 워커 패널로 UMC 작업을 나눌 때 사용한다. 이 스킬은 Claude 측 대화형 조율(역할 라벨, 압축 브리프, 결과 검토, context reset)에 초점을 둔다. Codex 측 cmux 이벤트 감독·배정표는 `umc-cmux-worker-supervision`이 담당하며, 둘은 의도적으로 비대칭이다.
 
 ## 절차
 

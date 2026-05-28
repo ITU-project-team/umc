@@ -5,6 +5,8 @@ description: "UMC 프로젝트 작업을 cmux 워커 패널로 조율할 때 사
 
 # UMC cmux 워커 감독
 
+이 스킬은 Codex 측 cmux 이벤트 감독, 워커 패널 배정표, Git 경계 점검에 초점을 둔다. Claude 측 대화형 워커 조율은 `umc-worker-orchestration`이 담당하며, 둘은 의도적으로 비대칭이다.
+
 ## 트리거
 
 활성 루트가 UMC 프로젝트이고 다음 중 하나에 해당하면 이 스킬을 사용한다.

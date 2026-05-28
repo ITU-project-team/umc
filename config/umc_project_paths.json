@@ -30,14 +30,14 @@
     "codex": {
       "skills": ".codex/skills",
       "agents": ".codex/agents",
-      "logs": ".codex/logs",
-      "hooks": {
-        "report_analysis_lag_check": ".codex/hooks/report_analysis_lag_check.py"
-      }
+      "logs": ".codex/logs"
     },
     "claude": {
       "skills": ".claude/skills",
       "agents": ".claude/agents"
+    },
+    "hooks": {
+      "report_analysis_lag_check": "scripts/hooks/report_analysis_lag_check.py"
     },
     "analysis": {
       "part1": {
@@ -95,6 +95,21 @@
     },
     "writing": {
       "root": "writing"
+    },
+    "report_numeric_sources": {
+      "description": "Normalized index of report-facing numeric tables for numeric-fidelity verification. Aggregates the per-part output table keys whose structure differs (part1 single CSV, part2 keyed multiple CSVs, part3 directory). Verifiers compare report body figures against these aggregate outputs only; never against raw data.",
+      "part1": [
+        "analysis.part1.score_table_2024"
+      ],
+      "part2": [
+        "analysis.part2.tables.hlm_model_comparison",
+        "analysis.part2.tables.hlm_fit_statistics",
+        "analysis.part2.tables.hlm_policy_simulation",
+        "analysis.part2.tables.hlm_sensitivity_summary"
+      ],
+      "part3": [
+        "analysis.part3.bayesian_tables"
+      ]
     }
   }
 }

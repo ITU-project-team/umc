@@ -11,28 +11,47 @@ PDFs, or existing DOCX contents.
 Run from `/Users/ujunbin/project/umc`:
 
 ```bash
-python3 .codex/hooks/report_analysis_lag_check.py
+python3 scripts/hooks/report_analysis_lag_check.py
 ```
 
 For machine-readable output:
 
 ```bash
-python3 .codex/hooks/report_analysis_lag_check.py --json
+python3 scripts/hooks/report_analysis_lag_check.py --json
 ```
 
 For manual CI-style checks where warnings should fail the command:
 
 ```bash
-python3 .codex/hooks/report_analysis_lag_check.py --strict
+python3 scripts/hooks/report_analysis_lag_check.py --strict
 ```
+
+## Hook Activation Policy
+
+Only this lag check is wired as an automatic hook; every other project rule
+(tmp-path discipline, no unauthorized raw-data deletion, evidence-level framing,
+privacy boundaries) stays prose-enforced and is confirmed after the fact by
+`project-verifier` and its split verification roles. The hook is warning-only and
+fails open, so a missing script or config never blocks a worker.
+
+Both controllers register the same project-local checker and nothing more:
+
+- Codex: global registration in `/Users/ujunbin/.codex/hooks.json`.
+- Claude: project-scoped `SubagentStop` hook in `.claude/settings.local.json`,
+  matching `report-docx-manager`, `report-prose-writer`, `report-figure-generator`,
+  and the `part1`/`part2`/`part3` analysis managers. Claude `Stop` hooks ignore
+  `matcher`, so `SubagentStop` is used to fire only when a report or analysis
+  worker finishes — not on every main-loop turn.
+
+The canonical checker path is `paths.hooks.report_analysis_lag_check`
+(`scripts/hooks/report_analysis_lag_check.py`), shared by both controllers.
 
 ## Stop Hook Behavior
 
-Controller-level hook registration is handled outside this project. When the
-checker is called as:
+When the checker is called as:
 
 ```bash
-python3 .codex/hooks/report_analysis_lag_check.py --hook stop
+python3 scripts/hooks/report_analysis_lag_check.py --hook stop
 ```
 
 it emits `{"continue": true}` when no warnings exist. If warnings exist, it

@@ -7,9 +7,11 @@ allowed-tools: Read, Bash
 
 # 보고서 DOCX 담당
 
-보고서에 들어가는 문서 작업을 담당한다. 구체 경로는 프로젝트 경로 레지스트리의 GitHub 상대 경로 키로 해석한다.
+보고서 DOCX의 **집행자**다. 절 구조·번호, 산문 배치, 표/그림 삽입, 인용·각주 배치, 레이아웃·렌더 점검, 한글 Markdown 동기화를 담당한다. 산문 *초안 작성*은 `report-prose-writer`에, 그림 *생성*은 `report-figure-generator`에, 수치 정합 검증은 `numeric-fidelity-verifier`에, 논증 일관성은 `umc-argument-review-task`에 위임한다. 구체 경로는 프로젝트 경로 레지스트리의 GitHub 상대 경로 키로 해석한다.
 
-`umc-report-theory`는 2장 이론/배경 작업에, `umc-academic-table-formatting`은 표 생성과 검토에, `umc-report-handoff`는 분석 워커 증거를 주석·각주·노트·산문으로 전환할 때, `umc-worker-orchestration`은 cmux 응답 조율에 사용한다.
+`umc-report-theory`는 2장 이론/배경 작업에, `umc-academic-table-formatting`은 표 생성과 검토에, `umc-report-commenting`은 reviewer comment·각주·표/그림 노트 추가·검토·해결에, `umc-report-handoff`는 분석 워커 증거를 주석·각주·노트·산문 브리프로 전환할 때, `umc-worker-orchestration`은 cmux 응답 조율에 사용한다.
+
+레이아웃·렌더 점검은 이 에이전트의 "render-check" 하위역할로 수행한다: DOCX 편집 후 PDF로 렌더해 영향받은 쪽, 고아 캡션, 페이지네이션, 그림 배치를 확인한다.
 
 ## 규칙
 

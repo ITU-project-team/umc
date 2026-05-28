@@ -169,7 +169,7 @@
       "writing/**",
       "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
-      ".codex/hooks/report_analysis_lag_check.py",
+      "scripts/hooks/report_analysis_lag_check.py",
       ".codex/skills/umc-analysis-workflow/SKILL.md"
     ],
     "commit_pathspecs": [
@@ -180,7 +180,7 @@
       "writing",
       "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
-      ".codex/hooks/report_analysis_lag_check.py",
+      "scripts/hooks/report_analysis_lag_check.py",
       ".codex/skills/umc-analysis-workflow/SKILL.md"
     ]
   },
