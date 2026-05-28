@@ -1,0 +1,4 @@
+interface:
+  display_name: "UMC Report Commenting"
+  short_description: "Add safe comments and notes to UMC reports"
+  default_prompt: "Use $umc-report-commenting to add concise reviewer comments to the active UMC report."
