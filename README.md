@@ -20,6 +20,7 @@ The current report focuses on:
 ```text
 .
 |-- docs/       # Final and dated report files, exported PDFs, and report figures
+|-- config/     # Shared project configuration used by Codex and Claude workflows
 |-- writing/    # Manuscript drafts, generated writing outputs, figures, and tables
 |-- ppt/        # Presentation materials
 |-- others/     # Administrative and supporting project files
@@ -38,6 +39,9 @@ Key project-level deliverables include:
 | `docs/UMC_report_kr_20260516.docx` | Korean report version |
 | `docs/UMC_report_en.pdf` | Exported English report PDF |
 | `docs/figures/` | Figure assets used in report production |
+| `docs/components/` | Reusable project components for report, presentation, source-evidence, and verification workflows |
+| `docs/components/umc_ppt_source_evidence_20260528.json` | PPT-first source-evidence component for mentor-feedback report revisions |
+| `config/report_analysis_lag.json` | Shared Codex/Claude report-analysis sync gate configuration |
 | `writing/manuscript/` | Manuscript-generation workspace and archived outputs |
 | `ppt/High-Five_20260507.pptx` | Presentation deck |
 

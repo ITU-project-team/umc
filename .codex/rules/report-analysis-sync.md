@@ -56,8 +56,8 @@ fails open by emitting `{"continue": true}` and exiting `0`.
   report-facing commit timestamp, so a clean analysis worktree can still warn if
   analysis was committed after the last report-facing root update.
 
-Path patterns and privacy exclusions live in
-`.codex/config/report_analysis_lag.json`.
+Path patterns and privacy exclusions live in the shared project config:
+`config/report_analysis_lag.json`.
 
 ## When A Warning Fires
 

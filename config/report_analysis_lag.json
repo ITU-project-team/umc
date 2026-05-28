@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "project": {
+    "name": "UMC report-analysis lag gate",
+    "root_marker_paths": [
+      ".codex/AGENTS.md",
+      ".claude/CLAUDE.md",
+      "config/report_analysis_lag.json",
+      "docs/ITU UMC Data Hackathon 2026.docx",
+      "analysis/part 1",
+      "analysis/part 2",
+      "analysis/part 3"
+    ]
+  },
+  "privacy": {
+    "output_rule": "Report only paths, repo names, timestamps, and aggregate counts. Do not inspect file contents or print raw text, post IDs, secrets, private data values, or local settings.",
+    "exclude_globs": [
+      ".env",
+      ".env.*",
+      "**/.env",
+      "**/.env.*",
+      "**/*secret*",
+      "**/*secrets*",
+      "**/raw/**",
+      "**/data/raw/**",
+      "**/private/**",
+      "**/data/private/**",
+      "**/cache/**",
+      "**/__pycache__/**",
+      "**/.pytest_cache/**",
+      "**/node_modules/**",
+      "**/.venv/**",
+      "**/venv/**",
+      "**/tmp/**",
+      "**/*.pyc",
+      "**/.DS_Store"
+    ]
+  },
+  "analysis_repositories": [
+    {
+      "id": "part1",
+      "label": "Part 1 UMC index and spatial figures",
+      "path": "analysis/part 1",
+      "include_globs": [
+        "output/**",
+        "docs/**",
+        "writing/**",
+        "scripts/**",
+        "figures/**",
+        "tables/**",
+        "reports/**",
+        "data/processed/*manifest*",
+        "data/processed/*metadata*",
+        "data/processed/*codebook*",
+        "data/processed/*summary*",
+        "data/processed/**/*manifest*",
+        "data/processed/**/*metadata*",
+        "data/processed/**/*codebook*",
+        "data/processed/**/*summary*"
+      ],
+      "commit_pathspecs": [
+        "output",
+        "docs",
+        "writing",
+        "scripts",
+        "figures",
+        "tables",
+        "reports",
+        ":(glob)data/processed/*manifest*",
+        ":(glob)data/processed/*metadata*",
+        ":(glob)data/processed/*codebook*",
+        ":(glob)data/processed/*summary*",
+        ":(glob)data/processed/**/*manifest*",
+        ":(glob)data/processed/**/*metadata*",
+        ":(glob)data/processed/**/*codebook*",
+        ":(glob)data/processed/**/*summary*"
+      ]
+    },
+    {
+      "id": "part2",
+      "label": "Part 2 HLM multilevel analysis",
+      "path": "analysis/part 2",
+      "include_globs": [
+        "output/**",
+        "docs/**",
+        "writing/**",
+        "scripts/**",
+        "figures/**",
+        "tables/**",
+        "reports/**",
+        "data/processed/*manifest*",
+        "data/processed/*metadata*",
+        "data/processed/*codebook*",
+        "data/processed/*summary*",
+        "data/processed/**/*manifest*",
+        "data/processed/**/*metadata*",
+        "data/processed/**/*codebook*",
+        "data/processed/**/*summary*"
+      ],
+      "commit_pathspecs": [
+        "output",
+        "docs",
+        "writing",
+        "scripts",
+        "figures",
+        "tables",
+        "reports",
+        ":(glob)data/processed/*manifest*",
+        ":(glob)data/processed/*metadata*",
+        ":(glob)data/processed/*codebook*",
+        ":(glob)data/processed/*summary*",
+        ":(glob)data/processed/**/*manifest*",
+        ":(glob)data/processed/**/*metadata*",
+        ":(glob)data/processed/**/*codebook*",
+        ":(glob)data/processed/**/*summary*"
+      ]
+    },
+    {
+      "id": "part3",
+      "label": "Part 3 platform text and Bayesian inference workflow",
+      "path": "analysis/part 3",
+      "include_globs": [
+        "output/**",
+        "outputs/**",
+        "docs/**",
+        "writing/**",
+        "scripts/**",
+        "figures/**",
+        "tables/**",
+        "reports/**",
+        "analysis_outputs/**",
+        "data/processed/*manifest*",
+        "data/processed/*metadata*",
+        "data/processed/*codebook*",
+        "data/processed/*summary*",
+        "data/processed/**/*manifest*",
+        "data/processed/**/*metadata*",
+        "data/processed/**/*codebook*",
+        "data/processed/**/*summary*"
+      ],
+      "commit_pathspecs": [
+        "output",
+        "outputs",
+        "docs",
+        "writing",
+        "scripts",
+        "figures",
+        "tables",
+        "reports",
+        "analysis_outputs",
+        ":(glob)data/processed/*manifest*",
+        ":(glob)data/processed/*metadata*",
+        ":(glob)data/processed/*codebook*",
+        ":(glob)data/processed/*summary*",
+        ":(glob)data/processed/**/*manifest*",
+        ":(glob)data/processed/**/*metadata*",
+        ":(glob)data/processed/**/*codebook*",
+        ":(glob)data/processed/**/*summary*"
+      ]
+    }
+  ],
+  "root_report_repository": {
+    "path": ".",
+    "include_globs": [
+      "docs/ITU UMC Data Hackathon 2026.docx",
+      "docs/components/**",
+      "docs/reviews/**",
+      "docs/figures/**",
+      "writing/**",
+      "config/report_analysis_lag.json",
+      ".codex/rules/report-analysis-sync.md",
+      ".codex/hooks/report_analysis_lag_check.py",
+      ".codex/skills/umc-analysis-workflow/SKILL.md"
+    ],
+    "commit_pathspecs": [
+      "docs/ITU UMC Data Hackathon 2026.docx",
+      "docs/components",
+      "docs/reviews",
+      "docs/figures",
+      "writing",
+      "config/report_analysis_lag.json",
+      ".codex/rules/report-analysis-sync.md",
+      ".codex/hooks/report_analysis_lag_check.py",
+      ".codex/skills/umc-analysis-workflow/SKILL.md"
+    ]
+  },
+  "warning_policy": {
+    "warn_on_relevant_analysis_dirty": true,
+    "warn_when_latest_analysis_commit_is_newer_than_latest_root_report_commit": true,
+    "root_report_dirty_changes_are_context_only": true,
+    "max_reported_path_examples_per_repo": 0
+  }
+}

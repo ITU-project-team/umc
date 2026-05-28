@@ -1,0 +1,391 @@
+{
+  "component_id": "umc_ppt_source_evidence",
+  "component_version": "2026-05-28",
+  "component_role": "ppt_authoritative_source_evidence_for_report_revisions",
+  "source_authority": {
+    "primary_file": "ppt/High-Five_20260507.pptx",
+    "primary_file_role": "authoritative local source for data-source names, providers, links, coverage, key variables, access routes, and ETL descriptions",
+    "secondary_local_components": [
+      "docs/components/umc_data_sources_20260521.json",
+      "docs/components/umc_analysis_pipeline_20260521.json",
+      "docs/components/report_analysis_sync_gate_20260521.json"
+    ],
+    "template_reference_file": "ppt/Template Intermediate deliverable STEP 2.pptx",
+    "template_reference_role": "confirms the requested data-source table fields and ETL slide requirements, but does not override project-specific source facts in ppt/High-Five_20260507.pptx"
+  },
+  "slides": {
+    "data_source_inventory": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "etl_and_processing_rules": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "template_data_source_fields": [
+      4
+    ]
+  },
+  "report_revision_use": {
+    "mentor_feedback_items_supported": [
+      "3.1.1 explain SKT and the data source",
+      "3.1.1 clarify affordability source logic",
+      "2.3.1 optional 5G base-station geospatial map",
+      "3.3.4 clarify Danggeun data source and scope"
+    ],
+    "preferred_source_order": [
+      "ppt/High-Five_20260507.pptx",
+      "docs/components/umc_data_sources_20260521.json",
+      "owning analysis repo public outputs and codebooks",
+      "docs/ITU UMC Data Hackathon 2026.docx"
+    ],
+    "reporting_boundary": [
+      "Use PPT-visible source facts and aggregate/public outputs only.",
+      "Do not include raw platform text, post IDs, private row-level files, credentials, or local settings.",
+      "Treat blank PPT cells as unknown rather than inferring missing format or access-method values."
+    ]
+  },
+  "source_evidence": [
+    {
+      "id": "seoul_digital_competency_survey",
+      "dataset_name": "Seoul Digital Competency Survey",
+      "source_organization": "Seoul AI Foundation",
+      "link": "https://saif.or.kr/dataroom/2564",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023"
+        ]
+      },
+      "key_variables": [
+        "devices",
+        "skills",
+        "safety",
+        "survey weights"
+      ],
+      "format": "CSV/XLSX",
+      "access_method": "data provision upon official request",
+      "slide_refs": [
+        2,
+        3,
+        9
+      ],
+      "report_use": [
+        "Section 3.1 Devices",
+        "Section 3.1 Digital Skills",
+        "Section 3.1 Safety"
+      ],
+      "ppt_notes": [
+        "Slide 3 states that raw data were requested separately on 2026-02-11.",
+        "Slide 3 states that the data were obtained via official channels."
+      ]
+    },
+    {
+      "id": "seoul_survey",
+      "dataset_name": "Seoul Survey",
+      "source_organization": "Seoul Open Data",
+      "link": "https://data.seoul.go.kr/dataList/OA-15564/F/1/datasetView.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "digital service use",
+        "demographics",
+        "income",
+        "housing",
+        "district/year"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "slide_refs": [
+        2,
+        10,
+        13,
+        16
+      ],
+      "report_use": [
+        "Section 3.2 HLM respondent-level outcome and controls"
+      ]
+    },
+    {
+      "id": "cellular_base_station_data",
+      "dataset_name": "Cellular Base Station Data",
+      "source_organization": "Spectrum Resource Mgmt System",
+      "link": "https://spectrummap.kr/gis/mobile_service.do?menuNo=300480",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "4G cell-site locations",
+        "5G cell-site locations"
+      ],
+      "format": "CSV/XLSX",
+      "access_method": "Public Open Data",
+      "slide_refs": [
+        4,
+        6
+      ],
+      "report_use": [
+        "Section 2.3.1 optional 5G base-station choropleth",
+        "Section 3.1 Connectivity"
+      ],
+      "etl_notes": [
+        "Slide 6 says each physical base-station site is counted once.",
+        "Slide 6 says records are matched to a common Seoul district code system.",
+        "Slide 6 says station counts are converted into population-adjusted density measures."
+      ]
+    },
+    {
+      "id": "nia_communication_quality",
+      "dataset_name": "NIA Communication Quality (CQ)",
+      "source_organization": "Korean Public Data Portal",
+      "link": "https://www.data.go.kr/data/15120591/fileData.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "district-level download speed"
+      ],
+      "format": null,
+      "access_method": null,
+      "slide_refs": [
+        4,
+        6
+      ],
+      "report_use": [
+        "Section 3.1 Connectivity"
+      ],
+      "uncertainty": "format and access-method cells are not visible in the PPT text extraction"
+    },
+    {
+      "id": "public_free_wifi_installation",
+      "dataset_name": "Public Free Wi-Fi Installation Data",
+      "source_organization": "Local Admin WiFi License Data",
+      "link": "https://www.localdata.go.kr/lif/lifeCtacDataView.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "public Wi-Fi installation locations"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "slide_refs": [
+        4,
+        7
+      ],
+      "report_use": [
+        "Section 3.1 Available for Use"
+      ],
+      "etl_notes": [
+        "Slide 7 says public Wi-Fi installations are converted into resident-adjusted density."
+      ]
+    },
+    {
+      "id": "telecommunication_indicators",
+      "dataset_name": "Telecommunication Indicators",
+      "source_organization": "SKT Telecom Data",
+      "link": "https://www.data.go.kr/data/15127168/fileData.do#",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "mobile data use",
+        "online service days",
+        "fee delinquency rate"
+      ],
+      "format": null,
+      "access_method": null,
+      "slide_refs": [
+        4,
+        7,
+        8
+      ],
+      "report_use": [
+        "Section 3.1 Available for Use",
+        "Section 3.1 Affordability"
+      ],
+      "report_ready_source_note": "SKT refers to SK Telecom, a major Korean mobile network operator. The PPT identifies the source as SKT Telecom Data and links it through the Korean Public Data Portal; the variables used here are mobile data use, online service days, and fee delinquency rate for Seoul in 2023-2024.",
+      "etl_notes": [
+        "Slide 7 says neighborhood-level telecom data are aggregated to district level using daytime floating-population weights.",
+        "Slide 8 says telecom fee delinquency is used as the burden side of affordability.",
+        "Slide 8 says the burden indicator is reversed so higher final values mean better conditions."
+      ]
+    },
+    {
+      "id": "average_monthly_household_income_by_district",
+      "dataset_name": "Average Monthly Household Income by District",
+      "source_organization": "Seoul Commercial Analysis Service",
+      "link": "https://data.seoul.go.kr/dataList/OA-22167/S/1/datasetView.do",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024"
+        ]
+      },
+      "key_variables": [
+        "average monthly household income"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "slide_refs": [
+        4,
+        8
+      ],
+      "report_use": [
+        "Section 3.1 Affordability"
+      ],
+      "report_ready_source_note": "Use income as a contextual resource-side indicator only; mentor feedback suggests the report should not overstate average income as a direct measure of whether residents can afford telecom services."
+    },
+    {
+      "id": "daangn_community_posts",
+      "dataset_name": "Daangn Community Post",
+      "source_organization": "Daangn Market",
+      "link": "daangn.com/kr/community/s",
+      "coverage": {
+        "geographic": "Seoul dong fields",
+        "time": [
+          "2024",
+          "2025",
+          "2026"
+        ]
+      },
+      "key_variables": [
+        "post text",
+        "gu/location",
+        "createdAt",
+        "subject/category"
+      ],
+      "format": "CSV/XLSX",
+      "access_method": "Web Scraping",
+      "slide_refs": [
+        5,
+        11,
+        14,
+        17,
+        20
+      ],
+      "report_use": [
+        "Section 3.3 text preprocessing",
+        "Section 3.3 LLM classification",
+        "Section 3.3 Bayesian aggregation",
+        "Section 3.3 structured inference"
+      ],
+      "etl_notes": [
+        "Slide 11 says deleted, blocked, and empty-text posts are removed before analysis.",
+        "Slide 11 says text, time, category, and location fields are standardized when available.",
+        "Slide 11 says UMC keyword dictionaries are used to identify potentially relevant posts.",
+        "Slide 17 says cleaned posts, screened candidates, scored posts, aggregates, posterior tables, and figures are saved separately."
+      ],
+      "privacy_boundary": [
+        "Do not store or report raw post text in this component.",
+        "Do not store or report post IDs, writer identifiers, or post-level URLs."
+      ]
+    },
+    {
+      "id": "seoul_living_floating_population",
+      "dataset_name": "Seoul Living/Floating Population",
+      "source_organization": "Seoul Open Data",
+      "link": "data.seoul.go.kr / OA-14991",
+      "coverage": {
+        "geographic": "Seoul",
+        "time": [
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ]
+      },
+      "key_variables": [
+        "hourly/dong population",
+        "daytime population",
+        "age shares",
+        "dong/district code"
+      ],
+      "format": null,
+      "access_method": "Public Open Data",
+      "slide_refs": [
+        5,
+        11,
+        14,
+        17,
+        20
+      ],
+      "report_use": [
+        "Section 3.1 population denominators",
+        "Section 3.3 dong living-population linkage",
+        "Section 3.3 participation-density context"
+      ]
+    }
+  ],
+  "report_ready_revision_notes": [
+    {
+      "target_section": "3.1.1 Measurement Indicators and Data",
+      "note": "When explaining SKT, use the PPT wording as the source basis and add a parenthetical expansion of SKT as SK Telecom.",
+      "source_refs": [
+        "ppt/High-Five_20260507.pptx slide 4",
+        "ppt/High-Five_20260507.pptx slide 7",
+        "ppt/High-Five_20260507.pptx slide 8"
+      ]
+    },
+    {
+      "target_section": "3.1.1 Measurement Indicators and Data",
+      "note": "For affordability, frame average household income as the resource side and arrears/fee delinquency as the more direct burden-side indicator.",
+      "source_refs": [
+        "ppt/High-Five_20260507.pptx slide 8"
+      ]
+    },
+    {
+      "target_section": "2.3.1 Seoul as a City",
+      "note": "If a 5G base-station choropleth is added, base it on Cellular Base Station Data from Spectrum Resource Mgmt System and reuse the district spatial-join/population-adjusted density logic from the PPT.",
+      "source_refs": [
+        "ppt/High-Five_20260507.pptx slide 4",
+        "ppt/High-Five_20260507.pptx slide 6"
+      ]
+    },
+    {
+      "target_section": "3.3.4 Data and Scope of Application",
+      "note": "When explaining removal rates, say they refer to posts removed from the analytic text sample because the body text was deleted, blocked, empty, or otherwise inaccessible in the crawl, not to moderation rates as a substantive platform behavior measure.",
+      "source_refs": [
+        "ppt/High-Five_20260507.pptx slide 11",
+        "ppt/High-Five_20260507.pptx slide 14"
+      ]
+    }
+  ]
+}

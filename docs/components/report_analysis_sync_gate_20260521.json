@@ -5,7 +5,7 @@
   "purpose": "Document the warning-only gate that checks whether report-relevant analysis repository changes may need a root report-facing handoff.",
   "owned_files": {
     "checker": ".codex/hooks/report_analysis_lag_check.py",
-    "configuration": ".codex/config/report_analysis_lag.json",
+    "configuration": "config/report_analysis_lag.json",
     "rule_document": ".codex/rules/report-analysis-sync.md",
     "workflow_skill": ".codex/skills/umc-analysis-workflow/SKILL.md",
     "controller_registration": "/Users/ujunbin/.codex/hooks.json"
@@ -22,7 +22,7 @@
       "docs/reviews/",
       "docs/figures/",
       "writing/",
-      ".codex/config/report_analysis_lag.json",
+      "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
       ".codex/hooks/report_analysis_lag_check.py",
       ".codex/skills/umc-analysis-workflow/SKILL.md"

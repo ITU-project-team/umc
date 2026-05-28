@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-CONFIG_RELATIVE_PATH = Path(".codex/config/report_analysis_lag.json")
+CONFIG_RELATIVE_PATH = Path("config/report_analysis_lag.json")
 GIT_TIMEOUT_SECONDS = 8
 LOG_SCAN_LIMIT = 200
 
