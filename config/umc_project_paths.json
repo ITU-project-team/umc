@@ -10,7 +10,7 @@
       "seed_keywords": "config/seed_keywords.yaml"
     },
     "docs": {
-      "active_report_docx": "docs/ITU UMC Data Hackathon 20260528.docx",
+      "active_report_docx": "docs/ITU UMC Data Hackathon 20260614.docx",
       "design_guide": "design.md",
       "evidence_terms": "docs/style/umc_report_evidence_terms.json",
       "ppt_source_evidence": "docs/components/umc_ppt_source_evidence_20260528.json",

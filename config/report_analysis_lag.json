@@ -6,7 +6,7 @@
       ".codex/AGENTS.md",
       ".claude/CLAUDE.md",
       "config/report_analysis_lag.json",
-      "docs/ITU UMC Data Hackathon 20260528.docx",
+      "docs/ITU UMC Data Hackathon 20260614.docx",
       "analysis/part 1",
       "analysis/part 2",
       "analysis/part 3"
@@ -162,7 +162,7 @@
   "root_report_repository": {
     "path": ".",
     "include_globs": [
-      "docs/ITU UMC Data Hackathon 20260528.docx",
+      "docs/ITU UMC Data Hackathon 20260614.docx",
       "docs/components/**",
       "docs/reviews/**",
       "docs/figures/**",
@@ -173,7 +173,7 @@
       ".codex/skills/umc-analysis-workflow/SKILL.md"
     ],
     "commit_pathspecs": [
-      "docs/ITU UMC Data Hackathon 20260528.docx",
+      "docs/ITU UMC Data Hackathon 20260614.docx",
       "docs/components",
       "docs/reviews",
       "docs/figures",
