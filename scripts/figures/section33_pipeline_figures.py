@@ -67,6 +67,8 @@ plt.rcParams.update({
     "savefig.dpi":       300,
     "figure.facecolor":  "white",
     "savefig.facecolor": "white",
+    "pdf.fonttype":      42,
+    "svg.fonttype":      "none",
     "text.color":        DARK,
 })
 
@@ -151,9 +153,18 @@ def vline(ax, x, y1, y2, color=MID, lw=1.2, zorder=3):
     ax.plot([x, x], [y1, y2], color=color, lw=lw, zorder=zorder)
 
 
-def save_fig(fig, name, tight_pad=0.15):
+def save_fig(fig, name, tight_pad=0.15, save_svg=False, save_vector=False):
     out = FIG_DIR / name
     fig.savefig(out, bbox_inches="tight", pad_inches=tight_pad)
+    vector_exts = []
+    if save_vector:
+        vector_exts = [".pdf", ".svg"]
+    elif save_svg:
+        vector_exts = [".svg"]
+    for ext in vector_exts:
+        vector_out = out.with_suffix(ext)
+        fig.savefig(vector_out, bbox_inches="tight", pad_inches=tight_pad)
+        print(f"Saved: {vector_out}")
     plt.close(fig)
     print(f"Saved: {out}")
     return out
@@ -176,6 +187,166 @@ def save_fig(fig, name, tight_pad=0.15):
 # ===========================================================================
 
 def make_figure07():
+    """
+    Figure 7: compact three-stage sequential pipeline overview.
+
+    Rebuilt as three left-to-right panels so the analytic sequence is explicit
+    and all inter-stage arrows are short, continuous, and aligned.
+    """
+    W, H = 15.5, 7.8
+    fig, ax = plt.subplots(figsize=(W, H))
+    ax.set_xlim(0, W)
+    ax.set_ylim(0, H)
+    ax.axis("off")
+
+    panel_y, panel_h = 0.35, 7.05
+    p1 = (0.30, panel_y, 4.25, panel_h)
+    p2 = (4.80, panel_y, 4.60, panel_h)
+    p3 = (9.65, panel_y, 5.55, panel_h)
+
+    def panel(box, color, fill, stage, title, unit):
+        x, y, w, h = box
+        rbox(ax, x, y, w, h, fc=fill, ec=color, lw=1.05, alpha=1.0,
+             radius=0.08, zorder=0)
+        rbox(ax, x + 0.12, y + h - 0.78, 0.10, 0.54,
+             fc=color, ec=color, alpha=0.82, radius=0.025, zorder=1)
+        ax.text(x + 0.33, y + h - 0.28, f"Stage {stage}",
+                ha="left", va="top", fontsize=11.2,
+                fontweight="bold", color=color, zorder=2)
+        ax.text(x + 0.33, y + h - 0.62, title,
+                ha="left", va="top", fontsize=8.8, color=MID, zorder=2)
+        ax.text(x + w - 0.22, y + h - 0.35, unit,
+                ha="right", va="top", fontsize=7.7, color=MID,
+                style="italic", zorder=2)
+
+    panel(p1, YELLOW, "#FFFBEC", 1, "Classification", "unit: post")
+    panel(p2, BLUE,   "#F2F7FF", 2, "EB aggregation", "unit: district x dimension")
+    panel(p3, GREEN,  "#F2FBF6", 3, "Agent interpretation", "unit: post-level case")
+
+    def node(x, y, w, h, label, color, alpha=0.14, fs=8.8, sublabel=""):
+        solid_box(ax, x, y, w, h, color, alpha=alpha, label=label,
+                  fs=fs, sublabel=sublabel, subfs=7.1)
+
+    def connect_vertical(cx, y_top_lower, y_bottom_upper, color, lw=1.25):
+        arr(ax, cx, y_bottom_upper, cx, y_top_lower, color=color, lw=lw, ms=10)
+
+    # ------------------------------------------------------------------
+    # Stage 1: minimal classification chain
+    # ------------------------------------------------------------------
+    x1, y1, w1, h1 = p1
+    bw1, bh1 = 2.35, 0.54
+    cx1 = x1 + w1 / 2
+    nx1 = cx1 - bw1 / 2
+    s1_ys = [6.25, 5.39, 4.53, 3.67, 2.81, 1.95]
+    s1_nodes = [
+        ("Platform\nrecords", GREY, 0.17, ""),
+        ("Rule + keyword\nscreen", GREY, 0.17, ""),
+        ("Candidate\nposts", BLUE, 0.13, ""),
+        ("Relevance\ncoding", YELLOW, 0.18, "Y / ? / N"),
+        ("Dimension\ntagging", YELLOW, 0.18, "six UMC dimensions"),
+        ("Classified\npost base", DARK, 0.06, ""),
+    ]
+    for (label, color, alpha, sub), y in zip(s1_nodes, s1_ys):
+        if color == DARK:
+            outline_box(ax, nx1, y, bw1, bh1, ec=DARK, fc=LIGHT,
+                        title=label.replace("\n", " "),
+                        title_fs=8.5, zorder=4)
+        else:
+            node(nx1, y, bw1, bh1, label, color, alpha=alpha)
+    for i in range(len(s1_ys) - 1):
+        connect_vertical(cx1, s1_ys[i + 1] + bh1, s1_ys[i], BLUE if i >= 1 else GREY)
+
+    # ------------------------------------------------------------------
+    # Stage 2: EB aggregation chain
+    # ------------------------------------------------------------------
+    x2, y2, w2, h2 = p2
+    bw2, bh2 = 2.45, 0.50
+    cx2 = x2 + w2 / 2
+    nx2 = cx2 - bw2 / 2
+    s2_ys = [6.10, 5.31, 4.52, 3.73, 2.94, 2.15, 1.36]
+    s2_nodes = [
+        ("Classified\npost base", GREY, 0.17, ""),
+        ("Dong\nlinkage", BLUE, 0.13, ""),
+        ("Exposure\ndenominator", BLUE, 0.13, "person-time"),
+        ("Observed\npost rate", BLUE, 0.13, ""),
+        ("EB\nshrinkage", BLUE, 0.13, "prior + observed rate"),
+        ("Posterior\nrate", BLUE, 0.13, "per 100k person-years"),
+        ("High-z_shift\noutlier cells", ORANGE, 0.14, ""),
+    ]
+    for (label, color, alpha, sub), y in zip(s2_nodes, s2_ys):
+        node(nx2, y, bw2, bh2, label, color, alpha=alpha, sublabel=sub)
+    for i in range(len(s2_ys) - 1):
+        connect_vertical(cx2, s2_ys[i + 1] + bh2, s2_ys[i],
+                         ORANGE if i == len(s2_ys) - 2 else BLUE)
+
+    # Stage 1 -> Stage 2 connector
+    arr(ax, nx1 + bw1, s1_ys[-1] + bh1 / 2,
+        nx2, s2_ys[0] + bh2 / 2,
+        color=DARK, lw=1.35, ms=12, zorder=5)
+    ax.text((nx1 + bw1 + nx2) / 2, s1_ys[-1] + bh1 / 2 + 0.18,
+            "classified base", ha="center", fontsize=7.6,
+            color=DARK, style="italic")
+
+    # ------------------------------------------------------------------
+    # Stage 3: restricted reading layer -> judgment layer
+    # ------------------------------------------------------------------
+    x3, y3, w3, h3 = p3
+    ir_x, ir_y, ir_w, ir_h = x3 + 0.25, y3 + 0.72, 2.85, 5.50
+    ij_x, ij_y, ij_w, ij_h = x3 + 3.35, y3 + 0.72, 1.95, 5.50
+    dbox(ax, ir_x, ir_y, ir_w, ir_h, ec=BLUE, fc=IR_FILL, lw=0.85)
+    dbox(ax, ij_x, ij_y, ij_w, ij_h, ec=ORANGE, fc=IJ_FILL, lw=0.85)
+    ax.text(ir_x + 0.12, ir_y + ir_h - 0.12,
+            r"$I_R$: restricted reading set",
+            ha="left", va="top", fontsize=7.6, style="italic", color=BLUE)
+    ax.text(ij_x + 0.12, ij_y + ij_h - 0.12,
+            r"$I_J$: judgment context",
+            ha="left", va="top", fontsize=7.6, style="italic", color=ORANGE)
+
+    post_w, post_h = 1.05, 0.58
+    post_x, post_y = ir_x + 0.14, 3.35
+    node(post_x, post_y, post_w, post_h, "Outlier\nposts", ORANGE, alpha=0.13)
+
+    lens_w, lens_h = 1.05, 0.56
+    lens_x = ir_x + 1.58
+    lens_ys = [4.45, 3.35, 2.25]
+    for label, ly in zip(["Abductive\nlens", "Forward\nlens", "Sequential\nlens"], lens_ys):
+        node(lens_x, ly, lens_w, lens_h, label, GREEN, alpha=0.15, fs=8.4)
+        arr(ax, post_x + post_w, post_y + post_h / 2,
+            lens_x, ly + lens_h / 2,
+            color=GREEN, lw=1.2, ms=10, zorder=5)
+
+    js_w, js_h = 1.42, 0.70
+    js_x, js_y = ij_x + 0.26, 3.29
+    node(js_x, js_y, js_w, js_h, "Judgment\nsynthesis", ORANGE, alpha=0.15)
+    js_entries = [js_y + js_h * 0.76, js_y + js_h * 0.50, js_y + js_h * 0.24]
+    for ly, ey in zip(lens_ys, js_entries):
+        arr(ax, lens_x + lens_w, ly + lens_h / 2,
+            js_x, ey,
+            color=ORANGE, lw=1.2, ms=10, zorder=5)
+
+    out_w, out_h = js_w, 0.54
+    out_y = 2.32
+    node(js_x, out_y, out_w, out_h, "Bounded\ncase code", DARK, alpha=0.06, fs=8.3)
+    arr(ax, js_x + js_w / 2, js_y,
+        js_x + out_w / 2, out_y + out_h,
+        color=DARK, lw=1.2, ms=10, zorder=5)
+    ax.text(js_x + out_w / 2, out_y - 0.18,
+            "audit trail retained",
+            ha="center", fontsize=7.5, color=MID, style="italic")
+
+    # Stage 2 -> Stage 3 connector
+    arr(ax, nx2 + bw2, s2_ys[-1] + bh2 / 2,
+        post_x, post_y + post_h / 2,
+        color=ORANGE, lw=1.35, ms=12, zorder=6)
+    ax.text((nx2 + bw2 + post_x) / 2, s2_ys[-1] + bh2 / 2 + 0.18,
+            "outlier cells", ha="center", fontsize=7.6,
+            color=ORANGE, style="italic")
+
+    return save_fig(fig, "figure07_sequential_pipeline_en.png",
+                    tight_pad=0.12, save_svg=True)
+
+
+def _make_figure07_legacy():
     """
     Figure 7: Three-stage sequential pipeline overview.
 
@@ -527,116 +698,105 @@ def make_figure07():
 # ===========================================================================
 
 def make_figure08():
-    W, H = 13.0, 5.8
+    W, H = 12.6, 5.2
     fig, ax = plt.subplots(figsize=(W, H))
     ax.set_xlim(0, W)
     ax.set_ylim(0, H)
     ax.axis("off")
 
-    # Left region: Restricted layer (I_R)
-    IR_X, IR_Y = 0.20, 0.30
-    IR_W, IR_H = 5.60, H - 0.55
+    # Left region: restricted information set
+    IR_X, IR_Y = 0.25, 0.35
+    IR_W, IR_H = 5.10, H - 0.70
     dbox(ax, IR_X, IR_Y, IR_W, IR_H, ec=BLUE, fc=IR_FILL, lw=1.4)
     ax.text(IR_X + 0.22, IR_Y + IR_H - 0.10,
-            "Restricted layer", ha="left", va="top",
+            "Restricted information set", ha="left", va="top",
             fontsize=11.5, fontweight="bold", color=BLUE)
     ax.text(IR_X + 0.22, IR_Y + IR_H - 0.44,
-            r"$I_R$  restricted input",
+            r"$I_R$: post text + metadata + codebook",
             ha="left", va="top", fontsize=9.5, style="italic", color=BLUE)
 
-    # Right region: Synthesis layer (I_J)
-    IJ_X, IJ_Y = 6.10, 0.30
-    IJ_W, IJ_H = W - 6.10 - 0.20, H - 0.55
+    # Right region: expanded judgment set
+    IJ_X, IJ_Y = 5.85, 0.35
+    IJ_W, IJ_H = W - IJ_X - 0.25, H - 0.70
     dbox(ax, IJ_X, IJ_Y, IJ_W, IJ_H, ec=ORANGE, fc=IJ_FILL, lw=1.4)
     ax.text(IJ_X + 0.22, IJ_Y + IJ_H - 0.10,
-            "Synthesis layer", ha="left", va="top",
+            "Expanded judgment set", ha="left", va="top",
             fontsize=11.5, fontweight="bold", color=ORANGE)
     ax.text(IJ_X + 0.22, IJ_Y + IJ_H - 0.44,
-            r"$I_J$  expanded judgment set",
+            r"$I_J$: lens hypotheses + district context",
             ha="left", va="top", fontsize=9.5, style="italic", color=ORANGE)
 
     # Boundary dashed line
-    BND_X = 5.88
-    ax.plot([BND_X, BND_X], [0.22, H - 0.22],
+    BND_X = 5.60
+    ax.plot([BND_X, BND_X], [0.28, H - 0.28],
             color=ORANGE, linewidth=1.5, linestyle="--", alpha=0.6, zorder=2)
-    ax.text(BND_X, 0.10, "boundary",
+    ax.text(BND_X, 0.14, "information boundary",
             ha="center", va="bottom", fontsize=8.5, color=ORANGE, style="italic")
 
-    # Post input node
-    PIN_X, PIN_Y = 0.52, H/2 - 0.55
-    PIN_W, PIN_H = 1.45, 1.10
-    outline_box(ax, PIN_X, PIN_Y, PIN_W, PIN_H,
-                ec=GREY, fc=LIGHT,
-                title="Post input",
-                lines=("post text", "metadata", "codebook"),
-                title_fs=9.5, body_fs=9.0)
+    # Post input node and restricted reasoning lenses
+    PIN_X, PIN_Y = 0.82, 2.20
+    PIN_W, PIN_H = 1.15, 0.78
+    solid_box(ax, PIN_X, PIN_Y, PIN_W, PIN_H,
+              GREY, 0.18, "Post\ninput", fs=9.4)
 
-    # Three lenses stacked vertically in I_R centre
-    LENS_X = 2.50
-    LENS_W, LENS_H = 1.90, 0.75
-    # y-centres for three lenses
-    LENS_CY = [H/2 + 0.72, H/2 - 0.02, H/2 - 0.76]
+    LENS_X = 2.80
+    LENS_W, LENS_H = 1.65, 0.62
+    LENS_CY = [3.28, 2.60, 1.92]
     LENS_LABELS = ["Abductive", "Forward", "Sequential"]
     for cy, lbl in zip(LENS_CY, LENS_LABELS):
         solid_box(ax, LENS_X, cy - LENS_H/2, LENS_W, LENS_H,
-                  GREEN, 0.15, lbl, fs=11, weight="bold")
+                  GREEN, 0.15, lbl, fs=10.6, weight="bold")
 
-    # Fan-out from post input right edge to three lenses
     FAN_SRC_X = PIN_X + PIN_W
     FAN_SRC_Y = PIN_Y + PIN_H / 2
     for cy in LENS_CY:
         arr(ax, FAN_SRC_X, FAN_SRC_Y,
-            LENS_X, cy,
-            BLUE, lw=1.4, ms=13)
+            LENS_X, cy, BLUE, lw=1.35, ms=12)
 
-    # Additional context box (in I_J, upper-left)
-    AI_X = IJ_X + 0.28
-    AI_Y = H/2 - 0.02
-    AI_W, AI_H = 2.10, 1.60
-    outline_box(ax, AI_X, AI_Y, AI_W, AI_H,
-                ec=ORANGE, fc="#FFF8EE",
-                title="Additional context",
-                lines=("district context",
-                       "absence typology",
-                       "active category set"),
-                title_fs=9.2, body_fs=8.8)
+    # Synthesis layer: lens outputs and context are separated before judgment.
+    HYP_X, HYP_Y = IJ_X + 0.42, 2.23
+    HYP_W, HYP_H = 1.55, 0.74
+    solid_box(ax, HYP_X, HYP_Y, HYP_W, HYP_H,
+              GREEN, 0.12, "Lens\nhypotheses", fs=9.0)
 
-    # Judgment synthesis box
-    JS_X = IJ_X + 2.85
-    JS_Y = H/2 - 0.60
-    JS_W, JS_H = 2.05, 1.20
+    CTX_X, CTX_Y = HYP_X, 3.25
+    CTX_W, CTX_H = HYP_W, 0.74
+    solid_box(ax, CTX_X, CTX_Y, CTX_W, CTX_H,
+              ORANGE, 0.12, "Context\nset", fs=9.0)
+
+    JS_X = IJ_X + 3.00
+    JS_Y = 2.10
+    JS_W, JS_H = 2.05, 1.00
     solid_box(ax, JS_X, JS_Y, JS_W, JS_H,
-              ORANGE, 0.14, "Judgment\nsynthesis", fs=11.5)
+              ORANGE, 0.14, "Judgment\nsynthesizer", fs=10.8)
 
-    # Fan-in: three lenses -> judgment synthesis (staggered y entry)
-    JS_ENTRY_YS = [
-        JS_Y + JS_H * 0.78,
-        JS_Y + JS_H * 0.50,
-        JS_Y + JS_H * 0.22,
+    HYP_ENTRY_YS = [
+        HYP_Y + HYP_H * 0.78,
+        HYP_Y + HYP_H * 0.50,
+        HYP_Y + HYP_H * 0.22,
     ]
-    for cy, ey in zip(LENS_CY, JS_ENTRY_YS):
+    for cy, ey in zip(LENS_CY, HYP_ENTRY_YS):
         arr(ax, LENS_X + LENS_W, cy,
-            JS_X, ey,
-            ORANGE, lw=1.4, ms=13)
+            HYP_X, ey, GREEN, lw=1.25, ms=11)
 
-    # Additional context -> judgment synthesis
-    arr(ax, AI_X + AI_W, AI_Y + AI_H/2,
-        JS_X, JS_Y + JS_H/2,
-        ORANGE, lw=1.3, ms=12)
+    arr(ax, HYP_X + HYP_W, HYP_Y + HYP_H / 2,
+        JS_X, JS_Y + JS_H * 0.38,
+        ORANGE, lw=1.35, ms=12)
+    arr(ax, CTX_X + CTX_W, CTX_Y + CTX_H / 2,
+        JS_X, JS_Y + JS_H * 0.72,
+        ORANGE, lw=1.35, ms=12)
 
     # Bounded classification output
-    BC_X = IJ_X + 3.15
-    BC_Y = 0.55
-    BC_W, BC_H = 1.95, 0.72
-    outline_box(ax, BC_X, BC_Y, BC_W, BC_H,
-                ec=DARK, fc=LIGHT,
-                title="Bounded classification",
-                title_fs=9.5, zorder=4)
+    BC_X = JS_X + 0.12
+    BC_Y = 0.82
+    BC_W, BC_H = 1.82, 0.64
+    solid_box(ax, BC_X, BC_Y, BC_W, BC_H,
+              GREY, 0.14, "Bounded\nclassification", fs=9.0)
     arr(ax, JS_X + JS_W/2, JS_Y,
         BC_X + BC_W/2, BC_Y + BC_H,
         DARK, lw=1.4, ms=13)
 
-    return save_fig(fig, "figure08_information_sets_en.png")
+    return save_fig(fig, "figure08_information_sets_en.png", save_vector=True)
 
 
 # ===========================================================================
@@ -663,32 +823,29 @@ def make_figure08():
 # ===========================================================================
 
 def make_figure09():
-    # Canvas
-    W, H = 13.0, 12.0
+    # Compact two-column layout with a horizontal Stage 2 -> Stage 3 handoff.
+    W, H = 13.0, 9.8
     fig, ax = plt.subplots(figsize=(W, H))
     ax.set_xlim(0, W)
     ax.set_ylim(0, H)
     ax.axis("off")
 
-    # -------------------------------------------------------------------
     # Column bounding boxes
-    # Canvas H=12.0; both columns: bottom=0.20, height=11.60
-    # -------------------------------------------------------------------
-    C2_X, C2_Y = 0.20, 0.20
-    C2_W = 5.00
-    C2_H = H - 0.40    # 11.60
+    C2_X, C2_Y = 0.25, 0.25
+    C2_W = 4.90
+    C2_H = H - 0.50
     dbox(ax, C2_X, C2_Y, C2_W, C2_H, ec=BLUE, fc=IR_FILL, lw=1.1)
     ax.text(C2_X + 0.20, C2_Y + C2_H - 0.10,
-            "Stage 2 -- EB Shrinkage Rate Aggregation",
+            "Stage 2 -- EB Aggregation",
             ha="left", va="top", fontsize=10.5, fontweight="bold", color=BLUE)
     ax.text(C2_X + 0.20, C2_Y + C2_H - 0.44,
             "Unit of analysis: district x dimension cell",
             ha="left", va="top", fontsize=8.5, style="italic", color=MID)
 
-    C3_X = C2_X + C2_W + 0.30   # 5.50
+    C3_X = C2_X + C2_W + 0.35
     C3_Y = C2_Y
-    C3_W = W - C3_X - 0.20      # 7.30
-    C3_H = C2_H                  # 11.60
+    C3_W = W - C3_X - 0.25
+    C3_H = C2_H
     dbox(ax, C3_X, C3_Y, C3_W, C3_H, ec=GREEN, fc=S3_FILL, lw=1.1)
     ax.text(C3_X + 0.20, C3_Y + C3_H - 0.10,
             "Stage 3 -- Agent-Based Post Interpretation",
@@ -697,155 +854,108 @@ def make_figure09():
             "Unit of analysis: individual post",
             ha="left", va="top", fontsize=8.5, style="italic", color=MID)
 
-    # -------------------------------------------------------------------
-    # Stage 2: vertical EB cascade (7 nodes)
-    # First node top at y_top2=10.00, clearing subtitle (~11.10) by 0.40".
-    # -------------------------------------------------------------------
-    BW2, BH2 = 2.20, 0.70
-    GAP2  = 0.28
-    STEP2 = BH2 + GAP2   # 0.98
+    # Stage 2: vertical EB cascade with compact labels.
+    BW2, BH2 = 2.15, 0.54
+    GAP2 = 0.20
+    STEP2 = BH2 + GAP2
 
     EB_NODES = [
-        ("Classified-post base\n(from Stage 1)", GREY, 0.18, ""),
-        ("Administrative-dong\nlinkage",           BLUE, 0.13, ""),
-        ("Living-population\nexposure",            BLUE, 0.13, "hourly person-time"),
-        ("Observed post rate",                      BLUE, 0.13, ""),
-        ("EB shrinkage",                            BLUE, 0.13,
-         "prior = Part 1 deficiency\nposterior = precision-weighted mean"),
-        ("Posterior rate\n(per 100k person-years)", BLUE, 0.13, ""),
-        ("Within-dimension\nz_shift",               BLUE, 0.13, ""),
+        ("Classified posts\n(Stage 1)", GREY, 0.18, ""),
+        ("Admin-dong\nlinkage", BLUE, 0.13, ""),
+        ("Population\nexposure", BLUE, 0.13, "hourly person-time"),
+        ("Observed\npost rate", BLUE, 0.13, ""),
+        ("EB shrinkage", BLUE, 0.13, "prior + observed rate"),
+        ("Posterior rate\n(per 100k py)", BLUE, 0.13, ""),
+        ("Within-dimension\nz_shift", BLUE, 0.13, ""),
     ]
     N2 = len(EB_NODES)
 
-    CX2    = C2_X + C2_W / 2           # 2.70
-    y_top2 = 10.00                      # first node: [10.00, 10.70], subtitle ~11.10 -> gap 0.40
+    CX2 = C2_X + 1.78
+    y_top2 = 8.20
     eb_tops = [y_top2 - i * STEP2 for i in range(N2)]
 
     for i, ((lbl, col, a, sub), ty) in enumerate(zip(EB_NODES, eb_tops)):
         solid_box(ax, CX2 - BW2/2, ty, BW2, BH2, col, alpha=a,
-                  label=lbl, fs=8.8, sublabel=sub, subfs=7.5)
+                  label=lbl, fs=8.2, sublabel=sub, subfs=7.0)
         if i > 0:
             arr(ax, CX2, eb_tops[i-1],
                 CX2, ty + BH2,
                 col, ms=10)
 
-    # ZSHIFT_MID: vertical mid of the last cascade node (Within-dimension z_shift)
-    ZSHIFT_BOT = eb_tops[-1]           # 4.12
-    ZSHIFT_MID = ZSHIFT_BOT + BH2 / 2  # 4.47
+    ZSHIFT_Y = eb_tops[-1]
+    ZSHIFT_MID = ZSHIFT_Y + BH2 / 2
 
-    # -------------------------------------------------------------------
-    # OC2 box -- placed BELOW z_shift node, inside C2 column.
-    # Arrow: from z_shift node bottom-centre down to OC2 top-centre.
-    # Width spans most of C2 inner width for readable two-line text.
-    # -------------------------------------------------------------------
-    OC2_W, OC2_H = 2.40, 0.80
-    OC2_GAP = 0.18
-    OC2_X = C2_X + (C2_W - OC2_W) / 2   # horizontally centred in C2
-    OC2_Y = ZSHIFT_BOT - OC2_GAP - OC2_H   # 3.14
-
+    # Outlier-cell handoff is aligned horizontally with z_shift.
+    OC2_W, OC2_H = 1.42, 0.58
+    OC2_X = C2_X + 3.30
+    OC2_Y = ZSHIFT_MID - OC2_H / 2
     outline_box(ax, OC2_X, OC2_Y, OC2_W, OC2_H,
                 ec=ORANGE, fc="#FFF8EE",
-                title="High-z_shift outlier cells",
+                title="Outlier cells",
                 lines=("district x dimension",),
-                title_fs=9.0, body_fs=8.2, zorder=4)
-    # Arrow: z_shift bottom -> OC2 top (short vertical drop)
-    arr(ax, CX2, ZSHIFT_BOT,
-        CX2, OC2_Y + OC2_H,
-        ORANGE, ms=11, lw=1.5)
+                title_fs=7.8, body_fs=6.8, zorder=4)
+    arr(ax, CX2 + BW2 / 2, ZSHIFT_MID,
+        OC2_X, ZSHIFT_MID,
+        ORANGE, ms=10, lw=1.4)
 
-    # Handoff start: OC2 right-centre
-    OC2_MID_Y  = OC2_Y + OC2_H / 2    # 3.54
+    # Stage 3 sub-layout
+    S3_IN_X = C3_X + 0.28
+    S3_IN_W = C3_W - 0.56
+    S3_IN_Y = C3_Y + 0.70
+    S3_IN_TOP = C3_Y + C3_H - 1.55
+    S3_IN_H = S3_IN_TOP - S3_IN_Y
 
-    # -------------------------------------------------------------------
-    # Stage 3 horizontal sub-layout geometry
-    # S3_IN: inner region of Stage 3 column, inside the green dbox.
-    # I_R: left ~43% for Post(input) + three lenses.
-    # I_J: right ~55% for Judgment synthesizer + cascade.
-    # -------------------------------------------------------------------
-    S3_PAD_X  = 0.28
-    S3_PAD_Y  = 0.22
-    S3_IN_X   = C3_X + S3_PAD_X                # 5.78
-    S3_IN_W   = C3_W - 2 * S3_PAD_X            # 6.74
-    S3_IN_Y   = C3_Y + S3_PAD_Y                # 0.42
-    # S3_IN_TOP is capped below the Stage 3 column header/subtitle
-    # to prevent I_R / I_J sub-region header labels from overlapping Stage 3 title text.
-    # Stage 3 subtitle is at C3_Y+C3_H-0.44=11.36; set sub-box top 0.45" below that.
-    S3_IN_TOP = (C3_Y + C3_H - 0.44) - 0.45   # 10.91
-    S3_IN_H   = S3_IN_TOP - S3_IN_Y            # 10.49
+    IR9_W = 2.82
+    IJ9_GAP = 0.25
+    IJ9_X = S3_IN_X + IR9_W + IJ9_GAP
+    IJ9_W = S3_IN_X + S3_IN_W - IJ9_X
 
-    IR9_W   = S3_IN_W * 0.43    # 2.90
-    IJ9_GAP = 0.22
-    IJ9_X   = S3_IN_X + IR9_W + IJ9_GAP       # 8.90
-    IJ9_W   = S3_IN_X + S3_IN_W - IJ9_X        # 3.62
-
-    # I_R sub-region dbox (extends full height of S3_IN)
     dbox(ax, S3_IN_X, S3_IN_Y, IR9_W, S3_IN_H,
          ec=BLUE, fc=IR_FILL, lw=1.0)
     ax.text(S3_IN_X + 0.10, S3_IN_TOP - 0.08,
-            r"$I_R$: post text + metadata + codebook",
-            ha="left", va="top", fontsize=7.5, style="italic", color=BLUE)
+            r"$I_R$: restricted inputs",
+            ha="left", va="top", fontsize=7.8, style="italic", color=BLUE)
     ax.text(S3_IN_X + 0.10, S3_IN_TOP - 0.32,
-            "three lenses independent",
-            ha="left", va="top", fontsize=7.5, style="italic", color=BLUE)
+            "post + metadata + codebook",
+            ha="left", va="top", fontsize=7.6, style="italic", color=BLUE)
 
-    # I_J sub-region dbox
     dbox(ax, IJ9_X, S3_IN_Y, IJ9_W, S3_IN_H,
          ec=ORANGE, fc=IJ_FILL, lw=1.0)
     ax.text(IJ9_X + 0.10, S3_IN_TOP - 0.08,
-            r"$I_J$: hypotheses + district context",
-            ha="left", va="top", fontsize=7.5, style="italic", color=ORANGE)
+            r"$I_J$: expanded judgment set",
+            ha="left", va="top", fontsize=7.8, style="italic", color=ORANGE)
     ax.text(IJ9_X + 0.10, S3_IN_TOP - 0.32,
-            "absence typology + active category set",
-            ha="left", va="top", fontsize=7.5, style="italic", color=ORANGE)
+            "hypotheses + context",
+            ha="left", va="top", fontsize=7.6, style="italic", color=ORANGE)
 
-    # -------------------------------------------------------------------
-    # Post (input) node -- left edge of I_R, vertically centred at ZSHIFT_MID.
-    # Handoff: OC2 right-mid -> Post left-mid (short angled arrow across gap).
-    # -------------------------------------------------------------------
-    PW, PH = 1.00, 0.68
-    PX = S3_IN_X + 0.14                     # 5.92
-    PY = ZSHIFT_MID - PH / 2               # 4.13 -- centred at ZSHIFT_MID=4.47
-    PY = max(S3_IN_Y + 0.50, min(PY, S3_IN_TOP - PH - 0.50))
+    # Post input and reasoning lenses
+    PW, PH = 0.82, 0.56
+    PX = S3_IN_X + 0.22
+    PY = ZSHIFT_MID - PH / 2
+    solid_box(ax, PX, PY, PW, PH, GREY, 0.18, "Post", fs=8.8)
 
-    solid_box(ax, PX, PY, PW, PH, GREY, 0.18, "Post\n(input)", fs=9.0)
+    POST_MID_Y = PY + PH / 2
 
-    POST_MID_Y = PY + PH / 2               # 4.47
-
-    # Handoff arrow: OC2 right-mid -> Post left-mid
-    arr(ax, OC2_X + OC2_W, OC2_MID_Y,
+    arr(ax, OC2_X + OC2_W, ZSHIFT_MID,
         PX, POST_MID_Y,
-        ORANGE, lw=1.7, ms=14, zorder=5)
+        ORANGE, lw=1.5, ms=12, zorder=5)
 
-    # Label placed just above the midpoint of the handoff arrow.
-    # x-centre at arrow midpoint (between OC2 right edge and Post left edge),
-    # y slightly above the arrow midpoint -- stays clear of all box borders.
     ARROW_MID_X = (OC2_X + OC2_W + PX) / 2
-    ARROW_MID_Y = (OC2_MID_Y + POST_MID_Y) / 2
-    LABEL_MID_X = ARROW_MID_X
-    LABEL_Y     = ARROW_MID_Y + 0.22
-    ax.text(LABEL_MID_X, LABEL_Y,
-            "outlier-cell posts as input",
-            ha="center", fontsize=7.8, style="italic", color=ORANGE)
 
-    # -------------------------------------------------------------------
-    # Three lenses -- stacked in I_R, right of Post node.
-    # Centres at ZSHIFT_MID (+/- LENS_PITCH) so fan-out arrows are short.
-    # -------------------------------------------------------------------
-    LW9, LH9   = 1.35, 0.62
-    LENS9_X    = PX + PW + 0.20             # 7.12
-    LENS_PITCH = LH9 + 0.24                 # 0.86 between centres
+    LW9, LH9 = 1.20, 0.54
+    LENS9_X = PX + PW + 0.22
+    LENS_PITCH = LH9 + 0.18
 
     LENS9_CY = [
-        ZSHIFT_MID + LENS_PITCH,            # top lens centre   5.33
-        ZSHIFT_MID,                          # mid lens centre   4.47
-        ZSHIFT_MID - LENS_PITCH,            # bot lens centre   3.61
+        ZSHIFT_MID + LENS_PITCH,
+        ZSHIFT_MID,
+        ZSHIFT_MID - LENS_PITCH,
     ]
     LENS_LABELS = ["Abductive\nlens", "Forward\nlens", "Sequential\nlens"]
     for cy, lbl in zip(LENS9_CY, LENS_LABELS):
         solid_box(ax, LENS9_X, cy - LH9/2, LW9, LH9,
-                  GREEN, 0.15, lbl, fs=8.8, weight="bold")
+                  GREEN, 0.15, lbl, fs=7.8, weight="bold")
 
-    # Fan-out: Post right-mid -> each lens left-centre (short diagonals)
     FAN_SX = PX + PW
     FAN_SY = POST_MID_Y
     for cy in LENS9_CY:
@@ -853,17 +963,13 @@ def make_figure09():
             LENS9_X, cy,
             GREEN, lw=1.3, ms=10)
 
-    # -------------------------------------------------------------------
-    # Judgment synthesizer -- I_J left region, centred at ZSHIFT_MID.
-    # Fan-in: each lens right-centre -> JS left, staggered y entries.
-    # Hop distance ~0.61" (LENS9_X+LW9 to JS9_X).
-    # -------------------------------------------------------------------
-    JS9_W, JS9_H = 1.55, 0.72
-    JS9_X = IJ9_X + 0.18                    # 9.08
-    JS9_Y = ZSHIFT_MID - JS9_H / 2         # 4.11
+    # Judgment synthesizer and bounded-output checks
+    JS9_W, JS9_H = 1.55, 0.64
+    JS9_X = IJ9_X + 0.32
+    JS9_Y = ZSHIFT_MID - JS9_H / 2
 
     solid_box(ax, JS9_X, JS9_Y, JS9_W, JS9_H,
-              ORANGE, 0.15, "Judgment\nsynthesizer", fs=9.2)
+              ORANGE, 0.15, "Judgment\nsynthesizer", fs=8.3)
 
     JS9_ENTRY_YS = [
         JS9_Y + JS9_H * 0.78,
@@ -875,47 +981,38 @@ def make_figure09():
             JS9_X, ey,
             ORANGE, lw=1.3, ms=10)
 
-    # -------------------------------------------------------------------
-    # 4-item cascade below Judgment synthesizer (vertical, inside I_J).
-    # Bottom-up placement to guarantee containment inside S3_IN.
-    # -------------------------------------------------------------------
     CSC9_W    = JS9_W
-    CSC9_H    = 0.58
-    CSC9_GAP  = 0.22
+    CSC9_H    = 0.46
+    CSC9_GAP  = 0.16
     CSC9_STEP = CSC9_H + CSC9_GAP
     N_CSC9    = 4
 
-    CSC9_LAST_Y = S3_IN_Y + 0.35
     csc9_item_tops = [
-        CSC9_LAST_Y + (N_CSC9 - 1 - i) * CSC9_STEP
+        JS9_Y - 0.28 - CSC9_H - i * CSC9_STEP
         for i in range(N_CSC9)
     ]
 
     CASCADE9 = [
-        ("Convergence /\ndisagreement check", ORANGE, 0.14),
-        ("Non-structural\nalternatives",       GREY,   0.18),
-        ("Final bounded\ncode",                GREY,   0.18),
-        ("Audit trail",                        GREY,   0.18),
+        ("Convergence\ncheck", ORANGE, 0.14),
+        ("Alternative\nexplanations", GREY, 0.18),
+        ("Bounded\ncode", GREY, 0.18),
+        ("Audit\ntrail", GREY, 0.18),
     ]
     CX9 = JS9_X + CSC9_W / 2
 
     for i, ((lbl, col, a), top_y) in enumerate(zip(CASCADE9, csc9_item_tops)):
         solid_box(ax, JS9_X, top_y, CSC9_W, CSC9_H, col, alpha=a,
-                  label=lbl, fs=8.4)
+                  label=lbl, fs=7.6)
         if i == 0:
             arr(ax, CX9, JS9_Y,
-                CX9, top_y + CSC9_H,
+                CX9, top_y + CSC9_H + 0.03,
                 ORANGE, ms=11)
         else:
             arr(ax, CX9, csc9_item_tops[i-1],
-                CX9, top_y + CSC9_H,
+                CX9, top_y + CSC9_H + 0.03,
                 DARK, ms=11)
 
-    ax.text(CX9, csc9_item_tops[-1] - 0.14,
-            "Output unit: post-level case",
-            ha="center", fontsize=7.8, style="italic", color=GREY)
-
-    return save_fig(fig, "figure09_sequential_eb_to_agent_en.png")
+    return save_fig(fig, "figure09_sequential_eb_to_agent_en.png", save_vector=True)
 
 
 # ===========================================================================
