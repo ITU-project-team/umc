@@ -81,3 +81,6 @@ writing/manuscript/latex_output_en/
 # 작업 아카이브 (writing 하위)
 writing/_archive_EN_submission/
 writing/_archive_shared_assets/
+
+# git worktrees (auto-managed; never commit as files)
+worktrees/
