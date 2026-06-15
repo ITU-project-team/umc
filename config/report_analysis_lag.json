@@ -170,6 +170,10 @@
       "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
       "scripts/hooks/report_analysis_lag_check.py",
+      ".codex/agents/**",
+      ".codex/skills/**",
+      ".claude/agents/**",
+      ".claude/skills/**",
       ".codex/skills/umc-analysis-workflow/SKILL.md"
     ],
     "commit_pathspecs": [
@@ -181,6 +185,10 @@
       "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
       "scripts/hooks/report_analysis_lag_check.py",
+      ".codex/agents",
+      ".codex/skills",
+      ".claude/agents",
+      ".claude/skills",
       ".codex/skills/umc-analysis-workflow/SKILL.md"
     ]
   },

@@ -27,7 +27,7 @@ allowed-tools: Read, Bash
 ## 경계
 
 - 집계 수준 표 산출만 읽는다. 원자료, 비공개 플랫폼 텍스트, 게시물 ID, 게시물 수준 LLM 출력, `.env`, 비밀값, 로컬 설정은 열람·인용·노출하지 않는다.
-- 수치 정합만 본다. 주장-증거 수준 정합은 `umc-argument-review-task`, 경로·Git·경계는 `project-verifier`가 담당한다.
+- 수치 정합만 본다. 주장-증거 수준 정합은 `report-evidence-boundary-editor` 또는 `umc-argument-review-task`, 경로·Git·경계는 `project-verifier`가 담당한다.
 - 파일을 편집하지 않는다. 독립적인 읽기 전용 대조에만 제한된 병렬 서브에이전트를 쓸 수 있다.
 
 ## 결과 형식

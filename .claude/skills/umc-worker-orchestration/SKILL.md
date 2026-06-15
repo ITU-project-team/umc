@@ -36,7 +36,11 @@ allowed-tools: Read, Bash
 | Visible worker label | Current surface | Assigned agent | Owning path | Primary skills/rules |
 | --- | --- | --- | --- | --- |
 | `검증 담당 · project-verifier` | `surface:1` | `project-verifier` | touched root or nested repo paths | read-only verification; findings first |
-| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `paths.docs.active_report_docx` | `umc-report-evidence-framing`, `umc-academic-table-formatting`, `umc-report-handoff` |
+| `보고서 DOCX 담당 · report-docx-manager` | `surface:2` | `report-docx-manager` | `paths.docs.active_report_docx` | DOCX layout/execution, `umc-academic-table-formatting`, `umc-report-handoff` |
+| `방법론 설명 담당 · report-method-explainer` | 새 패널 배정 시 확인 | `report-method-explainer` | `paths.docs.active_report_docx`, Part 1/2/3 handoff | `umc-reader-first-method-writing`, `umc-report-handoff`, `umc-report-evidence-framing` |
+| `증거 경계 담당 · report-evidence-boundary-editor` | 새 패널 배정 시 확인 | `report-evidence-boundary-editor` | report prose and interpretation sections | `umc-report-evidence-framing`, `umc-report-handoff` |
+| `부록 큐레이션 담당 · report-appendix-curator` | 새 패널 배정 시 확인 | `report-appendix-curator` | appendix prompt/keyword/reproducibility surfaces | `umc-report-handoff`, `umc-report-commenting`, `umc-table-formatting` |
+| `독자 이해 검증 담당 · reader-comprehension-verifier` | 새 패널 배정 시 확인 | `reader-comprehension-verifier` | touched report sections/render pages | read-only, `umc-reader-first-method-writing`, findings first |
 | `Part 3 분석 총괄 · part3-analysis-manager` | `surface:3` | `part3-analysis-manager` | `paths.analysis.part3.repo` | `umc-analysis-workflow`, `umc-report-evidence-framing`; no raw/private text or post IDs |
 | `Part 1 분석 총괄 · part1-analysis-manager` | `surface:4` | `part1-analysis-manager` | `paths.analysis.part1.repo` | `umc-analysis-workflow`, `umc-report-handoff`; protect raw data |
 | `Part 2 분석 총괄 · part2-analysis-manager` | `surface:6` | `part2-analysis-manager` | `paths.analysis.part2.repo` | `umc-analysis-workflow`, `umc-report-evidence-framing`, `umc-report-handoff`; HLM as association analysis |

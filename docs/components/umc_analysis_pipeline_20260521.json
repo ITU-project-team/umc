@@ -405,44 +405,35 @@
         {
           "stage_id": "3.3.region_dimension_bayesian_aggregation",
           "scripts": [
-            "analysis/part 3/02_bayesian/scripts/phase_c/region_dimension_sensitivity.py",
-            "analysis/part 3/02_bayesian/scripts/phase_c/bayesian_beta_binomial.py"
+            "scripts/phase_c/region_dimension_eb_shrinkage.py"
           ],
           "inputs": [
-            "analysis/part 3/02_bayesian/data/processed/03_umc_classified.csv",
-            "analysis/part 3/02_bayesian/data/processed/dong_crosswalk_full.csv",
-            "analysis/part 3/02_bayesian/data/processed/participation_density_dong_qc.json",
+            "data/processed/03_umc_classified.csv",
+            "data/processed/dong_crosswalk_full.csv",
+            "data/processed/participation_density_dong_qc.json",
             "analysis/part 1/output/tables/seoul_umc_scores_v7_2024.csv"
           ],
           "outputs": [
-            "analysis/part 3/02_bayesian/output/tables/region_dimension_sensitivity.csv",
-            "analysis/part 3/02_bayesian/output/tables/region_dimension_sensitivity_summary.csv",
-            "analysis/part 3/02_bayesian/output/tables/region_dimension_report_notes.json",
-            "analysis/part 3/02_bayesian/output/tables/bayesian_posterior_k20.csv",
-            "analysis/part 3/02_bayesian/output/figures/phase_c/19_region_dimension_shift_sensitivity.png",
-            "analysis/part 3/02_bayesian/output/figures/phase_c/20_region_dimension_top_shifts.png",
-            "analysis/part 3/02_bayesian/output/figures/phase_c/21_region_dimension_shift_maps.png",
-            "analysis/part 3/02_bayesian/output/figures/phase_c/22_region_dimension_summary_maps.png"
+            "output/tables/eb_shrinkage_posterior.csv",
+            "output/tables/eb_shrinkage_summary.csv",
+            "output/tables/table5_eb_prior_posterior.csv",
+            "output/tables/eb_shrinkage_report_notes.json",
+            "output/figures/phase_c/25_eb_shrinkage_top_shifts.png"
           ],
           "transformations": [
             "Create dimension flags only when umc_related == Y and a dimension pattern is present",
-            "Aggregate n_weight and y_weight by district, UMC dimension, and mapping-sensitivity scenario",
-            "Use Part 1 district UMC scores as prior information",
-            "Set prior strength KAPPA = 20",
-            "Compute alpha_post = alpha_prior + y_weight",
-            "Compute beta_post = beta_prior + n_weight - y_weight",
-            "Report posterior mean shift in percentage points"
-          ],
-          "sensitivity_scenarios": [
-            "all_weighted",
-            "candidate_count_1",
-            "ambiguous_excluded"
+            "Aggregate Y posts and authoring-time living-population exposure by district and UMC dimension",
+            "Use Part 1 district-dimension deficiency scores as administrative prior information",
+            "Estimate moment-based kappa separately by dimension rather than using a fixed pseudo-count",
+            "Compute precision-weighted prior and observed posting rates per 100,000 person-years",
+            "Report shift_per100k and within-dimension standardized z_shift"
           ],
           "validation_checks": [
-            "region_dimension_sensitivity.csv has 450 rows: 25 districts x 6 dimensions x 3 scenarios",
-            "region_dimension_sensitivity_summary.csv has 150 rows",
-            "149 of 150 district-dimension cells are sign-stable across mapping scenarios",
-            "Maximum sensitivity range is 0.1463 percentage points"
+            "eb_shrinkage_posterior.csv has 450 rows: 3 scenarios x 25 districts x 6 dimensions",
+            "eb_shrinkage_summary.csv has 150 rows",
+            "table5_eb_prior_posterior.csv has 25 district rows",
+            "147 of 150 district-dimension cells are sign-stable across mapping specifications",
+            "total_y_posts = 7136 and citywide_rate_per100k = 46.4437 in eb_shrinkage_report_notes.json"
           ],
           "interpretation_boundary": [
             "Bayesian updating is exploratory evidence integration, not prevalence estimation.",
@@ -451,109 +442,127 @@
         },
         {
           "stage_id": "3.3.structured_inference_agent_pipeline",
-          "primary_path": "analysis/part 3/03_inference",
+          "primary_path": "analysis/part 3 consolidated repository root",
           "configuration_files": [
-            "analysis/part 3/03_inference/CLAUDE.md",
-            "analysis/part 3/03_inference/config/coding_scheme.json",
-            "analysis/part 3/03_inference/config/umc_dimensions.json",
-            "analysis/part 3/03_inference/config/absence_typology.json",
-            "analysis/part 3/03_inference/config/noise_keywords.json",
-            "analysis/part 3/03_inference/config/preprocessing_config.json"
+            "README.md",
+            "CLAUDE.md",
+            "docs/data_contracts.md",
+            "docs/DATA_BOUNDARY.md",
+            "config/coding_scheme.json",
+            "config/umc_dimensions.json",
+            "config/data_sources.json",
+            "config/preprocessing_config.json",
+            ".codex/stage_b_deepseek.md",
+            ".codex/stage_b_routing.toml"
           ],
           "agents": [
             {
-              "name": "Reasoner A",
-              "path": "analysis/part 3/03_inference/.claude/agents/Reasoner A.md",
-              "role": "Abductive hypothesis generation",
-              "information_set": "post text plus metadata and shared coding scheme; no typology/context block"
+              "name": "abductive-reasoner",
+              "path": ".claude/agents/abductive-reasoner.md",
+              "role": "Stage B abductive region-hypothesis generation",
+              "information_set": "post text, basic region/time metadata, dim_codes, and shared coding scheme only"
             },
             {
-              "name": "Reasoner B",
-              "path": "analysis/part 3/03_inference/.claude/agents/Reasoner B.md",
-              "role": "Forward hypothesis generation",
-              "information_set": "post text plus metadata and shared coding scheme; no typology/context block"
+              "name": "forward-reasoner",
+              "path": ".claude/agents/forward-reasoner.md",
+              "role": "Stage B forward region-hypothesis generation",
+              "information_set": "post text, basic region/time metadata, dim_codes, and shared coding scheme only"
             },
             {
-              "name": "Reasoner C",
-              "path": "analysis/part 3/03_inference/.claude/agents/Reasoner C.md",
-              "role": "Sequential/pathway hypothesis generation",
-              "information_set": "post text plus metadata and shared coding scheme; no typology/context block"
+              "name": "sequential-reasoner",
+              "path": ".claude/agents/sequential-reasoner.md",
+              "role": "Stage B pathway-based region-hypothesis generation",
+              "information_set": "post text, basic region/time metadata, dim_codes, and shared coding scheme only"
+            },
+            {
+              "name": "data-spec",
+              "path": ".claude/agents/data-spec.md",
+              "role": "Stage C variable-request specification from three hypotheses and variable_catalog",
+              "information_set": "three region_hypotheses, region fields, and config/data_sources.json variable_catalog"
             },
             {
               "name": "judgment-synthesizer",
-              "path": "analysis/part 3/03_inference/.claude/agents/judgment-synthesizer.md",
-              "role": "Phase 2 synthesis and final judgment",
-              "information_set": "three hypotheses plus context block, district/living-pop context, typology/category files"
+              "path": ".claude/agents/judgment-synthesizer.md",
+              "role": "Stage E evidence-grounded verdict and final coding",
+              "information_set": "three hypotheses, data_spec verification rules, evidence.json values, and coding_scheme"
             },
             {
               "name": "preprocessor",
-              "path": "analysis/part 3/03_inference/.claude/agents/preprocessor.md",
-              "role": "Preprocessing support"
-            },
-            {
-              "name": "jump-auditor",
-              "path": "analysis/part 3/03_inference/.claude/agents/jump-auditor.md",
-              "role": "Inference jump audit"
-            },
-            {
-              "name": "knowledge-curator",
-              "path": "analysis/part 3/03_inference/.claude/agents/knowledge-curator.md",
-              "role": "Category knowledge maintenance"
+              "path": ".claude/agents/preprocessor.md",
+              "role": "Stage 2 relevance-scoring support"
             }
           ],
           "skills": [
-            "analysis/part 3/03_inference/.claude/skills/preprocess-batch/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/analyze-post/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/judge-post/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/run-round/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/audit-jump/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/update-knowledge/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/benchmark-case/SKILL.md",
-            "analysis/part 3/03_inference/.claude/skills/infer-context/SKILL.md"
+            ".claude/skills/preprocess-batch/SKILL.md",
+            ".claude/skills/analyze-post/SKILL.md",
+            ".claude/skills/judge-post/SKILL.md",
+            ".claude/skills/run-round/SKILL.md",
+            ".claude/skills/audit-jump/SKILL.md",
+            ".claude/skills/benchmark-case/SKILL.md",
+            ".claude/skills/infer-context/SKILL.md"
           ],
           "scripts": [
-            "analysis/part 3/03_inference/scripts/preprocess_filter.py",
-            "analysis/part 3/03_inference/scripts/gen_phase1_prompts.py",
-            "analysis/part 3/03_inference/scripts/merge_hypotheses.py",
-            "analysis/part 3/03_inference/scripts/merge_and_clean.py",
-            "analysis/part 3/03_inference/scripts/build_casebook.py",
-            "analysis/part 3/03_inference/scripts/hooks/guard_typology.py",
-            "analysis/part 3/03_inference/scripts/hooks/validate_parallel.py",
-            "analysis/part 3/03_inference/scripts/hooks/validate_output.py",
-            "analysis/part 3/03_inference/scripts/hooks/log_token_usage.py",
-            "analysis/part 3/03_inference/scripts/hooks/validate_changelog.py"
+            "scripts/post_extractor.py",
+            "scripts/build_stage_b_todo.py",
+            "scripts/conductor_stage_b_workflow.js",
+            "scripts/merge_hypotheses.py",
+            "scripts/export_district_hypothesis_groups_csv.py",
+            "scripts/dataset_builder.py",
+            "scripts/build_all_evidence.py",
+            "scripts/build_stage_e_todo.py",
+            "scripts/conductor_phase2_stage_e_workflow.js",
+            "scripts/build_casebook.py",
+            "scripts/hooks/validate_parallel.py",
+            "scripts/hooks/guard_typology.py"
           ],
           "outputs": [
-            "analysis/part 3/03_inference/output/hypotheses/",
-            "analysis/part 3/03_inference/output/judgments/",
-            "analysis/part 3/03_inference/output/district_level/round_1/summary.json",
-            "analysis/part 3/03_inference/output/district_level/round_2/summary.json",
-            "analysis/part 3/03_inference/output/saturation/round_1.json",
-            "analysis/part 3/03_inference/output/saturation/round_2.json"
+            "output/hypotheses/<post_id>/{abductive,forward,sequential}.json",
+            "output/judgments/<post_id>/data_spec.json",
+            "output/judgments/<post_id>/evidence.json",
+            "output/judgments/<post_id>/judgment.json",
+            "output/tables/district_hypothesis_groups.csv"
           ],
           "validation_checks": [
-            "Phase 1 reasoners are isolated from each other",
-            "Phase 1 reasoners do not read absence_typology.json or active category knowledge",
-            "Judgment synthesizer starts after Phase 1 and compares the three hypotheses",
-            "Hooks validate parallel outputs, output structure, typology access, changelog, and token logs"
+            "Stage B reasoners are isolated from each other and from regional aggregate data",
+            "Stage B outputs contain falsifiable region_hypotheses only, with no confidence/layer/classification",
+            "Stage C requests only variables registered in config/data_sources.json",
+            "Stage D builds evidence deterministically and records unavailable/not_found values instead of inventing data",
+            "Stage E assigns supported only when evidence directly satisfies the verification rule",
+            "absence_typology.json A1-F1 coding is retired from final classification"
           ],
           "current_summary_outputs": {
-            "round_2_saturation": {
-              "path": "analysis/part 3/03_inference/output/saturation/round_2.json",
-              "detected_gu": 24,
-              "total_gu": 25,
-              "total_posts": 109
+            "stage_b_target_set": {
+              "post_dirs": 1154,
+              "reasoner_files": 3462,
+              "status": "Stage B complete for the current target set"
+            },
+            "stage_c_d_target_set": {
+              "data_spec_files": 1154,
+              "evidence_files": 1154,
+              "status": "Stage C data specs and Stage D evidence exist for the current target set"
+            },
+            "stage_e_judgments": {
+              "judgment_files": 12,
+              "status": "Stage E is still being accumulated and is not used as a substantive report result",
+              "count_note": "Count was still changing during report review; do not use as a substantive distribution."
+            },
+            "district_hypothesis_groups": {
+              "path": "output/tables/district_hypothesis_groups.csv",
+              "rows": 220,
+              "privacy": "aggregate table; excludes post IDs, grounded spans, and claim text"
             }
           }
         }
       ],
       "report_outputs": [
         "Section 3.3 methods paragraphs",
-        "Figure 6 platform-visible signal analysis pipeline",
-        "Figure 8 agent-based text analysis and Bayesian aggregation",
-        "Figure 9 region-dimension posterior shift result",
-        "Table 6 analysis units",
-        "Table 8 exploratory absence categories"
+        "Figure 7 Section 3.3 pipeline",
+        "Figure 8 staged information sets",
+        "Figure 9 EB-to-evidence-grounded-agent handoff",
+        "Figure 10 EB shrinkage top divergences",
+        "Figure 11 EB shrinkage z_shift maps",
+        "Table 5 analysis and interpretation units",
+        "Table 8 post classification inputs"
       ],
       "interpretation_boundary": [
         "Platform posts are platform-visible lived-experience signals, not representative prevalence data.",

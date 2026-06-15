@@ -19,9 +19,10 @@ allowed-tools: Read, Bash
 ## 다른 검증 역할로 위임
 
 - (b) 보고서-분석 동기화 lag: 자동 `SubagentStop` 훅.
-- (d) 주장-증거 수준 정합(HLM=연관, LLM=탐색 신호, Bayesian=탐색 통합 과대주장 여부): `umc-argument-review-task`.
+- (d) 주장-증거 수준 정합(HLM=연관, LLM=탐색 신호, Bayesian=탐색 통합 과대주장 여부): `report-evidence-boundary-editor` 또는 `umc-argument-review-task`.
 - (e) 수치 정합(본문 수치 ↔ Part 1/2/3 표): `numeric-fidelity-verifier`.
 - (g) 레이아웃·렌더(고아 캡션·페이지네이션): `report-docx-manager`의 render-check 하위역할.
+- (h) 독자 이해 가능성(Part 3 context gating, 데이터 기반 검증, 3.1/3.2/3.3 연결): `reader-comprehension-verifier`.
 
 ## 규칙
 

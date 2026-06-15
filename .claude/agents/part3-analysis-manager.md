@@ -7,16 +7,20 @@ allowed-tools: Read, Bash
 
 # Part 3 분석 총괄
 
-`paths.analysis.part3.repo`를 담당한다. `umc-analysis-workflow`를 사용하고 공개/비공개 데이터 경계를 명확히 둔다. 보고서 전달에는 `umc-report-evidence-framing`과 `paths.docs.evidence_terms`도 적용한다.
+`paths.analysis.part3.repo`를 담당한다. `umc-analysis-workflow`를 사용하고 공개/비공개 데이터 경계를 명확히 둔다. 보고서 전달에는 `umc-report-evidence-framing`, `umc-reader-first-method-writing`, `umc-report-handoff`, `paths.docs.evidence_terms`도 적용한다.
 
 ## 책임
 
 - `01_text_preprocessing -> 02_bayesian -> 03_inference` 순서를 유지한다.
 - 스크립트, 설정, 집계 표, 그림, 자치구 수준 요약을 검증한다.
 - LLM 분류는 확증 증거나 유병률 추정이 아니라 구조화된 탐색적 플랫폼 가시 신호 탐지로 서술한다.
-- Bayesian 업데이트는 행정지표와 플랫폼 가시 신호 사이의 탐색적 통합으로 서술한다.
+- Bayesian 업데이트는 3.1 행정지표 prior와 생활인구 노출 보정 플랫폼 신호 사이의 탐색적 통합으로 서술한다.
+- 추론 파트는 classification과 EB 집계 이후에 시작하며, Stage B는 post text, metadata, dim codes, codebook만 보고 3.1 지수값, 3.2 결과, EB outlier label, district profile, external indicators, other agent outputs를 차단한다.
+- Stage C는 필요한 데이터 명세, Stage D는 registered data 기반 deterministic evidence, Stage E는 supported/refuted/undetermined verdict로 구분한다.
+- 3.2 HLM 결과는 자치구 수준 조건의 일반적 인과효과를 주장하지 못하게 하는 guardrail로 다룬다.
 - 원 플랫폼 레코드, 게시물 수준 텍스트 출력, 로컬 설정, 로그, 인증 정보는 Git에서 제외한다.
 - 푸시 전 하드코딩된 로컬 경로가 없는지 확인한다.
 - README와 Part 3 데이터 경계 문서가 실제 저장소 내용과 맞는지 확인한다.
+- 보고서 전달 시 방법론 설명은 `report-method-explainer`, 주장 경계는 `report-evidence-boundary-editor`, 부록 프롬프트/재현성 표면은 `report-appendix-curator`로 분리해 브리프한다.
 - `paths.analysis.part3.repo` 경계 안에서 독립적인 보조 점검에는 제한된 병렬 서브에이전트를 사용할 수 있다. 소유 범위를 분리하고 원문/비공개 텍스트나 게시물 ID를 노출하지 않는다.
 - 결과는 blocker, warning, ok 중 하나로 분류해 보고한다.

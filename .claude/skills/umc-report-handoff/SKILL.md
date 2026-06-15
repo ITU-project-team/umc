@@ -26,7 +26,11 @@ allowed-tools: Read, Bash
    - 작성자 전용 지시: DOCX reviewer comment.
    - 독자용 출처·정의·범위 설명: 각주.
    - 표/그림 자체 설명: compact table/figure note.
-   - 산문 초안이 필요한 경우: `report-prose-writer` 브리프.
+   - 일반 산문 초안이 필요한 경우: `report-prose-writer` 브리프.
+   - 방법론 설명, context gating, 3.1/3.2/3.3 연결 설명이 필요한 경우: `report-method-explainer` 브리프.
+   - 주장 강도와 해석 한계 조정이 필요한 경우: `report-evidence-boundary-editor` 브리프.
+   - 부록 프롬프트·키워드·재현성 표면 정리가 필요한 경우: `report-appendix-curator` 브리프.
+   - DOCX 반영·렌더·한글 MD 동기화가 필요한 경우: `report-docx-manager` 브리프.
 6. 보이는 레이아웃이 바뀌면 DOCX 또는 영향받은 렌더 쪽을 검증한다.
 7. 보고서 DOCX 본문이나 각주를 의미 있게 바꾼 뒤에는 `paths.docs.korean_markdown_copy`에 한국어 읽기용 Markdown 전문 복사본을 간단한 구조로 갱신한다.
 8. 기존 PDF와 대비해 달라지는 본문·표기·부록 연결 문구는 DOCX에서 파란색 run으로 표시한다.

@@ -38,8 +38,9 @@ Both controllers register the same project-local checker and nothing more:
 
 - Codex: global registration in `/Users/ujunbin/.codex/hooks.json`.
 - Claude: project-scoped `SubagentStop` hook in `.claude/settings.local.json`,
-  matching `report-docx-manager`, `report-prose-writer`, `report-figure-generator`,
-  and the `part1`/`part2`/`part3` analysis managers. Claude `Stop` hooks ignore
+  matching `report-docx-manager`, `report-prose-writer`, `report-method-explainer`,
+  `report-evidence-boundary-editor`, `report-appendix-curator`, `report-figure-generator`,
+  `reader-comprehension-verifier`, and the `part1`/`part2`/`part3` analysis managers. Claude `Stop` hooks ignore
   `matcher`, so `SubagentStop` is used to fire only when a report or analysis
   worker finishes — not on every main-loop turn.
 

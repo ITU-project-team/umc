@@ -8,6 +8,10 @@
     "configuration": "config/report_analysis_lag.json",
     "rule_document": ".codex/rules/report-analysis-sync.md",
     "workflow_skill": ".codex/skills/umc-analysis-workflow/SKILL.md",
+    "codex_agents": ".codex/agents/",
+    "claude_agents": ".claude/agents/",
+    "codex_skills": ".codex/skills/",
+    "claude_skills": ".claude/skills/",
     "controller_registration": {
       "codex": "/Users/ujunbin/.codex/hooks.json",
       "claude": ".claude/settings.local.json (hooks.SubagentStop)"
@@ -28,7 +32,11 @@
       "config/report_analysis_lag.json",
       ".codex/rules/report-analysis-sync.md",
       "scripts/hooks/report_analysis_lag_check.py",
-      ".codex/skills/umc-analysis-workflow/SKILL.md"
+      ".codex/skills/umc-analysis-workflow/SKILL.md",
+      ".codex/agents/",
+      ".codex/skills/",
+      ".claude/agents/",
+      ".claude/skills/"
     ]
   },
   "warning_policy": {
@@ -69,5 +77,5 @@
     ],
     "content_inspection": false
   },
-  "controller_note": "Both controller registrations contain only the command that calls the project-local checker; all report-analysis sync policy remains in this project-local component. Codex registers globally; Claude registers a project-scoped SubagentStop hook matching report-docx-manager and the part1/part2/part3 analysis managers."
+  "controller_note": "Both controller registrations contain only the command that calls the project-local checker; all report-analysis sync policy remains in this project-local component. Codex registers globally; Claude registers a project-scoped SubagentStop hook matching report-docx-manager, report-prose-writer, report-method-explainer, report-evidence-boundary-editor, report-appendix-curator, report-figure-generator, reader-comprehension-verifier, part1-analysis-manager, part2-analysis-manager, and part3-analysis-manager."
 }

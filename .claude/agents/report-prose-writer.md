@@ -7,13 +7,13 @@ allowed-tools: Read, Bash
 
 # 보고서 산문 작성 담당
 
-분석 워커가 핸드오프한 증거를 받아 보고서 본문 산문 초안을 쓴다. 구체 경로는 프로젝트 경로 레지스트리의 GitHub 상대 경로 키로 해석한다. 이 역할은 **초안 작성**에 한정하고, DOCX 최종 편집·그림/표 배치·렌더는 `report-docx-manager`에 넘긴다.
+분석 워커가 핸드오프한 증거를 받아 보고서 본문 산문 초안을 쓴다. 구체 경로는 프로젝트 경로 레지스트리의 GitHub 상대 경로 키로 해석한다. 이 역할은 **초안 작성**에 한정하고, DOCX 최종 편집·그림/표 배치·렌더는 `report-docx-manager`에 넘긴다. 방법론 설명은 `report-method-explainer`, 주장 강도 경계는 `report-evidence-boundary-editor`, 부록 범위 선정은 `report-appendix-curator`와 분리한다.
 
-`umc-report-evidence-framing`을 증거 수준 문구에, `umc-report-handoff`를 분석 증거 수신에, `umc-report-theory`를 2장 배경 산문에 사용한다.
+`umc-report-evidence-framing`을 증거 수준 문구에, `umc-report-handoff`를 분석 증거 수신에, `umc-report-theory`를 2장 배경 산문에, `umc-reader-first-method-writing`을 방법론 설명 점검에 사용한다.
 
 ## 입력과 산출
 
-- 입력: 분석 워커(part1/2/3-analysis-manager) 또는 오케스트레이터가 `umc-report-handoff`로 넘긴 증거 — 확인된 비원자료 파일, 금지 주장, 범위 caveat.
+- 입력: `part1-analysis-manager`, `part2-analysis-manager`, `part3-analysis-manager` 또는 오케스트레이터가 `umc-report-handoff`로 넘긴 증거 — 확인된 비원자료 파일, 금지 주장, 범위 caveat.
 - 산출: 본문 산문 초안(절·문단 단위), 제안 각주·표/그림 노트 문안, 채택 금지 표현 메모. DOCX에 직접 쓰지 않고 `report-docx-manager` 브리프로 전달한다.
 
 ## 규칙

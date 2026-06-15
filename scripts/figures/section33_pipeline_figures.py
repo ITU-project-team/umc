@@ -11,8 +11,11 @@ Section 3.3.2 framing: three SEQUENTIAL analytic components.
            -> posterior rate (per 100k person-years) -> within-dimension z_shift
            -> HIGH-z_shift outlier cells (district x dimension).
   Stage 3 (Agent interpretation): outlier cells from Stage 2 as input
-           -> three reasoning lenses under restricted I_R
-           -> Judgment synthesizer under expanded I_J -> bounded post-level cases.
+           -> Stage A minimal post extraction
+           -> Stage B isolated abductive/forward/sequential hypothesis generation
+           -> Stage C data specification
+           -> Stage D deterministic evidence building
+           -> Stage E evidence-grounded judgment.
 
 Output files (all 300 dpi, white background, saved to docs/figures/):
   figure07_sequential_pipeline_en.png   (Figure 7 replacement)
@@ -221,7 +224,7 @@ def make_figure07():
 
     panel(p1, YELLOW, "#FFFBEC", 1, "Classification", "unit: post")
     panel(p2, BLUE,   "#F2F7FF", 2, "EB aggregation", "unit: district x dimension")
-    panel(p3, GREEN,  "#F2FBF6", 3, "Agent interpretation", "unit: post-level case")
+    panel(p3, GREEN,  "#F2FBF6", 3, "Evidence-grounded judgment", "unit: post-level case")
 
     def node(x, y, w, h, label, color, alpha=0.14, fs=8.8, sublabel=""):
         solid_box(ax, x, y, w, h, color, alpha=alpha, label=label,
@@ -288,57 +291,61 @@ def make_figure07():
             color=DARK, style="italic")
 
     # ------------------------------------------------------------------
-    # Stage 3: restricted reading layer -> judgment layer
+    # Stage 3: staged A-E inference contract
     # ------------------------------------------------------------------
     x3, y3, w3, h3 = p3
-    ir_x, ir_y, ir_w, ir_h = x3 + 0.25, y3 + 0.72, 2.85, 5.50
-    ij_x, ij_y, ij_w, ij_h = x3 + 3.35, y3 + 0.72, 1.95, 5.50
+    ir_x, ir_y, ir_w, ir_h = x3 + 0.25, y3 + 0.72, 2.35, 5.50
+    ij_x, ij_y, ij_w, ij_h = x3 + 2.82, y3 + 0.72, 2.48, 5.50
     dbox(ax, ir_x, ir_y, ir_w, ir_h, ec=BLUE, fc=IR_FILL, lw=0.85)
     dbox(ax, ij_x, ij_y, ij_w, ij_h, ec=ORANGE, fc=IJ_FILL, lw=0.85)
     ax.text(ir_x + 0.12, ir_y + ir_h - 0.12,
-            r"$I_R$: restricted reading set",
+            r"$I_R$: Stage A/B isolated inputs",
             ha="left", va="top", fontsize=7.6, style="italic", color=BLUE)
     ax.text(ij_x + 0.12, ij_y + ij_h - 0.12,
-            r"$I_J$: judgment context",
+            r"$I_J$: Stage C/D/E evidence set",
             ha="left", va="top", fontsize=7.6, style="italic", color=ORANGE)
 
-    post_w, post_h = 1.05, 0.58
-    post_x, post_y = ir_x + 0.14, 3.35
-    node(post_x, post_y, post_w, post_h, "Outlier\nposts", ORANGE, alpha=0.13)
+    a_w, a_h = 1.16, 0.52
+    a_x, a_y = ir_x + 0.18, 3.35
+    node(a_x, a_y, a_w, a_h, "Stage A\npost record", GREY, alpha=0.18, fs=7.8)
 
-    lens_w, lens_h = 1.05, 0.56
-    lens_x = ir_x + 1.58
-    lens_ys = [4.45, 3.35, 2.25]
-    for label, ly in zip(["Abductive\nlens", "Forward\nlens", "Sequential\nlens"], lens_ys):
-        node(lens_x, ly, lens_w, lens_h, label, GREEN, alpha=0.15, fs=8.4)
-        arr(ax, post_x + post_w, post_y + post_h / 2,
+    lens_w, lens_h = 1.08, 0.44
+    lens_x = ir_x + 1.08
+    lens_ys = [4.36, 3.63, 2.90]
+    for label, ly in zip(["Abductive\nhyp.", "Forward\nhyp.", "Sequential\nhyp."], lens_ys):
+        node(lens_x, ly, lens_w, lens_h, label, GREEN, alpha=0.15, fs=7.4)
+        arr(ax, a_x + a_w, a_y + a_h / 2,
             lens_x, ly + lens_h / 2,
-            color=GREEN, lw=1.2, ms=10, zorder=5)
+            color=GREEN, lw=1.1, ms=9, zorder=5)
+    ax.text(ir_x + ir_w / 2, 2.15,
+            "Stage B: no district\nprofiles or evidence",
+            ha="center", va="center", fontsize=7.1, color=BLUE, style="italic")
 
-    js_w, js_h = 1.42, 0.70
-    js_x, js_y = ij_x + 0.26, 3.29
-    node(js_x, js_y, js_w, js_h, "Judgment\nsynthesis", ORANGE, alpha=0.15)
-    js_entries = [js_y + js_h * 0.76, js_y + js_h * 0.50, js_y + js_h * 0.24]
-    for ly, ey in zip(lens_ys, js_entries):
+    c_w, c_h = 1.52, 0.50
+    c_x = ij_x + 0.46
+    c_ys = [4.45, 3.55, 2.65, 1.75]
+    c_labels = [
+        ("Stage C\ndata_spec", ORANGE, 0.13),
+        ("Stage D\nevidence.json", BLUE, 0.13),
+        ("Stage E\njudgment", ORANGE, 0.15),
+        ("Supported\nfinal coding", DARK, 0.06),
+    ]
+    for (label, color, alpha), cy in zip(c_labels, c_ys):
+        node(c_x, cy, c_w, c_h, label, color, alpha=alpha, fs=7.8)
+    for ly in lens_ys:
         arr(ax, lens_x + lens_w, ly + lens_h / 2,
-            js_x, ey,
-            color=ORANGE, lw=1.2, ms=10, zorder=5)
-
-    out_w, out_h = js_w, 0.54
-    out_y = 2.32
-    node(js_x, out_y, out_w, out_h, "Bounded\ncase code", DARK, alpha=0.06, fs=8.3)
-    arr(ax, js_x + js_w / 2, js_y,
-        js_x + out_w / 2, out_y + out_h,
-        color=DARK, lw=1.2, ms=10, zorder=5)
-    ax.text(js_x + out_w / 2, out_y - 0.18,
-            "audit trail retained",
-            ha="center", fontsize=7.5, color=MID, style="italic")
+            c_x, c_ys[0] + c_h / 2,
+            color=ORANGE, lw=1.0, ms=8, zorder=5)
+    for i in range(len(c_ys) - 1):
+        arr(ax, c_x + c_w / 2, c_ys[i],
+            c_x + c_w / 2, c_ys[i + 1] + c_h,
+            color=ORANGE if i != 0 else BLUE, lw=1.1, ms=9, zorder=5)
 
     # Stage 2 -> Stage 3 connector
     arr(ax, nx2 + bw2, s2_ys[-1] + bh2 / 2,
-        post_x, post_y + post_h / 2,
+        a_x, a_y + a_h / 2,
         color=ORANGE, lw=1.35, ms=12, zorder=6)
-    ax.text((nx2 + bw2 + post_x) / 2, s2_ys[-1] + bh2 / 2 + 0.18,
+    ax.text((nx2 + bw2 + a_x) / 2, s2_ys[-1] + bh2 / 2 + 0.18,
             "outlier cells", ha="center", fontsize=7.6,
             color=ORANGE, style="italic")
 
@@ -588,7 +595,7 @@ def _make_figure07_legacy():
     IJ3_H = S3_TOP - 0.30 - IJ3_Y
     dbox(ax, IJ3_X, IJ3_Y, IJ3_W, IJ3_H, ec=ORANGE, fc=IJ_FILL, lw=1.0)
     ax.text(IJ3_X + 0.14, IJ3_Y + IJ3_H - 0.10,
-            r"$I_J$: hypotheses + district context + absence typology + active category set",
+            r"$I_J$: hypotheses + data_spec + evidence values + coding scheme",
             ha="left", va="top", fontsize=7.8, style="italic", color=ORANGE)
 
     # Outlier-cell post input node
@@ -712,7 +719,7 @@ def make_figure08():
             "Restricted information set", ha="left", va="top",
             fontsize=11.5, fontweight="bold", color=BLUE)
     ax.text(IR_X + 0.22, IR_Y + IR_H - 0.44,
-            r"$I_R$: post text + metadata + codebook",
+            r"$I_R$: post text + metadata + dim codes + codebook",
             ha="left", va="top", fontsize=9.5, style="italic", color=BLUE)
 
     # Right region: expanded judgment set
@@ -723,7 +730,7 @@ def make_figure08():
             "Expanded judgment set", ha="left", va="top",
             fontsize=11.5, fontweight="bold", color=ORANGE)
     ax.text(IJ_X + 0.22, IJ_Y + IJ_H - 0.44,
-            r"$I_J$: lens hypotheses + district context",
+            r"$I_J$: hypotheses + data_spec + evidence values + coding scheme",
             ha="left", va="top", fontsize=9.5, style="italic", color=ORANGE)
 
     # Boundary dashed line
@@ -733,19 +740,19 @@ def make_figure08():
     ax.text(BND_X, 0.14, "information boundary",
             ha="center", va="bottom", fontsize=8.5, color=ORANGE, style="italic")
 
-    # Post input node and restricted reasoning lenses
+    # Post input node and restricted reasoning agents
     PIN_X, PIN_Y = 0.82, 2.20
     PIN_W, PIN_H = 1.15, 0.78
     solid_box(ax, PIN_X, PIN_Y, PIN_W, PIN_H,
-              GREY, 0.18, "Post\ninput", fs=9.4)
+              GREY, 0.18, "Stage A\npost input", fs=9.0)
 
     LENS_X = 2.80
     LENS_W, LENS_H = 1.65, 0.62
     LENS_CY = [3.28, 2.60, 1.92]
-    LENS_LABELS = ["Abductive", "Forward", "Sequential"]
+    LENS_LABELS = ["Abductive\nhypothesis", "Forward\nhypothesis", "Sequential\nhypothesis"]
     for cy, lbl in zip(LENS_CY, LENS_LABELS):
         solid_box(ax, LENS_X, cy - LENS_H/2, LENS_W, LENS_H,
-                  GREEN, 0.15, lbl, fs=10.6, weight="bold")
+                  GREEN, 0.15, lbl, fs=8.8, weight="bold")
 
     FAN_SRC_X = PIN_X + PIN_W
     FAN_SRC_Y = PIN_Y + PIN_H / 2
@@ -753,22 +760,31 @@ def make_figure08():
         arr(ax, FAN_SRC_X, FAN_SRC_Y,
             LENS_X, cy, BLUE, lw=1.35, ms=12)
 
-    # Synthesis layer: lens outputs and context are separated before judgment.
+    ax.text(IR_X + 0.50, 0.78,
+            "District profiles, aggregate tables,\nother agents, and evidence are withheld.",
+            ha="left", va="center", fontsize=8.0, color=BLUE, style="italic")
+
+    # Expanded set: data specification, deterministic evidence, and judgment.
     HYP_X, HYP_Y = IJ_X + 0.42, 2.23
-    HYP_W, HYP_H = 1.55, 0.74
+    HYP_W, HYP_H = 1.42, 0.74
     solid_box(ax, HYP_X, HYP_Y, HYP_W, HYP_H,
-              GREEN, 0.12, "Lens\nhypotheses", fs=9.0)
+              GREEN, 0.12, "Three region\nhypotheses", fs=8.3)
 
-    CTX_X, CTX_Y = HYP_X, 3.25
-    CTX_W, CTX_H = HYP_W, 0.74
-    solid_box(ax, CTX_X, CTX_Y, CTX_W, CTX_H,
-              ORANGE, 0.12, "Context\nset", fs=9.0)
+    SPEC_X, SPEC_Y = IJ_X + 2.24, 3.20
+    SPEC_W, SPEC_H = 1.38, 0.62
+    solid_box(ax, SPEC_X, SPEC_Y, SPEC_W, SPEC_H,
+              ORANGE, 0.12, "Stage C\ndata_spec", fs=8.2)
 
-    JS_X = IJ_X + 3.00
-    JS_Y = 2.10
-    JS_W, JS_H = 2.05, 1.00
+    EVID_X, EVID_Y = IJ_X + 2.24, 1.58
+    EVID_W, EVID_H = 1.38, 0.74
+    solid_box(ax, EVID_X, EVID_Y, EVID_W, EVID_H,
+              BLUE, 0.12, "Stage D\nevidence.json", fs=8.1)
+
+    JS_X = IJ_X + 4.05
+    JS_Y = 2.15
+    JS_W, JS_H = 1.88, 0.88
     solid_box(ax, JS_X, JS_Y, JS_W, JS_H,
-              ORANGE, 0.14, "Judgment\nsynthesizer", fs=10.8)
+              ORANGE, 0.14, "Stage E\njudgment", fs=9.6)
 
     HYP_ENTRY_YS = [
         HYP_Y + HYP_H * 0.78,
@@ -780,18 +796,24 @@ def make_figure08():
             HYP_X, ey, GREEN, lw=1.25, ms=11)
 
     arr(ax, HYP_X + HYP_W, HYP_Y + HYP_H / 2,
+        SPEC_X, SPEC_Y + SPEC_H / 2,
+        ORANGE, lw=1.35, ms=12)
+    arr(ax, SPEC_X + SPEC_W / 2, SPEC_Y,
+        EVID_X + EVID_W / 2, EVID_Y + EVID_H,
+        BLUE, lw=1.35, ms=12)
+    arr(ax, EVID_X + EVID_W, EVID_Y + EVID_H / 2,
         JS_X, JS_Y + JS_H * 0.38,
         ORANGE, lw=1.35, ms=12)
-    arr(ax, CTX_X + CTX_W, CTX_Y + CTX_H / 2,
+    arr(ax, SPEC_X + SPEC_W, SPEC_Y + SPEC_H / 2,
         JS_X, JS_Y + JS_H * 0.72,
         ORANGE, lw=1.35, ms=12)
 
     # Bounded classification output
-    BC_X = JS_X + 0.12
+    BC_X = JS_X + 0.05
     BC_Y = 0.82
-    BC_W, BC_H = 1.82, 0.64
+    BC_W, BC_H = 1.78, 0.64
     solid_box(ax, BC_X, BC_Y, BC_W, BC_H,
-              GREY, 0.14, "Bounded\nclassification", fs=9.0)
+              GREY, 0.14, "Supported-only\nclassification", fs=8.5)
     arr(ax, JS_X + JS_W/2, JS_Y,
         BC_X + BC_W/2, BC_Y + BC_H,
         DARK, lw=1.4, ms=13)
@@ -848,7 +870,7 @@ def make_figure09():
     C3_H = C2_H
     dbox(ax, C3_X, C3_Y, C3_W, C3_H, ec=GREEN, fc=S3_FILL, lw=1.1)
     ax.text(C3_X + 0.20, C3_Y + C3_H - 0.10,
-            "Stage 3 -- Agent-Based Post Interpretation",
+            "Stage 3 -- Evidence-Grounded Agent Judgment",
             ha="left", va="top", fontsize=10.5, fontweight="bold", color=GREEN)
     ax.text(C3_X + 0.20, C3_Y + C3_H - 0.44,
             "Unit of analysis: individual post",
@@ -905,7 +927,7 @@ def make_figure09():
     S3_IN_TOP = C3_Y + C3_H - 1.55
     S3_IN_H = S3_IN_TOP - S3_IN_Y
 
-    IR9_W = 2.82
+    IR9_W = 2.58
     IJ9_GAP = 0.25
     IJ9_X = S3_IN_X + IR9_W + IJ9_GAP
     IJ9_W = S3_IN_X + S3_IN_W - IJ9_X
@@ -913,7 +935,7 @@ def make_figure09():
     dbox(ax, S3_IN_X, S3_IN_Y, IR9_W, S3_IN_H,
          ec=BLUE, fc=IR_FILL, lw=1.0)
     ax.text(S3_IN_X + 0.10, S3_IN_TOP - 0.08,
-            r"$I_R$: restricted inputs",
+            r"$I_R$: Stage A/B restricted inputs",
             ha="left", va="top", fontsize=7.8, style="italic", color=BLUE)
     ax.text(S3_IN_X + 0.10, S3_IN_TOP - 0.32,
             "post + metadata + codebook",
@@ -922,17 +944,17 @@ def make_figure09():
     dbox(ax, IJ9_X, S3_IN_Y, IJ9_W, S3_IN_H,
          ec=ORANGE, fc=IJ_FILL, lw=1.0)
     ax.text(IJ9_X + 0.10, S3_IN_TOP - 0.08,
-            r"$I_J$: expanded judgment set",
+            r"$I_J$: Stage C/D/E evidence set",
             ha="left", va="top", fontsize=7.8, style="italic", color=ORANGE)
     ax.text(IJ9_X + 0.10, S3_IN_TOP - 0.32,
-            "hypotheses + context",
+            "data_spec + evidence values + coding scheme",
             ha="left", va="top", fontsize=7.6, style="italic", color=ORANGE)
 
     # Post input and reasoning lenses
     PW, PH = 0.82, 0.56
     PX = S3_IN_X + 0.22
     PY = ZSHIFT_MID - PH / 2
-    solid_box(ax, PX, PY, PW, PH, GREY, 0.18, "Post", fs=8.8)
+    solid_box(ax, PX, PY, PW, PH, GREY, 0.18, "Stage A\npost", fs=7.6)
 
     POST_MID_Y = PY + PH / 2
 
@@ -942,7 +964,7 @@ def make_figure09():
 
     ARROW_MID_X = (OC2_X + OC2_W + PX) / 2
 
-    LW9, LH9 = 1.20, 0.54
+    LW9, LH9 = 1.18, 0.54
     LENS9_X = PX + PW + 0.22
     LENS_PITCH = LH9 + 0.18
 
@@ -951,7 +973,7 @@ def make_figure09():
         ZSHIFT_MID,
         ZSHIFT_MID - LENS_PITCH,
     ]
-    LENS_LABELS = ["Abductive\nlens", "Forward\nlens", "Sequential\nlens"]
+    LENS_LABELS = ["Abductive\nhyp.", "Forward\nhyp.", "Sequential\nhyp."]
     for cy, lbl in zip(LENS9_CY, LENS_LABELS):
         solid_box(ax, LENS9_X, cy - LH9/2, LW9, LH9,
                   GREEN, 0.15, lbl, fs=7.8, weight="bold")
@@ -963,54 +985,60 @@ def make_figure09():
             LENS9_X, cy,
             GREEN, lw=1.3, ms=10)
 
-    # Judgment synthesizer and bounded-output checks
-    JS9_W, JS9_H = 1.55, 0.64
-    JS9_X = IJ9_X + 0.32
-    JS9_Y = ZSHIFT_MID - JS9_H / 2
+    # Data-spec, deterministic evidence, judgment, and supported-only output.
+    SPEC9_W, SPEC9_H = 1.40, 0.58
+    SPEC9_X = IJ9_X + 0.30
+    SPEC9_Y = ZSHIFT_MID + 1.00
+    solid_box(ax, SPEC9_X, SPEC9_Y, SPEC9_W, SPEC9_H,
+              ORANGE, 0.13, "Stage C\ndata_spec", fs=7.9)
 
+    EVID9_W, EVID9_H = 1.40, 0.74
+    EVID9_X = SPEC9_X
+    EVID9_Y = ZSHIFT_MID - 0.37
+    solid_box(ax, EVID9_X, EVID9_Y, EVID9_W, EVID9_H,
+              BLUE, 0.13, "Stage D\nevidence.json", fs=7.8)
+
+    JS9_W, JS9_H = 1.52, 0.66
+    JS9_X = IJ9_X + 2.20
+    JS9_Y = ZSHIFT_MID - JS9_H / 2
     solid_box(ax, JS9_X, JS9_Y, JS9_W, JS9_H,
-              ORANGE, 0.15, "Judgment\nsynthesizer", fs=8.3)
+              ORANGE, 0.15, "Stage E\njudgment", fs=8.2)
 
     JS9_ENTRY_YS = [
-        JS9_Y + JS9_H * 0.78,
-        JS9_Y + JS9_H * 0.50,
-        JS9_Y + JS9_H * 0.22,
+        SPEC9_Y + SPEC9_H * 0.78,
+        SPEC9_Y + SPEC9_H * 0.50,
+        SPEC9_Y + SPEC9_H * 0.22,
     ]
     for cy, ey in zip(LENS9_CY, JS9_ENTRY_YS):
         arr(ax, LENS9_X + LW9, cy,
-            JS9_X, ey,
+            SPEC9_X, ey,
             ORANGE, lw=1.3, ms=10)
 
-    CSC9_W    = JS9_W
-    CSC9_H    = 0.46
-    CSC9_GAP  = 0.16
-    CSC9_STEP = CSC9_H + CSC9_GAP
-    N_CSC9    = 4
+    arr(ax, SPEC9_X + SPEC9_W / 2, SPEC9_Y,
+        EVID9_X + EVID9_W / 2, EVID9_Y + EVID9_H,
+        BLUE, lw=1.25, ms=10)
+    arr(ax, SPEC9_X + SPEC9_W, SPEC9_Y + SPEC9_H / 2,
+        JS9_X, JS9_Y + JS9_H * 0.70,
+        ORANGE, lw=1.25, ms=10)
+    arr(ax, EVID9_X + EVID9_W, EVID9_Y + EVID9_H / 2,
+        JS9_X, JS9_Y + JS9_H * 0.35,
+        ORANGE, lw=1.25, ms=10)
 
-    csc9_item_tops = [
-        JS9_Y - 0.28 - CSC9_H - i * CSC9_STEP
-        for i in range(N_CSC9)
-    ]
+    OUT9_W, OUT9_H = JS9_W, 0.58
+    OUT9_X = JS9_X
+    OUT9_Y = JS9_Y - 1.10
+    solid_box(ax, OUT9_X, OUT9_Y, OUT9_W, OUT9_H,
+              GREY, 0.18, "Supported-only\nfinal coding", fs=7.5)
+    arr(ax, JS9_X + JS9_W / 2, JS9_Y,
+        OUT9_X + OUT9_W / 2, OUT9_Y + OUT9_H,
+        DARK, lw=1.25, ms=10)
 
-    CASCADE9 = [
-        ("Convergence\ncheck", ORANGE, 0.14),
-        ("Alternative\nexplanations", GREY, 0.18),
-        ("Bounded\ncode", GREY, 0.18),
-        ("Audit\ntrail", GREY, 0.18),
-    ]
-    CX9 = JS9_X + CSC9_W / 2
-
-    for i, ((lbl, col, a), top_y) in enumerate(zip(CASCADE9, csc9_item_tops)):
-        solid_box(ax, JS9_X, top_y, CSC9_W, CSC9_H, col, alpha=a,
-                  label=lbl, fs=7.6)
-        if i == 0:
-            arr(ax, CX9, JS9_Y,
-                CX9, top_y + CSC9_H + 0.03,
-                ORANGE, ms=11)
-        else:
-            arr(ax, CX9, csc9_item_tops[i-1],
-                CX9, top_y + CSC9_H + 0.03,
-                DARK, ms=11)
+    ax.text(EVID9_X + EVID9_W / 2, EVID9_Y - 0.18,
+            "EB posterior, z_shift,\nexposure, external indicators",
+            ha="center", va="top", fontsize=6.8, color=BLUE, style="italic")
+    ax.text(OUT9_X + OUT9_W / 2, OUT9_Y - 0.20,
+            "unsupported hypotheses\nexcluded",
+            ha="center", va="top", fontsize=6.8, color=MID, style="italic")
 
     return save_fig(fig, "figure09_sequential_eb_to_agent_en.png", save_vector=True)
 
