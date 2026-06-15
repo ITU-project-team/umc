@@ -34,6 +34,9 @@ An Integrated Methodology for Measuring Universal and Meaningful Connectivity (U
 - 원자료, 기존 DOCX/PDF, 로컬 설정은 명시적 승인 없이 이동하거나 삭제하지 않는다.
 - 역할 기반 워커 라벨과 압축된 워커 브리프를 사용한다.
 - 생성된 점검/렌더 파일은 내구 산출물 경로가 지정되지 않은 한 `paths.tmp.root` 아래에 둔다.
+- 보고서 산문은 지나친 방어적 문체를 피한다. 대표성·인과·유병률 경계는 유지하되, 분석 단위와 집계량이 무엇을 보여 주는지 먼저 설명한다.
+- 3.3 EB 설명에서는 prior rate, observed rate, posterior estimate, posterior shift, z_shift를 구분하고, posterior rate를 prior와 observed rate의 EB 정밀도 가중평균으로 쓴다.
+- 3.3 방법론 본문에서는 기준 없는 `outlier`, `deterministic evidence`, `evidence.json`, `data_spec` 같은 구현 용어를 high-divergence cell, 규칙 기반 증거, 데이터 명세처럼 독자용 용어로 풀어 쓴다.
 
 ## 훅 활성화 정책
 

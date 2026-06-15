@@ -9,12 +9,12 @@ Section 3.3.2 framing: three SEQUENTIAL analytic components.
            -> living-population exposure -> observed post rate
            -> EB shrinkage (prior = Part 1 deficiency, posterior = precision-weighted mean)
            -> posterior rate (per 100k person-years) -> within-dimension z_shift
-           -> HIGH-z_shift outlier cells (district x dimension).
-  Stage 3 (Agent interpretation): outlier cells from Stage 2 as input
+           -> high-divergence cells (district x dimension).
+  Stage 3 (Agent interpretation): high-divergence cells from Stage 2 as input
            -> Stage A minimal post extraction
            -> Stage B isolated abductive/forward/sequential hypothesis generation
            -> Stage C data specification
-           -> Stage D deterministic evidence building
+           -> Stage D rule-based evidence building
            -> Stage E evidence-grounded judgment.
 
 Output files (all 300 dpi, white background, saved to docs/figures/):
@@ -182,7 +182,7 @@ def save_fig(fig, name, tight_pad=0.15, save_svg=False, save_vector=False):
 #   Band 3 (bottom): Stage 3 -- Agent Interpretation
 #
 # Stage 1: horizontal linear flow (left->right)
-# Stage 2: vertical cascade in left-centre + outlier-cell output box to the right
+# Stage 2: vertical cascade in left-centre + high-divergence-cell output box to the right
 # Stage 3: I_R sub-region (post input + 3 lenses) on left, I_J on right
 #
 # Coordinate system: (0,0) at bottom-left.
@@ -274,7 +274,7 @@ def make_figure07():
         ("Observed\npost rate", BLUE, 0.13, ""),
         ("EB\nshrinkage", BLUE, 0.13, "prior + observed rate"),
         ("Posterior\nrate", BLUE, 0.13, "per 100k person-years"),
-        ("High-z_shift\noutlier cells", ORANGE, 0.14, ""),
+        ("High-z_shift\nreview cells", ORANGE, 0.14, ""),
     ]
     for (label, color, alpha, sub), y in zip(s2_nodes, s2_ys):
         node(nx2, y, bw2, bh2, label, color, alpha=alpha, sublabel=sub)
@@ -325,8 +325,8 @@ def make_figure07():
     c_x = ij_x + 0.46
     c_ys = [4.45, 3.55, 2.65, 1.75]
     c_labels = [
-        ("Stage C\ndata_spec", ORANGE, 0.13),
-        ("Stage D\nevidence.json", BLUE, 0.13),
+        ("Stage C\ndata specification", ORANGE, 0.13),
+        ("Stage D\nrule-based evidence", BLUE, 0.13),
         ("Stage E\njudgment", ORANGE, 0.15),
         ("Supported\nfinal coding", DARK, 0.06),
     ]
@@ -346,7 +346,7 @@ def make_figure07():
         a_x, a_y + a_h / 2,
         color=ORANGE, lw=1.35, ms=12, zorder=6)
     ax.text((nx2 + bw2 + a_x) / 2, s2_ys[-1] + bh2 / 2 + 0.18,
-            "outlier cells", ha="center", fontsize=7.6,
+            "review cells", ha="center", fontsize=7.6,
             color=ORANGE, style="italic")
 
     return save_fig(fig, "figure07_sequential_pipeline_en.png",
@@ -359,14 +359,14 @@ def _make_figure07_legacy():
 
     Layout (top -> bottom):
       Stage 1 (Classification):   horizontal linear flow row
-      Stage 2 (EB Aggregation):   vertical cascade (left col) + outlier box (right)
+      Stage 2 (EB Aggregation):   vertical cascade (left col) + high-divergence box (right)
       Stage 3 (Agent Interpret.): I_R sub-region left, I_J sub-region right
 
     Key design decisions:
     - Explicit pixel-level y coordinates so nothing overlaps
     - Stage 1 -> Stage 2 connector routed via a SIMPLE downward arrow from
       CPB box to first Stage 2 node (both share the same x-column)
-    - Stage 2 -> Stage 3 connector: outlier box bottom -> drop -> Stage 3 post input
+    - Stage 2 -> Stage 3 connector: high-divergence box bottom -> drop -> Stage 3 post input
     - All cascade elements confirmed to fit within their enclosing band before draw
     """
     # Band heights verified by geometry script (see calculation in docstring above):
@@ -419,9 +419,9 @@ def _make_figure07_legacy():
     stage_label(S1_BOT, S1_TOP - S1_BOT, 1, "Classification",
                 "filtered posts -> LLM coding -> classified base", YELLOW)
     stage_label(S2_BOT, S2_TOP - S2_BOT, 2, "EB Aggregation",
-                "classified-post base -> posterior rates -> z_shift outliers", BLUE)
+                "classified-post base -> posterior rates -> high-divergence cells", BLUE)
     stage_label(S3_BOT, S3_TOP - S3_BOT, 3, "Agent Interpretation",
-                "outlier-cell posts -> three reasoning lenses -> bounded cases", GREEN)
+                "review-cell posts -> three reasoning lenses -> bounded cases", GREEN)
 
     # =======================================================================
     # STAGE 1 -- horizontal linear flow
@@ -541,14 +541,14 @@ def _make_figure07_legacy():
             # Arrow from bottom of prev to top of current
             arr(ax, S2_CX, s2_tops[i-1], S2_CX, ty + S2BH, col, ms=11)
 
-    # -- Outlier cells output box (right of z_shift, horizontally) ----------
+    # -- High-divergence cells output box (right of z_shift, horizontally) ----------
     LAST_TOP = s2_tops[-1]
     OC_W, OC_H = 2.60, 0.78
     OC_X = S2X + S2BW + 0.55
     OC_Y = LAST_TOP + (S2BH - OC_H) / 2   # vertically centred on last node
     outline_box(ax, OC_X, OC_Y, OC_W, OC_H,
                 ec=ORANGE, fc="#FFF8EE",
-                title="High-z_shift outlier cells",
+                title="High-z_shift review cells",
                 lines=("district x dimension",),
                 title_fs=9.0, body_fs=8.5, zorder=4)
     arr(ax, S2X + S2BW, LAST_TOP + S2BH/2,
@@ -560,19 +560,19 @@ def _make_figure07_legacy():
 
     # =======================================================================
     # Stage 2 -> Stage 3 connector
-    # Outlier box bottom -> drop to S3_TOP gap -> left to Stage 3 post input node
+    # High-divergence box bottom -> drop to S3_TOP gap -> left to Stage 3 post input node
     # Stage 3 post input is at x-centre 3.40 (matches S2 cascade column)
     # =======================================================================
     S3_POST_CX = 3.40
     CONN23_X   = OC_X + OC_W/2
-    CONN23_Y_START = OC_Y        # bottom of outlier box
+    CONN23_Y_START = OC_Y        # bottom of high-divergence box
     CONN23_Y_END   = S3_TOP - 0.28  # entry into Stage 3
 
     vline(ax, CONN23_X, CONN23_Y_START, CONN23_Y_END, ORANGE, lw=1.2)
     arr(ax, CONN23_X, CONN23_Y_END, S3_POST_CX, CONN23_Y_END, ORANGE, ms=11)
 
     ax.text((S3_POST_CX + CONN23_X) / 2, CONN23_Y_END + 0.16,
-            "outlier-cell posts feed Stage 3",
+            "review-cell posts feed Stage 3",
             ha="center", fontsize=8.0, style="italic", color=ORANGE)
 
     # =======================================================================
@@ -595,10 +595,10 @@ def _make_figure07_legacy():
     IJ3_H = S3_TOP - 0.30 - IJ3_Y
     dbox(ax, IJ3_X, IJ3_Y, IJ3_W, IJ3_H, ec=ORANGE, fc=IJ_FILL, lw=1.0)
     ax.text(IJ3_X + 0.14, IJ3_Y + IJ3_H - 0.10,
-            r"$I_J$: hypotheses + data_spec + evidence values + coding scheme",
+            r"$I_J$: hypotheses + data specification + evidence values + coding scheme",
             ha="left", va="top", fontsize=7.8, style="italic", color=ORANGE)
 
-    # Outlier-cell post input node
+    # High-divergence-cell post input node
     # Pre-compute JS3_Y and centre OCP vertically around JS mid
     _JS3_Y_pre = S3_BOT + 0.40 + 4 * (0.52 + 0.10)   # matches JS3_Y formula above
     _JS3_H_pre = 0.68
@@ -607,7 +607,7 @@ def _make_figure07_legacy():
     OCP_X = S3_POST_CX - OCP_W/2
     OCP_Y = _LENS_MID_Y - OCP_H/2   # vertically centred on lens midpoint
     solid_box(ax, OCP_X, OCP_Y, OCP_W, OCP_H,
-              ORANGE, 0.15, "Outlier-cell\nposts", fs=9.2)
+              ORANGE, 0.15, "Review-cell\nposts", fs=9.2)
     # Drop arrow from connector into post input node
     arr(ax, S3_POST_CX, CONN23_Y_END,
         S3_POST_CX, OCP_Y + OCP_H,
@@ -730,7 +730,7 @@ def make_figure08():
             "Expanded judgment set", ha="left", va="top",
             fontsize=11.5, fontweight="bold", color=ORANGE)
     ax.text(IJ_X + 0.22, IJ_Y + IJ_H - 0.44,
-            r"$I_J$: hypotheses + data_spec + evidence values + coding scheme",
+            r"$I_J$: hypotheses + data specification + evidence values + coding scheme",
             ha="left", va="top", fontsize=9.5, style="italic", color=ORANGE)
 
     # Boundary dashed line
@@ -764,7 +764,7 @@ def make_figure08():
             "District profiles, aggregate tables,\nother agents, and evidence are withheld.",
             ha="left", va="center", fontsize=8.0, color=BLUE, style="italic")
 
-    # Expanded set: data specification, deterministic evidence, and judgment.
+    # Expanded set: data specification, rule-based evidence, and judgment.
     HYP_X, HYP_Y = IJ_X + 0.42, 2.23
     HYP_W, HYP_H = 1.42, 0.74
     solid_box(ax, HYP_X, HYP_Y, HYP_W, HYP_H,
@@ -773,12 +773,12 @@ def make_figure08():
     SPEC_X, SPEC_Y = IJ_X + 2.24, 3.20
     SPEC_W, SPEC_H = 1.38, 0.62
     solid_box(ax, SPEC_X, SPEC_Y, SPEC_W, SPEC_H,
-              ORANGE, 0.12, "Stage C\ndata_spec", fs=8.2)
+              ORANGE, 0.12, "Stage C\ndata specification", fs=8.2)
 
     EVID_X, EVID_Y = IJ_X + 2.24, 1.58
     EVID_W, EVID_H = 1.38, 0.74
     solid_box(ax, EVID_X, EVID_Y, EVID_W, EVID_H,
-              BLUE, 0.12, "Stage D\nevidence.json", fs=8.1)
+              BLUE, 0.12, "Stage D\nrule-based evidence", fs=8.1)
 
     JS_X = IJ_X + 4.05
     JS_Y = 2.15
@@ -826,7 +826,7 @@ def make_figure08():
 #
 # Layout:
 #   Left column  (Stage 2, blue box): vertical EB cascade (7 nodes).
-#                Outlier-cells (OC2) box to the RIGHT of z_shift node.
+#                High-divergence cells (OC2) box to the RIGHT of z_shift node.
 #                Handoff arrow: OC2 right edge -> Post(input) left edge, horizontal.
 #   Right column (Stage 3, green box): LEFT/RIGHT split (not top/bottom).
 #     I_R sub-region (left ~45%): Post(input) node + three stacked lenses.
@@ -907,13 +907,13 @@ def make_figure09():
     ZSHIFT_Y = eb_tops[-1]
     ZSHIFT_MID = ZSHIFT_Y + BH2 / 2
 
-    # Outlier-cell handoff is aligned horizontally with z_shift.
+    # High-divergence-cell handoff is aligned horizontally with z_shift.
     OC2_W, OC2_H = 1.42, 0.58
     OC2_X = C2_X + 3.30
     OC2_Y = ZSHIFT_MID - OC2_H / 2
     outline_box(ax, OC2_X, OC2_Y, OC2_W, OC2_H,
                 ec=ORANGE, fc="#FFF8EE",
-                title="Outlier cells",
+                title="Review cells",
                 lines=("district x dimension",),
                 title_fs=7.8, body_fs=6.8, zorder=4)
     arr(ax, CX2 + BW2 / 2, ZSHIFT_MID,
@@ -947,7 +947,7 @@ def make_figure09():
             r"$I_J$: Stage C/D/E evidence set",
             ha="left", va="top", fontsize=7.8, style="italic", color=ORANGE)
     ax.text(IJ9_X + 0.10, S3_IN_TOP - 0.32,
-            "data_spec + evidence values + coding scheme",
+            "data specification + evidence values + coding scheme",
             ha="left", va="top", fontsize=7.6, style="italic", color=ORANGE)
 
     # Post input and reasoning lenses
@@ -985,18 +985,18 @@ def make_figure09():
             LENS9_X, cy,
             GREEN, lw=1.3, ms=10)
 
-    # Data-spec, deterministic evidence, judgment, and supported-only output.
+    # Data specification, rule-based evidence, judgment, and supported-only output.
     SPEC9_W, SPEC9_H = 1.40, 0.58
     SPEC9_X = IJ9_X + 0.30
     SPEC9_Y = ZSHIFT_MID + 1.00
     solid_box(ax, SPEC9_X, SPEC9_Y, SPEC9_W, SPEC9_H,
-              ORANGE, 0.13, "Stage C\ndata_spec", fs=7.9)
+              ORANGE, 0.13, "Stage C\ndata specification", fs=7.9)
 
     EVID9_W, EVID9_H = 1.40, 0.74
     EVID9_X = SPEC9_X
     EVID9_Y = ZSHIFT_MID - 0.37
     solid_box(ax, EVID9_X, EVID9_Y, EVID9_W, EVID9_H,
-              BLUE, 0.13, "Stage D\nevidence.json", fs=7.8)
+              BLUE, 0.13, "Stage D\nrule-based evidence", fs=7.8)
 
     JS9_W, JS9_H = 1.52, 0.66
     JS9_X = IJ9_X + 2.20

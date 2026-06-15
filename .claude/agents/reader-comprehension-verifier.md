@@ -15,9 +15,14 @@ allowed-tools: Read, Bash
 
 - 독자가 각 절에서 무엇을 입력으로 쓰고 무엇을 산출하는지 알 수 있는가?
 - Part 3에서 classification, EB aggregation, inference가 서로 다른 역할임을 알 수 있는가?
-- 3.1 지표가 EB prior/context로 쓰이고, 3.2 HLM이 causal guardrail로 쓰인다는 점이 명확한가?
+- EB aggregation에서 관측 단위가 자치구·차원 셀임을 알 수 있는가?
+- multi-label 분류로 한 게시물이 여러 차원 셀에 기여할 수 있음을 알 수 있는가?
+- 3.1 지표가 prior rate로 어떻게 변환되고, observed rate와 posterior estimate가 어떻게 구분되는지 명확한가?
+- 작성 시점 생활인구 person-years가 왜 분모로 필요한지 설명되어 있는가?
+- 3.2 HLM이 causal guardrail로 쓰인다는 점이 명확한가?
 - Stage B context restriction과 Stage C/D/E data-based verification의 차이가 보이는가?
 - 무엇을 결과로 보고하지 않는지, 특히 prevalence/causal proof/Stage E distribution 경계가 명확한가?
+- 경계 문장이 지나치게 방어적으로 앞서지 않고, 발견과 집계량의 의미가 먼저 보이는가?
 
 ## 규칙
 

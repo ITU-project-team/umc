@@ -49,6 +49,9 @@ An Integrated Methodology for Measuring Universal and Meaningful Connectivity (U
 - 결과 요약은 숫자 대시보드가 아니라 실질적 해석을 우선한다. 배수, ICC, p값, 행 수 같은 고립된 수치로 문단을 시작하지 않는다.
 - 증거가 보여주는 내용을 먼저 쓴다. 자치구 차이는 차원별로 다르며, HLM 결과는 자치구 수준 조건과 개인 디지털 이용 사이의 일반적 관계를 통계적으로 의미 있게 지지하지 않는다. 개인 취약성이 디지털 이용 격차를 더 많이 설명한다. 플랫폼 텍스트와 Bayesian 업데이트는 탐색적 증거 통합 신호이지, 유병률 추정이나 인과 증명이 아니다.
 - 수치는 발견을 문장으로 먼저 말한 뒤 보조 근거로만 사용한다.
+- 지나친 방어적 문체를 피한다. 대표성·인과·유병률 경계는 유지하되, 먼저 분석 단위와 집계량이 무엇을 보여 주는지 설명한 뒤 필요한 한계를 간결하게 붙인다.
+- 3.3 EB 설명에서는 prior rate, observed rate, posterior estimate, posterior shift, z_shift를 구분한다. posterior rate를 단순한 생활인구 보정 observed rate로 쓰지 말고, prior와 observed rate의 EB 정밀도 가중평균으로 설명한다.
+- 3.3 방법론 본문에서는 기준 없는 `outlier`, `deterministic evidence`, `evidence.json`, `data_spec` 같은 구현 용어를 그대로 두지 않는다. high-divergence cell, 규칙 기반 증거, 데이터 명세처럼 독자용 용어로 풀어 쓴다.
 
 ## 활성 경로
 

@@ -14,9 +14,12 @@ allowed-tools: Read, Bash
 - `01_text_preprocessing -> 02_bayesian -> 03_inference` 순서를 유지한다.
 - 스크립트, 설정, 집계 표, 그림, 자치구 수준 요약을 검증한다.
 - LLM 분류는 확증 증거나 유병률 추정이 아니라 구조화된 탐색적 플랫폼 가시 신호 탐지로 서술한다.
-- Bayesian 업데이트는 3.1 행정지표 prior와 생활인구 노출 보정 플랫폼 신호 사이의 탐색적 통합으로 서술한다.
-- 추론 파트는 classification과 EB 집계 이후에 시작하며, Stage B는 post text, metadata, dim codes, codebook만 보고 3.1 지수값, 3.2 결과, EB outlier label, district profile, external indicators, other agent outputs를 차단한다.
-- Stage C는 필요한 데이터 명세, Stage D는 registered data 기반 deterministic evidence, Stage E는 supported/refuted/undetermined verdict로 구분한다.
+- Bayesian 업데이트는 3.1 행정지표 기반 prior rate, 작성 시점 생활인구 person-years로 표준화한 observed rate, 그리고 두 값을 정밀도 가중평균한 posterior rate의 탐색적 통합으로 서술한다.
+- EB 보고 문구는 `posterior shift = posterior rate - prior rate`, 차원 내 표준화 `z_shift`, high-divergence cell/priority review cell 용어를 사용한다. 기준 없는 `outlier` 표현은 피한다.
+- multi-label 분류에서는 한 게시물이 여러 UMC 차원 카운트에 각각 기여할 수 있고 차원 합이 전체 게시물 수와 같을 필요가 없음을 보고서 전달물에 포함한다.
+- 추론 파트는 classification과 EB 집계 이후에 시작하며, Stage B는 post text, metadata, dim codes, codebook만 보고 3.1 지수값, 3.2 결과, EB high-divergence label, district profile, external indicators, other agent outputs를 차단한다.
+- Stage B 정보 차단은 EB 결과를 알고 난 뒤 텍스트 해석을 사후적으로 맞추는 것을 방지하기 위한 설계로 설명한다.
+- Stage C는 필요한 데이터 명세, Stage D는 registered data 기반 rule-based evidence bundle, Stage E는 supported/refuted/undetermined verdict로 구분한다.
 - 3.2 HLM 결과는 자치구 수준 조건의 일반적 인과효과를 주장하지 못하게 하는 guardrail로 다룬다.
 - 원 플랫폼 레코드, 게시물 수준 텍스트 출력, 로컬 설정, 로그, 인증 정보는 Git에서 제외한다.
 - 푸시 전 하드코딩된 로컬 경로가 없는지 확인한다.
